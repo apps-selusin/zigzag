@@ -596,7 +596,7 @@
       <phrase id="menutext" value="Export" />
     </menu>
     <menu id="1">
-      <phrase id="menutext" value="t 01 ajudok" />
+      <phrase id="menutext" value="Pengajuan Dokumen" />
     </menu>
     <menu id="31">
       <phrase id="menutext" value="Re-Export" />
@@ -606,6 +606,24 @@
     </menu>
     <menu id="30">
       <phrase id="menutext" value="BC.1.1" />
+    </menu>
+    <menu id="58">
+      <phrase id="menutext" value="BC.1.2" />
+    </menu>
+    <menu id="59">
+      <phrase id="menutext" value="BC.2.3" />
+    </menu>
+    <menu id="60">
+      <phrase id="menutext" value="J. Merah" />
+    </menu>
+    <menu id="61">
+      <phrase id="menutext" value="J. Kuning" />
+    </menu>
+    <menu id="62">
+      <phrase id="menutext" value="J. Hijau" />
+    </menu>
+    <menu id="63">
+      <phrase id="menutext" value="Re-Import" />
     </menu>
     <menu id="32">
       <phrase id="menutext" value="Karantina" />
@@ -680,7 +698,7 @@
       <phrase id="menutext" value="t 97 userlevels" />
     </menu>
     <table id="t01_ajudok">
-      <phrase id="tblcaption" value="t 01 ajudok" />
+      <phrase id="tblcaption" value="Pengajuan Dokumen" />
       <field id="ajudok_id">
         <phrase id="fldcaption" value="ajudok id" />
       </field>

@@ -4,14 +4,19 @@
 
 // Generate all menu items
 $RootMenu->IsRoot = TRUE;
-$RootMenu->AddMenuItem(19, "mi_cf99_underconstruction_php", $Language->MenuPhrase("19", "MenuText"), "cf99_underconstruction.php", -1, "", AllowListMenu('{DD5F1A59-0600-49F5-9773-CB635EB1CBA9}cf99_underconstruction.php'), FALSE, TRUE);
 $RootMenu->AddMenuItem(6, "mi_cf01_home_php", $Language->MenuPhrase("6", "MenuText"), "cf01_home.php", -1, "", AllowListMenu('{DD5F1A59-0600-49F5-9773-CB635EB1CBA9}cf01_home.php'), FALSE, TRUE);
 $RootMenu->AddMenuItem(12, "mci_Dokumen", $Language->MenuPhrase("12", "MenuText"), "", -1, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(28, "mci_Export", $Language->MenuPhrase("28", "MenuText"), "", 12, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(1, "mi_t01_ajudok", $Language->MenuPhrase("1", "MenuText"), "t01_ajudoklist.php", 28, "", AllowListMenu('{DD5F1A59-0600-49F5-9773-CB635EB1CBA9}t01_ajudok'), FALSE, FALSE);
-$RootMenu->AddMenuItem(31, "mci_Re2dExport", $Language->MenuPhrase("31", "MenuText"), "", 28, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(31, "mci_Re2dExport", $Language->MenuPhrase("31", "MenuText"), "cf99_underconstruction.php", 28, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(29, "mci_Import", $Language->MenuPhrase("29", "MenuText"), "", 12, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(30, "mci_BC2e12e1", $Language->MenuPhrase("30", "MenuText"), "cf99_underconstruction.php", 29, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(58, "mci_BC2e12e2", $Language->MenuPhrase("58", "MenuText"), "cf99_underconstruction.php", 29, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(59, "mci_BC2e22e3", $Language->MenuPhrase("59", "MenuText"), "cf99_underconstruction.php", 29, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(60, "mci_J2e_Merah", $Language->MenuPhrase("60", "MenuText"), "cf99_underconstruction.php", 29, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(61, "mci_J2e_Kuning", $Language->MenuPhrase("61", "MenuText"), "cf99_underconstruction.php", 29, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(62, "mci_J2e_Hijau", $Language->MenuPhrase("62", "MenuText"), "cf99_underconstruction.php", 29, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(63, "mci_Re2dImport", $Language->MenuPhrase("63", "MenuText"), "cf99_underconstruction.php", 29, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(32, "mci_Karantina", $Language->MenuPhrase("32", "MenuText"), "cf99_underconstruction.php", 12, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(33, "mci_BPOM", $Language->MenuPhrase("33", "MenuText"), "cf99_underconstruction.php", 12, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(34, "mci_LS", $Language->MenuPhrase("34", "MenuText"), "cf99_underconstruction.php", 12, "", TRUE, FALSE, TRUE);
@@ -30,7 +35,7 @@ $RootMenu->AddMenuItem(15, "mci_Trucking", $Language->MenuPhrase("15", "MenuText
 $RootMenu->AddMenuItem(42, "mci_Tarif", $Language->MenuPhrase("42", "MenuText"), "cf99_underconstruction.php", 15, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(43, "mci_Muatan", $Language->MenuPhrase("43", "MenuText"), "cf99_underconstruction.php", 15, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(16, "mci_Lalu_Lintas", $Language->MenuPhrase("16", "MenuText"), "cf99_underconstruction.php", -1, "", TRUE, FALSE, TRUE);
-$RootMenu->AddMenuItem(17, "mci_Forum", $Language->MenuPhrase("17", "MenuText"), "", -1, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(17, "mci_Forum", $Language->MenuPhrase("17", "MenuText"), "cf99_underconstruction.php", -1, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(18, "mci_Setting", $Language->MenuPhrase("18", "MenuText"), "", -1, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(2, "mi_t99_audittrail", $Language->MenuPhrase("2", "MenuText"), "t99_audittraillist.php", 18, "", AllowListMenu('{DD5F1A59-0600-49F5-9773-CB635EB1CBA9}t99_audittrail'), FALSE, FALSE);
 $RootMenu->AddMenuItem(3, "mi_t98_employees", $Language->MenuPhrase("3", "MenuText"), "t98_employeeslist.php", 18, "", AllowListMenu('{DD5F1A59-0600-49F5-9773-CB635EB1CBA9}t98_employees'), FALSE, FALSE);
