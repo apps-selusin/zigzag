@@ -583,23 +583,80 @@
   <project>
     <phrase id="bodytitle" value="ZigZag Online" />
     <phrase id="footertext" value="&amp;copy;2018 ZigZag Online. All rights reserved." />
+    <menu id="19">
+      <phrase id="menutext" value="Under Construction" />
+    </menu>
     <menu id="6">
       <phrase id="menutext" value="Home" />
     </menu>
     <menu id="12">
       <phrase id="menutext" value="Dokumen" />
     </menu>
+    <menu id="28">
+      <phrase id="menutext" value="Export" />
+    </menu>
     <menu id="1">
       <phrase id="menutext" value="t 01 ajudok" />
     </menu>
-    <menu id="13">
+    <menu id="31">
+      <phrase id="menutext" value="Re-Export" />
+    </menu>
+    <menu id="29">
+      <phrase id="menutext" value="Import" />
+    </menu>
+    <menu id="30">
+      <phrase id="menutext" value="BC.1.1" />
+    </menu>
+    <menu id="32">
+      <phrase id="menutext" value="Karantina" />
+    </menu>
+    <menu id="33">
+      <phrase id="menutext" value="BPOM" />
+    </menu>
+    <menu id="34">
+      <phrase id="menutext" value="LS" />
+    </menu>
+    <menu id="25">
       <phrase id="menutext" value="Depo" />
+    </menu>
+    <menu id="26">
+      <phrase id="menutext" value="55" />
+    </menu>
+    <menu id="27">
+      <phrase id="menutext" value="66" />
+    </menu>
+    <menu id="35">
+      <phrase id="menutext" value="57" />
+    </menu>
+    <menu id="36">
+      <phrase id="menutext" value="80" />
+    </menu>
+    <menu id="37">
+      <phrase id="menutext" value="MTCON" />
     </menu>
     <menu id="14">
       <phrase id="menutext" value="Status" />
     </menu>
+    <menu id="38">
+      <phrase id="menutext" value="TPS" />
+    </menu>
+    <menu id="39">
+      <phrase id="menutext" value="T. Lamong" />
+    </menu>
+    <menu id="40">
+      <phrase id="menutext" value="Schedule" />
+    </menu>
+    <menu id="41">
+      <phrase id="menutext" value="Bea Container" />
+    </menu>
     <menu id="15">
       <phrase id="menutext" value="Trucking" />
+    </menu>
+    <menu id="42">
+      <phrase id="menutext" value="Tarif" />
+    </menu>
+    <menu id="43">
+      <phrase id="menutext" value="Muatan" />
     </menu>
     <menu id="16">
       <phrase id="menutext" value="Lalu Lintas" />
@@ -766,6 +823,9 @@
     </table>
     <table id="cf01_home_php">
       <phrase id="tblcaption" value="Home" />
+    </table>
+    <table id="cf99_underconstruction_php">
+      <phrase id="tblcaption" value="Under Construction" />
     </table>
   </project>
 </ew-language>

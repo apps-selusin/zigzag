@@ -3,6 +3,7 @@ if (session_id() == "") session_start(); // Init session data
 ob_start(); // Turn on output buffering
 ?>
 <?php include_once "ewcfg13.php" ?>
+<?php $EW_ROOT_RELATIVE_PATH = ""; ?>
 <?php include_once ((EW_USE_ADODB) ? "adodb5/adodb.inc.php" : "ewmysql13.php") ?>
 <?php include_once "phpfn13.php" ?>
 <?php include_once "t98_employeesinfo.php" ?>
@@ -13,18 +14,21 @@ ob_start(); // Turn on output buffering
 // Page class
 //
 
-$default = NULL; // Initialize page object first
+$cf99_underconstruction_php = NULL; // Initialize page object first
 
-class cdefault {
+class ccf99_underconstruction_php {
 
 	// Page ID
-	var $PageID = 'default';
+	var $PageID = 'custom';
 
 	// Project ID
 	var $ProjectID = "{DD5F1A59-0600-49F5-9773-CB635EB1CBA9}";
 
+	// Table name
+	var $TableName = 'cf99_underconstruction.php';
+
 	// Page object name
-	var $PageObjName = 'default';
+	var $PageObjName = 'cf99_underconstruction_php';
 
 	// Page name
 	function PageName() {
@@ -187,7 +191,11 @@ class cdefault {
 
 		// Page ID
 		if (!defined("EW_PAGE_ID"))
-			define("EW_PAGE_ID", 'default', TRUE);
+			define("EW_PAGE_ID", 'custom', TRUE);
+
+		// Table name (for backward compatibility)
+		if (!defined("EW_TABLE_NAME"))
+			define("EW_TABLE_NAME", 'cf99_underconstruction.php', TRUE);
 
 		// Start timer
 		if (!isset($GLOBALS["gTimer"])) $GLOBALS["gTimer"] = new cTimer();
@@ -210,12 +218,23 @@ class cdefault {
 
 		// Security
 		$Security = new cAdvancedSecurity();
+		if (!$Security->IsLoggedIn()) $Security->AutoLogin();
+		if ($Security->IsLoggedIn()) $Security->TablePermission_Loading();
+		$Security->LoadCurrentUserLevel($this->ProjectID . $this->TableName);
+		if ($Security->IsLoggedIn()) $Security->TablePermission_Loaded();
+		if (!$Security->CanReport()) {
+			$Security->SaveLastUrl();
+			$this->setFailureMessage(ew_DeniedMsg()); // Set no permission
+			$this->Page_Terminate(ew_GetUrl("index.php"));
+		}
+		if ($Security->IsLoggedIn()) {
+			$Security->UserID_Loading();
+			$Security->LoadUserID();
+			$Security->UserID_Loaded();
+		}
 
 		// Global Page Loading event (in userfn*.php)
 		Page_Loading();
-
-		// Page Load event
-		$this->Page_Load();
 
 		// Check token
 		if (!$this->ValidPost()) {
@@ -234,16 +253,12 @@ class cdefault {
 	function Page_Terminate($url = "") {
 		global $gsExportFile, $gTmpImages;
 
-		// Page Unload event
-		$this->Page_Unload();
-
 		// Global Page Unloaded event (in userfn*.php)
 		Page_Unloaded();
 
 		// Export
-		$this->Page_Redirecting($url);
-
 		 // Close connection
+
 		ew_CloseConn();
 
 		// Go to URL if specified
@@ -259,61 +274,17 @@ class cdefault {
 	// Page main
 	//
 	function Page_Main() {
-		global $Security, $Language;
 
-		// If session expired, show session expired message
-		if (@$_GET["expired"] == "1")
-			$this->setFailureMessage($Language->Phrase("SessionExpired"));
-		if (!$Security->IsLoggedIn()) $Security->AutoLogin();
-		$Security->LoadUserLevel(); // Load User Level
-		if ($Security->AllowList(CurrentProjectID() . 'cf01_home.php'))
-		$this->Page_Terminate("cf01_home.php"); // Exit and go to default page
-		if ($Security->AllowList(CurrentProjectID() . 't01_ajudok'))
-			$this->Page_Terminate("t01_ajudoklist.php");
-		if ($Security->AllowList(CurrentProjectID() . 't96_userlevelpermissions'))
-			$this->Page_Terminate("t96_userlevelpermissionslist.php");
-		if ($Security->AllowList(CurrentProjectID() . 't97_userlevels'))
-			$this->Page_Terminate("t97_userlevelslist.php");
-		if ($Security->AllowList(CurrentProjectID() . 't98_employees'))
-			$this->Page_Terminate("t98_employeeslist.php");
-		if ($Security->AllowList(CurrentProjectID() . 't99_audittrail'))
-			$this->Page_Terminate("t99_audittraillist.php");
-		if ($Security->AllowList(CurrentProjectID() . 'cf99_underconstruction.php'))
-			$this->Page_Terminate("cf99_underconstruction.php");
-		if ($Security->IsLoggedIn()) {
-			$this->setFailureMessage(ew_DeniedMsg() . "<br><br><a href=\"logout.php\">" . $Language->Phrase("BackToLogin") . "</a>");
-		} else {
-			$this->Page_Terminate("login.php"); // Exit and go to login page
-		}
+		// Set up Breadcrumb
+		$this->SetupBreadcrumb();
 	}
 
-	// Page Load event
-	function Page_Load() {
-
-		//echo "Page Load";
-	}
-
-	// Page Unload event
-	function Page_Unload() {
-
-		//echo "Page Unload";
-	}
-
-	// Page Redirecting event
-	function Page_Redirecting(&$url) {
-
-		// Example:
-		//$url = "your URL";
-
-	}
-
-	// Message Showing event
-	// $type = ''|'success'|'failure'
-	function Message_Showing(&$msg, $type) {
-
-		// Example:
-		//if ($type == 'success') $msg = "your success message";
-
+	// Set up Breadcrumb
+	function SetupBreadcrumb() {
+		global $Breadcrumb;
+		$Breadcrumb = new cBreadcrumb();
+		$url = substr(ew_CurrentUrl(), strrpos(ew_CurrentUrl(), "/")+1);
+		$Breadcrumb->Add("custom", "cf99_underconstruction_php", $url, "", "cf99_underconstruction_php", TRUE);
 	}
 }
 ?>
@@ -321,19 +292,28 @@ class cdefault {
 <?php
 
 // Create page object
-if (!isset($default)) $default = new cdefault();
+if (!isset($cf99_underconstruction_php)) $cf99_underconstruction_php = new ccf99_underconstruction_php();
 
 // Page init
-$default->Page_Init();
+$cf99_underconstruction_php->Page_Init();
 
 // Page main
-$default->Page_Main();
+$cf99_underconstruction_php->Page_Main();
+
+// Global Page Rendering event (in userfn*.php)
+Page_Rendering();
 ?>
 <?php include_once "header.php" ?>
-<?php
-$default->ShowMessage();
-?>
+<?php if (!@$gbSkipHeaderFooter) { ?>
+<div class="ewToolbar">
+<?php $Breadcrumb->Render(); ?>
+<?php echo $Language->SelectionForm(); ?>
+<div class="clearfix"></div>
+</div>
+<?php } ?>
+Under Construction
+<?php if (EW_DEBUG_ENABLED) echo ew_DebugMsg(); ?>
 <?php include_once "footer.php" ?>
 <?php
-$default->Page_Terminate();
+$cf99_underconstruction_php->Page_Terminate();
 ?>
