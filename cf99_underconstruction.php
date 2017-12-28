@@ -311,9 +311,7 @@ Page_Rendering();
 <div class="clearfix"></div>
 </div>
 <?php } ?>
-<iframe src="zigzagblog.nma-indonesia.com" width="100%" height="400">
-Browser anda tidak support frame
-</iframe>
+Under Construction
 <?php if (EW_DEBUG_ENABLED) echo ew_DebugMsg(); ?>
 <?php include_once "footer.php" ?>
 <?php

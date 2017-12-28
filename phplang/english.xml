@@ -587,7 +587,7 @@
       <phrase id="menutext" value="Under Construction" />
     </menu>
     <menu id="6">
-      <phrase id="menutext" value="Home" />
+      <phrase id="menutext" value="Beranda" />
     </menu>
     <menu id="12">
       <phrase id="menutext" value="Dokumen" />
@@ -840,7 +840,7 @@
       </field>
     </table>
     <table id="cf01_home_php">
-      <phrase id="tblcaption" value="Home" />
+      <phrase id="tblcaption" value="Beranda" />
     </table>
     <table id="cf99_underconstruction_php">
       <phrase id="tblcaption" value="Under Construction" />
