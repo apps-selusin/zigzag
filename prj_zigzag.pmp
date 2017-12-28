@@ -134,7 +134,13 @@ function Database_Connecting(&$info) {
 	}
 }
 ]]></CustomScript>
-  <CustomScript ScriptType="Template" ScriptCodeType="Table" ScriptName="Content" ScriptCtrlID="custom" ScriptL1Key="cf99_underconstruction.php" ScriptL2Key=""><![CDATA[Under Construction
+  <CustomScript ScriptType="Template" ScriptCodeType="Table" ScriptName="Content" ScriptCtrlID="custom" ScriptL1Key="cf99_underconstruction.php" ScriptL2Key=""><![CDATA[<iframe src="zigzagblog.nma-indonesia.com" width="100%" height="400">
+Browser anda tidak support frame
+</iframe>
+]]></CustomScript>
+  <CustomScript ScriptType="Template" ScriptCodeType="Table" ScriptName="Content" ScriptCtrlID="custom" ScriptL1Key="cf01_home.php" ScriptL2Key=""><![CDATA[<iframe src="http://zigzagblog.nma-indonesia.com" width="100%" height="400">
+Browser anda tidak support frame
+</iframe>
 ]]></CustomScript>
   <Menu MenuID="19" MenuText="Under Construction" MenuParentID="-1" MenuGroup="0" MenuSource="" MenuExtUrl="" MenuAnonymous="0" MenuSecurity="" MenuUrl="cf99_underconstruction.php" MenuCustomUrl="0" MenuLevel="0" MenuShow="0" MenuDisplayOrder="100" />
   <Menu MenuID="6" MenuText="Home" MenuParentID="-1" MenuGroup="0" MenuSource="" MenuExtUrl="" MenuAnonymous="0" MenuSecurity="" MenuUrl="cf01_home.php" MenuCustomUrl="0" MenuLevel="0" MenuShow="1" MenuDisplayOrder="200" />
