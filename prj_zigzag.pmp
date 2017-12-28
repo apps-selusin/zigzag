@@ -136,7 +136,7 @@ function Database_Connecting(&$info) {
 ]]></CustomScript>
   <CustomScript ScriptType="Template" ScriptCodeType="Table" ScriptName="Content" ScriptCtrlID="custom" ScriptL1Key="cf99_underconstruction.php" ScriptL2Key=""><![CDATA[Under Construction
 ]]></CustomScript>
-  <CustomScript ScriptType="Template" ScriptCodeType="Table" ScriptName="Content" ScriptCtrlID="custom" ScriptL1Key="cf01_home.php" ScriptL2Key=""><![CDATA[<iframe src="http://zigzagblog.nma-indonesia.com" width="100%" height="450" frameborder="0">
+  <CustomScript ScriptType="Template" ScriptCodeType="Table" ScriptName="Content" ScriptCtrlID="custom" ScriptL1Key="cf01_home.php" ScriptL2Key=""><![CDATA[<iframe src="http://zigzagblog.nma-indonesia.com" width="100%" height="425" frameborder="0">
 Browser anda tidak support frame
 </iframe>
 ]]></CustomScript>
