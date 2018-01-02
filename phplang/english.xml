@@ -582,7 +582,7 @@
   </global>
   <project>
     <phrase id="bodytitle" value="SuperZigZag" />
-    <phrase id="footertext" value="&amp;copy;2018 ZigZag Online. All rights reserved." />
+    <phrase id="footertext" value="&amp;copy;2018 SuperZigZag. All rights reserved." />
     <menu id="19">
       <phrase id="menutext" value="Under Construction" />
     </menu>
