@@ -4992,11 +4992,11 @@ function Database_Connecting(&$info) {
 		$info["user"] = "root"; // sesuaikan dengan username database di komputer localhost
 		$info["pass"] = "admin"; // sesuaikan dengan password database di komputer localhost
 		$info["db"] = "db_zigzag"; // sesuaikan dengan nama database di komputer localhost
-	} elseif (ew_CurrentHost () == "zigzag.nma-indonesia.com") { // setting koneksi database untuk komputer server
+	} elseif (ew_CurrentHost () == "superzigzag.com") { // setting koneksi database untuk komputer server
 		$info["host"] = "mysql.idhostinger.com";  // sesuaikan dengan ip address atau hostname komputer server
-		$info["user"] = "u945388674_zigza"; // sesuaikan dengan username database di komputer server
+		$info["user"] = "u302200259_zigza"; // sesuaikan dengan username database di komputer server
 		$info["pass"] = "PresarioCQ43"; // sesuaikan deengan password database di komputer server
-		$info["db"] = "u945388674_zigza"; // sesuaikan dengan nama database di komputer server
+		$info["db"] = "u302200259_zigza"; // sesuaikan dengan nama database di komputer server
 	}
 }
 
