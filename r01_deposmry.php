@@ -1362,6 +1362,13 @@ class crr01_depo_summary extends crr01_depo {
 	function SetupExportOptionsExt() {
 		global $ReportLanguage, $ReportOptions;
 		$ReportTypes = $ReportOptions["ReportTypes"];
+		$item =& $this->ExportOptions->GetItem("pdf");
+		$item->Visible = TRUE;
+		if ($item->Visible)
+			$ReportTypes["pdf"] = $ReportLanguage->Phrase("ReportFormPdf");
+		$exportid = session_id();
+		$url = $this->ExportPdfUrl;
+		$item->Body = "<a title=\"" . ewr_HtmlEncode($ReportLanguage->Phrase("ExportToPDF", TRUE)) . "\" data-caption=\"" . ewr_HtmlEncode($ReportLanguage->Phrase("ExportToPDF", TRUE)) . "\" href=\"javascript:void(0);\" onclick=\"ewr_ExportCharts(this, '" . $url . "', '" . $exportid . "');\">" . $ReportLanguage->Phrase("ExportToPDF") . "</a>";
 		$ReportOptions["ReportTypes"] = $ReportTypes;
 	}
 
@@ -2060,19 +2067,38 @@ class crr01_depo_summary extends crr01_depo {
 		return $saveToFile;
 	}
 
-	// Export to PDF
+	// Export PDF
 	function ExportPdf($html, $options = array()) {
+		global $gsExportFile;
+		@ini_set("memory_limit", EWR_PDF_MEMORY_LIMIT);
+		set_time_limit(EWR_PDF_TIME_LIMIT);
+		if (EWR_DEBUG_ENABLED) // Add debug message
+			$html = str_replace("</body>", ewr_DebugMsg() . "</body>", $html);
+		$dompdf = new \Dompdf\Dompdf(array("pdf_backend" => "Cpdf"));
+		$doc = new DOMDocument();
+		@$doc->loadHTML('<?xml encoding="uft-8">' . ewr_ConvertToUtf8($html)); // Convert to utf-8
+		$spans = $doc->getElementsByTagName("span");
+		foreach ($spans as $span) {
+			if ($span->getAttribute("class") == "ewFilterCaption")
+				$span->parentNode->insertBefore($doc->createElement("span", ":&nbsp;"), $span->nextSibling);
+		}
+		$html = $doc->saveHTML();
+		$html = ewr_ConvertFromUtf8($html);
+		$dompdf->load_html($html);
+		$dompdf->set_paper("a4", "portrait");
+		$dompdf->render();
 		$folder = @$options["folder"];
 		$fileName = @$options["filename"];
 		$responseType = @$options["responsetype"];
 		$saveToFile = "";
 		if ($folder <> "" && $fileName <> "" && ($responseType == "json" || $responseType == "file" && EWR_REPORT_SAVE_OUTPUT_ON_SERVER)) {
-			$fileName = str_replace(".pdf", ".html", $fileName); // Handle as html
-		 	ewr_SaveFile(ewr_PathCombine(ewr_AppRoot(), $folder, TRUE), $fileName, $html);
+			ewr_SaveFile(ewr_PathCombine(ewr_AppRoot(), $folder, TRUE), $fileName, $dompdf->output());
 			$saveToFile = ewr_UploadPathEx(FALSE, $folder) . $fileName;
 		}
-		if ($saveToFile == "" || $responseType == "file")
-			echo $html;
+		if ($saveToFile == "" || $responseType == "file") {
+			$sExportFile = strtolower(substr($gsExportFile, -4)) == ".pdf" ? $gsExportFile : $gsExportFile . ".pdf";
+			$dompdf->stream($sExportFile, array("Attachment" => 1)); // 0 to open in browser, 1 to download
+		}
 		ewr_DeleteTmpImages($html);
 		return $saveToFile;
 	}
