@@ -646,23 +646,8 @@
     <menu id="34">
       <phrase id="menutext" value="LS" />
     </menu>
-    <menu id="25">
+    <menu id="10010">
       <phrase id="menutext" value="Depo" />
-    </menu>
-    <menu id="26">
-      <phrase id="menutext" value="55" />
-    </menu>
-    <menu id="27">
-      <phrase id="menutext" value="66" />
-    </menu>
-    <menu id="10008">
-      <phrase id="menutext" value="Depo 57" />
-    </menu>
-    <menu id="36">
-      <phrase id="menutext" value="80" />
-    </menu>
-    <menu id="37">
-      <phrase id="menutext" value="MTCON" />
     </menu>
     <menu id="14">
       <phrase id="menutext" value="Status" />
@@ -708,6 +693,9 @@
     </menu>
     <menu id="5">
       <phrase id="menutext" value="t 97 userlevels" />
+    </menu>
+    <menu id="10008">
+      <phrase id="menutext" value="v 01 depo" />
     </menu>
     <menu id="10001">
       <phrase id="menutext" value="t 01 ajudok" />

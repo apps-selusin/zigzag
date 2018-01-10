@@ -6,16 +6,16 @@ ob_start();
 <?php include_once ((EW_USE_ADODB) ? "adodb5/adodb.inc.php" : "phprptinc/ewmysql.php") ?>
 <?php include_once "phprptinc/ewrfn10.php" ?>
 <?php include_once "phprptinc/ewrusrfn10.php" ?>
-<?php include_once "r01_pelayaransmryinfo.php" ?>
+<?php include_once "r01_deposmryinfo.php" ?>
 <?php
 
 //
 // Page class
 //
 
-$r01_pelayaran_summary = NULL; // Initialize page object first
+$r01_depo_summary = NULL; // Initialize page object first
 
-class crr01_pelayaran_summary extends crr01_pelayaran {
+class crr01_depo_summary extends crr01_depo {
 
 	// Page ID
 	var $PageID = 'summary';
@@ -24,7 +24,7 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 	var $ProjectID = "{77B51533-F1E4-4C23-925C-E363F9E1C0BE}";
 
 	// Page object name
-	var $PageObjName = 'r01_pelayaran_summary';
+	var $PageObjName = 'r01_depo_summary';
 
 	// Page name
 	function PageName() {
@@ -203,10 +203,10 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 		// Parent constuctor
 		parent::__construct();
 
-		// Table object (r01_pelayaran)
-		if (!isset($GLOBALS["r01_pelayaran"])) {
-			$GLOBALS["r01_pelayaran"] = &$this;
-			$GLOBALS["Table"] = &$GLOBALS["r01_pelayaran"];
+		// Table object (r01_depo)
+		if (!isset($GLOBALS["r01_depo"])) {
+			$GLOBALS["r01_depo"] = &$this;
+			$GLOBALS["Table"] = &$GLOBALS["r01_depo"];
 		}
 
 		// Initialize URLs
@@ -221,7 +221,7 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 
 		// Table name (for backward compatibility)
 		if (!defined("EWR_TABLE_NAME"))
-			define("EWR_TABLE_NAME", 'r01_pelayaran', TRUE);
+			define("EWR_TABLE_NAME", 'r01_depo', TRUE);
 
 		// Start timer
 		$GLOBALS["gsTimer"] = new crTimer();
@@ -248,7 +248,7 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 		// Filter options
 		$this->FilterOptions = new crListOptions();
 		$this->FilterOptions->Tag = "div";
-		$this->FilterOptions->TagClassName = "ewFilterOption fr01_pelayaransummary";
+		$this->FilterOptions->TagClassName = "ewFilterOption fr01_deposummary";
 
 		// Generate report options
 		$this->GenerateOptions = new crListOptions();
@@ -267,7 +267,7 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 		$Security = new crAdvancedSecurity();
 		if (!$Security->IsLoggedIn()) $Security->AutoLogin(); // Auto login
 		$Security->TablePermission_Loading();
-		$Security->LoadCurrentUserLevel($this->ProjectID . 'r01_pelayaran');
+		$Security->LoadCurrentUserLevel($this->ProjectID . 'r01_depo');
 		$Security->TablePermission_Loaded();
 		if (!$Security->CanList()) {
 			$Security->SaveLastUrl();
@@ -353,7 +353,7 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 		// Export to Email
 		$item = &$this->ExportOptions->Add("email");
 		$url = $this->PageUrl() . "export=email";
-		$item->Body = "<a title=\"" . ewr_HtmlEncode($ReportLanguage->Phrase("ExportToEmail", TRUE)) . "\" data-caption=\"" . ewr_HtmlEncode($ReportLanguage->Phrase("ExportToEmail", TRUE)) . "\" id=\"emf_r01_pelayaran\" href=\"javascript:void(0);\" onclick=\"ewr_EmailDialogShow({lnk:'emf_r01_pelayaran',hdr:ewLanguage.Phrase('ExportToEmail'),url:'$url',exportid:'$exportid',el:this});\">" . $ReportLanguage->Phrase("ExportToEmail") . "</a>";
+		$item->Body = "<a title=\"" . ewr_HtmlEncode($ReportLanguage->Phrase("ExportToEmail", TRUE)) . "\" data-caption=\"" . ewr_HtmlEncode($ReportLanguage->Phrase("ExportToEmail", TRUE)) . "\" id=\"emf_r01_depo\" href=\"javascript:void(0);\" onclick=\"ewr_EmailDialogShow({lnk:'emf_r01_depo',hdr:ewLanguage.Phrase('ExportToEmail'),url:'$url',exportid:'$exportid',el:this});\">" . $ReportLanguage->Phrase("ExportToEmail") . "</a>";
 		$item->Visible = TRUE;
 		$ReportTypes["email"] = $item->Visible ? $ReportLanguage->Phrase("ReportFormEmail") : "";
 		$ReportOptions["ReportTypes"] = $ReportTypes;
@@ -371,10 +371,10 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 
 		// Filter button
 		$item = &$this->FilterOptions->Add("savecurrentfilter");
-		$item->Body = "<a class=\"ewSaveFilter\" data-form=\"fr01_pelayaransummary\" href=\"#\">" . $ReportLanguage->Phrase("SaveCurrentFilter") . "</a>";
+		$item->Body = "<a class=\"ewSaveFilter\" data-form=\"fr01_deposummary\" href=\"#\">" . $ReportLanguage->Phrase("SaveCurrentFilter") . "</a>";
 		$item->Visible = TRUE;
 		$item = &$this->FilterOptions->Add("deletefilter");
-		$item->Body = "<a class=\"ewDeleteFilter\" data-form=\"fr01_pelayaransummary\" href=\"#\">" . $ReportLanguage->Phrase("DeleteFilter") . "</a>";
+		$item->Body = "<a class=\"ewDeleteFilter\" data-form=\"fr01_deposummary\" href=\"#\">" . $ReportLanguage->Phrase("DeleteFilter") . "</a>";
 		$item->Visible = TRUE;
 		$this->FilterOptions->UseDropDownButton = TRUE;
 		$this->FilterOptions->UseButtonGroup = !$this->FilterOptions->UseDropDownButton; // v8
@@ -408,7 +408,7 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 		// Filter panel button
 		$item = &$this->SearchOptions->Add("searchtoggle");
 		$SearchToggleClass = $this->FilterApplied ? " active" : " active";
-		$item->Body = "<button type=\"button\" class=\"btn btn-default ewSearchToggle" . $SearchToggleClass . "\" title=\"" . $ReportLanguage->Phrase("SearchBtn", TRUE) . "\" data-caption=\"" . $ReportLanguage->Phrase("SearchBtn", TRUE) . "\" data-toggle=\"button\" data-form=\"fr01_pelayaransummary\">" . $ReportLanguage->Phrase("SearchBtn") . "</button>";
+		$item->Body = "<button type=\"button\" class=\"btn btn-default ewSearchToggle" . $SearchToggleClass . "\" title=\"" . $ReportLanguage->Phrase("SearchBtn", TRUE) . "\" data-caption=\"" . $ReportLanguage->Phrase("SearchBtn", TRUE) . "\" data-toggle=\"button\" data-form=\"fr01_deposummary\">" . $ReportLanguage->Phrase("SearchBtn") . "</button>";
 		$item->Visible = TRUE;
 
 		// Reset filter
@@ -537,8 +537,6 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 		global $ReportLanguage;
 
 		// Set field visibility for detail fields
-		$this->depo_nama->SetVisibility();
-		$this->pelayaran_id->SetVisibility();
 		$this->pelayaran_nama->SetVisibility();
 		$this->on20->SetVisibility();
 		$this->on40->SetVisibility();
@@ -552,7 +550,7 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 		// 1st dimension = no of groups (level 0 used for grand total)
 		// 2nd dimension = no of fields
 
-		$nDtls = 11;
+		$nDtls = 9;
 		$nGrps = 2;
 		$this->Val = &ewr_InitArray($nDtls, 0);
 		$this->Cnt = &ewr_Init2DArray($nGrps, $nDtls, 0);
@@ -565,7 +563,7 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 		$this->GrandMx = &ewr_InitArray($nDtls, NULL);
 
 		// Set up array if accumulation required: array(Accum, SkipNullOrZero)
-		$this->Col = array(array(FALSE, FALSE), array(FALSE,FALSE), array(FALSE,FALSE), array(FALSE,FALSE), array(FALSE,FALSE), array(FALSE,FALSE), array(FALSE,FALSE), array(FALSE,FALSE), array(FALSE,FALSE), array(FALSE,FALSE), array(FALSE,FALSE));
+		$this->Col = array(array(FALSE, FALSE), array(FALSE,FALSE), array(FALSE,FALSE), array(FALSE,FALSE), array(FALSE,FALSE), array(FALSE,FALSE), array(FALSE,FALSE), array(FALSE,FALSE), array(FALSE,FALSE));
 
 		// Set up groups per page dynamically
 		$this->SetUpDisplayGrps();
@@ -677,12 +675,12 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 	function GetSummaryCount($lvl, $curValue = TRUE) {
 		$cnt = 0;
 		foreach ($this->DetailRows as $row) {
-			$wrkdepo_id = $row["depo_id"];
+			$wrkdepo_nama = $row["depo_nama"];
 			if ($lvl >= 1) {
-				$val = $curValue ? $this->depo_id->CurrentValue : $this->depo_id->OldValue;
-				$grpval = $curValue ? $this->depo_id->GroupValue() : $this->depo_id->GroupOldValue();
-				if (is_null($val) && !is_null($wrkdepo_id) || !is_null($val) && is_null($wrkdepo_id) ||
-					$grpval <> $this->depo_id->getGroupValueBase($wrkdepo_id))
+				$val = $curValue ? $this->depo_nama->CurrentValue : $this->depo_nama->OldValue;
+				$grpval = $curValue ? $this->depo_nama->GroupValue() : $this->depo_nama->GroupOldValue();
+				if (is_null($val) && !is_null($wrkdepo_nama) || !is_null($val) && is_null($wrkdepo_nama) ||
+					$grpval <> $this->depo_nama->getGroupValueBase($wrkdepo_nama))
 				continue;
 			}
 			$cnt++;
@@ -694,9 +692,9 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 	function ChkLvlBreak($lvl) {
 		switch ($lvl) {
 			case 1:
-				return (is_null($this->depo_id->CurrentValue) && !is_null($this->depo_id->OldValue)) ||
-					(!is_null($this->depo_id->CurrentValue) && is_null($this->depo_id->OldValue)) ||
-					($this->depo_id->GroupValue() <> $this->depo_id->GroupOldValue());
+				return (is_null($this->depo_nama->CurrentValue) && !is_null($this->depo_nama->OldValue)) ||
+					(!is_null($this->depo_nama->CurrentValue) && is_null($this->depo_nama->OldValue)) ||
+					($this->depo_nama->GroupValue() <> $this->depo_nama->GroupOldValue());
 		}
 	}
 
@@ -814,14 +812,14 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 		if ($opt == 1) { // Get first group
 
 			//$rsgrp->MoveFirst(); // NOTE: no need to move position
-			$this->depo_id->setDbValue(""); // Init first value
+			$this->depo_nama->setDbValue(""); // Init first value
 		} else { // Get next group
 			$rsgrp->MoveNext();
 		}
 		if (!$rsgrp->EOF)
-			$this->depo_id->setDbValue($rsgrp->fields[0]);
+			$this->depo_nama->setDbValue($rsgrp->fields[0]);
 		if ($rsgrp->EOF) {
-			$this->depo_id->setDbValue("");
+			$this->depo_nama->setDbValue("");
 		}
 	}
 
@@ -851,11 +849,16 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 			$rs->MoveFirst(); // Move first
 			if ($this->GrpCount == 1) {
 				$this->FirstRowData = array();
-				$this->FirstRowData['id'] = ewr_Conv($rs->fields('id'), 3);
 				$this->FirstRowData['depo_id'] = ewr_Conv($rs->fields('depo_id'), 3);
 				$this->FirstRowData['depo_nama'] = ewr_Conv($rs->fields('depo_nama'), 200);
+				$this->FirstRowData['alamat'] = ewr_Conv($rs->fields('alamat'), 200);
+				$this->FirstRowData['kota'] = ewr_Conv($rs->fields('kota'), 200);
+				$this->FirstRowData['propinsi'] = ewr_Conv($rs->fields('propinsi'), 200);
+				$this->FirstRowData['no_telp'] = ewr_Conv($rs->fields('no_telp'), 200);
+				$this->FirstRowData['no_fax'] = ewr_Conv($rs->fields('no_fax'), 200);
 				$this->FirstRowData['pelayaran_id'] = ewr_Conv($rs->fields('pelayaran_id'), 3);
 				$this->FirstRowData['pelayaran_nama'] = ewr_Conv($rs->fields('pelayaran_nama'), 200);
+				$this->FirstRowData['lift_id'] = ewr_Conv($rs->fields('lift_id'), 3);
 				$this->FirstRowData['on20'] = ewr_Conv($rs->fields('on20'), 4);
 				$this->FirstRowData['on40'] = ewr_Conv($rs->fields('on40'), 4);
 				$this->FirstRowData['on45'] = ewr_Conv($rs->fields('on45'), 4);
@@ -868,16 +871,21 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 			$rs->MoveNext();
 		}
 		if (!$rs->EOF) {
-			$this->id->setDbValue($rs->fields('id'));
+			$this->depo_id->setDbValue($rs->fields('depo_id'));
 			if ($opt <> 1) {
-				if (is_array($this->depo_id->GroupDbValues))
-					$this->depo_id->setDbValue(@$this->depo_id->GroupDbValues[$rs->fields('depo_id')]);
+				if (is_array($this->depo_nama->GroupDbValues))
+					$this->depo_nama->setDbValue(@$this->depo_nama->GroupDbValues[$rs->fields('depo_nama')]);
 				else
-					$this->depo_id->setDbValue(ewr_GroupValue($this->depo_id, $rs->fields('depo_id')));
+					$this->depo_nama->setDbValue(ewr_GroupValue($this->depo_nama, $rs->fields('depo_nama')));
 			}
-			$this->depo_nama->setDbValue($rs->fields('depo_nama'));
+			$this->alamat->setDbValue($rs->fields('alamat'));
+			$this->kota->setDbValue($rs->fields('kota'));
+			$this->propinsi->setDbValue($rs->fields('propinsi'));
+			$this->no_telp->setDbValue($rs->fields('no_telp'));
+			$this->no_fax->setDbValue($rs->fields('no_fax'));
 			$this->pelayaran_id->setDbValue($rs->fields('pelayaran_id'));
 			$this->pelayaran_nama->setDbValue($rs->fields('pelayaran_nama'));
+			$this->lift_id->setDbValue($rs->fields('lift_id'));
 			$this->on20->setDbValue($rs->fields('on20'));
 			$this->on40->setDbValue($rs->fields('on40'));
 			$this->on45->setDbValue($rs->fields('on45'));
@@ -885,22 +893,25 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 			$this->off20->setDbValue($rs->fields('off20'));
 			$this->off40->setDbValue($rs->fields('off40'));
 			$this->off45->setDbValue($rs->fields('off45'));
-			$this->Val[1] = $this->depo_nama->CurrentValue;
-			$this->Val[2] = $this->pelayaran_id->CurrentValue;
-			$this->Val[3] = $this->pelayaran_nama->CurrentValue;
-			$this->Val[4] = $this->on20->CurrentValue;
-			$this->Val[5] = $this->on40->CurrentValue;
-			$this->Val[6] = $this->on45->CurrentValue;
-			$this->Val[7] = $this->offket->CurrentValue;
-			$this->Val[8] = $this->off20->CurrentValue;
-			$this->Val[9] = $this->off40->CurrentValue;
-			$this->Val[10] = $this->off45->CurrentValue;
+			$this->Val[1] = $this->pelayaran_nama->CurrentValue;
+			$this->Val[2] = $this->on20->CurrentValue;
+			$this->Val[3] = $this->on40->CurrentValue;
+			$this->Val[4] = $this->on45->CurrentValue;
+			$this->Val[5] = $this->offket->CurrentValue;
+			$this->Val[6] = $this->off20->CurrentValue;
+			$this->Val[7] = $this->off40->CurrentValue;
+			$this->Val[8] = $this->off45->CurrentValue;
 		} else {
-			$this->id->setDbValue("");
 			$this->depo_id->setDbValue("");
 			$this->depo_nama->setDbValue("");
+			$this->alamat->setDbValue("");
+			$this->kota->setDbValue("");
+			$this->propinsi->setDbValue("");
+			$this->no_telp->setDbValue("");
+			$this->no_fax->setDbValue("");
 			$this->pelayaran_id->setDbValue("");
 			$this->pelayaran_nama->setDbValue("");
+			$this->lift_id->setDbValue("");
 			$this->on20->setDbValue("");
 			$this->on40->setDbValue("");
 			$this->on45->setDbValue("");
@@ -1101,24 +1112,18 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 
 		if ($this->RowType == EWR_ROWTYPE_TOTAL && !($this->RowTotalType == EWR_ROWTOTAL_GROUP && $this->RowTotalSubType == EWR_ROWTOTAL_HEADER)) { // Summary row
 			ewr_PrependClass($this->RowAttrs["class"], ($this->RowTotalType == EWR_ROWTOTAL_PAGE || $this->RowTotalType == EWR_ROWTOTAL_GRAND) ? "ewRptGrpAggregate" : "ewRptGrpSummary" . $this->RowGroupLevel); // Set up row class
-			if ($this->RowTotalType == EWR_ROWTOTAL_GROUP) $this->RowAttrs["data-group"] = $this->depo_id->GroupOldValue(); // Set up group attribute
+			if ($this->RowTotalType == EWR_ROWTOTAL_GROUP) $this->RowAttrs["data-group"] = $this->depo_nama->GroupOldValue(); // Set up group attribute
 
-			// depo_id
-			$this->depo_id->GroupViewValue = $this->depo_id->GroupOldValue();
-			$this->depo_id->CellAttrs["class"] = ($this->RowGroupLevel == 1) ? "ewRptGrpSummary1" : "ewRptGrpField1";
-			$this->depo_id->GroupViewValue = ewr_DisplayGroupValue($this->depo_id, $this->depo_id->GroupViewValue);
-			$this->depo_id->GroupSummaryOldValue = $this->depo_id->GroupSummaryValue;
-			$this->depo_id->GroupSummaryValue = $this->depo_id->GroupViewValue;
-			$this->depo_id->GroupSummaryViewValue = ($this->depo_id->GroupSummaryOldValue <> $this->depo_id->GroupSummaryValue) ? $this->depo_id->GroupSummaryValue : "&nbsp;";
-
-			// depo_id
-			$this->depo_id->HrefValue = "";
+			// depo_nama
+			$this->depo_nama->GroupViewValue = $this->depo_nama->GroupOldValue();
+			$this->depo_nama->CellAttrs["class"] = ($this->RowGroupLevel == 1) ? "ewRptGrpSummary1" : "ewRptGrpField1";
+			$this->depo_nama->GroupViewValue = ewr_DisplayGroupValue($this->depo_nama, $this->depo_nama->GroupViewValue);
+			$this->depo_nama->GroupSummaryOldValue = $this->depo_nama->GroupSummaryValue;
+			$this->depo_nama->GroupSummaryValue = $this->depo_nama->GroupViewValue;
+			$this->depo_nama->GroupSummaryViewValue = ($this->depo_nama->GroupSummaryOldValue <> $this->depo_nama->GroupSummaryValue) ? $this->depo_nama->GroupSummaryValue : "&nbsp;";
 
 			// depo_nama
 			$this->depo_nama->HrefValue = "";
-
-			// pelayaran_id
-			$this->pelayaran_id->HrefValue = "";
 
 			// pelayaran_nama
 			$this->pelayaran_nama->HrefValue = "";
@@ -1145,25 +1150,17 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 			$this->off45->HrefValue = "";
 		} else {
 			if ($this->RowTotalType == EWR_ROWTOTAL_GROUP && $this->RowTotalSubType == EWR_ROWTOTAL_HEADER) {
-			$this->RowAttrs["data-group"] = $this->depo_id->GroupValue(); // Set up group attribute
+			$this->RowAttrs["data-group"] = $this->depo_nama->GroupValue(); // Set up group attribute
 			} else {
-			$this->RowAttrs["data-group"] = $this->depo_id->GroupValue(); // Set up group attribute
+			$this->RowAttrs["data-group"] = $this->depo_nama->GroupValue(); // Set up group attribute
 			}
 
-			// depo_id
-			$this->depo_id->GroupViewValue = $this->depo_id->GroupValue();
-			$this->depo_id->CellAttrs["class"] = "ewRptGrpField1";
-			$this->depo_id->GroupViewValue = ewr_DisplayGroupValue($this->depo_id, $this->depo_id->GroupViewValue);
-			if ($this->depo_id->GroupValue() == $this->depo_id->GroupOldValue() && !$this->ChkLvlBreak(1))
-				$this->depo_id->GroupViewValue = "&nbsp;";
-
 			// depo_nama
-			$this->depo_nama->ViewValue = $this->depo_nama->CurrentValue;
-			$this->depo_nama->CellAttrs["class"] = ($this->RecCount % 2 <> 1) ? "ewTableAltRow" : "ewTableRow";
-
-			// pelayaran_id
-			$this->pelayaran_id->ViewValue = $this->pelayaran_id->CurrentValue;
-			$this->pelayaran_id->CellAttrs["class"] = ($this->RecCount % 2 <> 1) ? "ewTableAltRow" : "ewTableRow";
+			$this->depo_nama->GroupViewValue = $this->depo_nama->GroupValue();
+			$this->depo_nama->CellAttrs["class"] = "ewRptGrpField1";
+			$this->depo_nama->GroupViewValue = ewr_DisplayGroupValue($this->depo_nama, $this->depo_nama->GroupViewValue);
+			if ($this->depo_nama->GroupValue() == $this->depo_nama->GroupOldValue() && !$this->ChkLvlBreak(1))
+				$this->depo_nama->GroupViewValue = "&nbsp;";
 
 			// pelayaran_nama
 			$this->pelayaran_nama->ViewValue = $this->pelayaran_nama->CurrentValue;
@@ -1171,18 +1168,21 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 
 			// on20
 			$this->on20->ViewValue = $this->on20->CurrentValue;
-			$this->on20->ViewValue = ewr_FormatNumber($this->on20->ViewValue, $this->on20->DefaultDecimalPrecision, -1, 0, 0);
+			$this->on20->ViewValue = ewr_FormatNumber($this->on20->ViewValue, 0, -2, -2, -2);
 			$this->on20->CellAttrs["class"] = ($this->RecCount % 2 <> 1) ? "ewTableAltRow" : "ewTableRow";
+			$this->on20->CellAttrs["style"] = "text-align:right;";
 
 			// on40
 			$this->on40->ViewValue = $this->on40->CurrentValue;
-			$this->on40->ViewValue = ewr_FormatNumber($this->on40->ViewValue, $this->on40->DefaultDecimalPrecision, -1, 0, 0);
+			$this->on40->ViewValue = ewr_FormatNumber($this->on40->ViewValue, 0, -2, -2, -2);
 			$this->on40->CellAttrs["class"] = ($this->RecCount % 2 <> 1) ? "ewTableAltRow" : "ewTableRow";
+			$this->on40->CellAttrs["style"] = "text-align:right;";
 
 			// on45
 			$this->on45->ViewValue = $this->on45->CurrentValue;
-			$this->on45->ViewValue = ewr_FormatNumber($this->on45->ViewValue, $this->on45->DefaultDecimalPrecision, -1, 0, 0);
+			$this->on45->ViewValue = ewr_FormatNumber($this->on45->ViewValue, 0, -2, -2, -2);
 			$this->on45->CellAttrs["class"] = ($this->RecCount % 2 <> 1) ? "ewTableAltRow" : "ewTableRow";
+			$this->on45->CellAttrs["style"] = "text-align:right;";
 
 			// offket
 			$this->offket->ViewValue = $this->offket->CurrentValue;
@@ -1190,27 +1190,24 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 
 			// off20
 			$this->off20->ViewValue = $this->off20->CurrentValue;
-			$this->off20->ViewValue = ewr_FormatNumber($this->off20->ViewValue, $this->off20->DefaultDecimalPrecision, -1, 0, 0);
+			$this->off20->ViewValue = ewr_FormatNumber($this->off20->ViewValue, 0, -2, -2, -2);
 			$this->off20->CellAttrs["class"] = ($this->RecCount % 2 <> 1) ? "ewTableAltRow" : "ewTableRow";
+			$this->off20->CellAttrs["style"] = "text-align:right;";
 
 			// off40
 			$this->off40->ViewValue = $this->off40->CurrentValue;
-			$this->off40->ViewValue = ewr_FormatNumber($this->off40->ViewValue, $this->off40->DefaultDecimalPrecision, -1, 0, 0);
+			$this->off40->ViewValue = ewr_FormatNumber($this->off40->ViewValue, 0, -2, -2, -2);
 			$this->off40->CellAttrs["class"] = ($this->RecCount % 2 <> 1) ? "ewTableAltRow" : "ewTableRow";
+			$this->off40->CellAttrs["style"] = "text-align:right;";
 
 			// off45
 			$this->off45->ViewValue = $this->off45->CurrentValue;
-			$this->off45->ViewValue = ewr_FormatNumber($this->off45->ViewValue, $this->off45->DefaultDecimalPrecision, -1, 0, 0);
+			$this->off45->ViewValue = ewr_FormatNumber($this->off45->ViewValue, 0, -2, -2, -2);
 			$this->off45->CellAttrs["class"] = ($this->RecCount % 2 <> 1) ? "ewTableAltRow" : "ewTableRow";
-
-			// depo_id
-			$this->depo_id->HrefValue = "";
+			$this->off45->CellAttrs["style"] = "text-align:right;";
 
 			// depo_nama
 			$this->depo_nama->HrefValue = "";
-
-			// pelayaran_id
-			$this->pelayaran_id->HrefValue = "";
 
 			// pelayaran_nama
 			$this->pelayaran_nama->HrefValue = "";
@@ -1240,42 +1237,24 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 		// Call Cell_Rendered event
 		if ($this->RowType == EWR_ROWTYPE_TOTAL) { // Summary row
 
-			// depo_id
-			$CurrentValue = $this->depo_id->GroupViewValue;
-			$ViewValue = &$this->depo_id->GroupViewValue;
-			$ViewAttrs = &$this->depo_id->ViewAttrs;
-			$CellAttrs = &$this->depo_id->CellAttrs;
-			$HrefValue = &$this->depo_id->HrefValue;
-			$LinkAttrs = &$this->depo_id->LinkAttrs;
-			$this->Cell_Rendered($this->depo_id, $CurrentValue, $ViewValue, $ViewAttrs, $CellAttrs, $HrefValue, $LinkAttrs);
-		} else {
-
-			// depo_id
-			$CurrentValue = $this->depo_id->GroupValue();
-			$ViewValue = &$this->depo_id->GroupViewValue;
-			$ViewAttrs = &$this->depo_id->ViewAttrs;
-			$CellAttrs = &$this->depo_id->CellAttrs;
-			$HrefValue = &$this->depo_id->HrefValue;
-			$LinkAttrs = &$this->depo_id->LinkAttrs;
-			$this->Cell_Rendered($this->depo_id, $CurrentValue, $ViewValue, $ViewAttrs, $CellAttrs, $HrefValue, $LinkAttrs);
-
 			// depo_nama
-			$CurrentValue = $this->depo_nama->CurrentValue;
-			$ViewValue = &$this->depo_nama->ViewValue;
+			$CurrentValue = $this->depo_nama->GroupViewValue;
+			$ViewValue = &$this->depo_nama->GroupViewValue;
 			$ViewAttrs = &$this->depo_nama->ViewAttrs;
 			$CellAttrs = &$this->depo_nama->CellAttrs;
 			$HrefValue = &$this->depo_nama->HrefValue;
 			$LinkAttrs = &$this->depo_nama->LinkAttrs;
 			$this->Cell_Rendered($this->depo_nama, $CurrentValue, $ViewValue, $ViewAttrs, $CellAttrs, $HrefValue, $LinkAttrs);
+		} else {
 
-			// pelayaran_id
-			$CurrentValue = $this->pelayaran_id->CurrentValue;
-			$ViewValue = &$this->pelayaran_id->ViewValue;
-			$ViewAttrs = &$this->pelayaran_id->ViewAttrs;
-			$CellAttrs = &$this->pelayaran_id->CellAttrs;
-			$HrefValue = &$this->pelayaran_id->HrefValue;
-			$LinkAttrs = &$this->pelayaran_id->LinkAttrs;
-			$this->Cell_Rendered($this->pelayaran_id, $CurrentValue, $ViewValue, $ViewAttrs, $CellAttrs, $HrefValue, $LinkAttrs);
+			// depo_nama
+			$CurrentValue = $this->depo_nama->GroupValue();
+			$ViewValue = &$this->depo_nama->GroupViewValue;
+			$ViewAttrs = &$this->depo_nama->ViewAttrs;
+			$CellAttrs = &$this->depo_nama->CellAttrs;
+			$HrefValue = &$this->depo_nama->HrefValue;
+			$LinkAttrs = &$this->depo_nama->LinkAttrs;
+			$this->Cell_Rendered($this->depo_nama, $CurrentValue, $ViewValue, $ViewAttrs, $CellAttrs, $HrefValue, $LinkAttrs);
 
 			// pelayaran_nama
 			$CurrentValue = $this->pelayaran_nama->CurrentValue;
@@ -1360,9 +1339,7 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 		$this->GrpColumnCount = 0;
 		$this->SubGrpColumnCount = 0;
 		$this->DtlColumnCount = 0;
-		if ($this->depo_id->Visible) $this->GrpColumnCount += 1;
-		if ($this->depo_nama->Visible) $this->DtlColumnCount += 1;
-		if ($this->pelayaran_id->Visible) $this->DtlColumnCount += 1;
+		if ($this->depo_nama->Visible) $this->GrpColumnCount += 1;
 		if ($this->pelayaran_nama->Visible) $this->DtlColumnCount += 1;
 		if ($this->on20->Visible) $this->DtlColumnCount += 1;
 		if ($this->on40->Visible) $this->DtlColumnCount += 1;
@@ -1405,16 +1382,16 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 		} elseif (@$_GET["cmd"] == "reset") {
 
 			// Load default values
-			$this->SetSessionDropDownValue($this->depo_id->DropDownValue, $this->depo_id->SearchOperator, 'depo_id'); // Field depo_id
+			$this->SetSessionDropDownValue($this->depo_nama->DropDownValue, $this->depo_nama->SearchOperator, 'depo_nama'); // Field depo_nama
 
 			//$bSetupFilter = TRUE; // No need to set up, just use default
 		} else {
 			$bRestoreSession = !$this->SearchCommand;
 
-			// Field depo_id
-			if ($this->GetDropDownValue($this->depo_id)) {
+			// Field depo_nama
+			if ($this->GetDropDownValue($this->depo_nama)) {
 				$bSetupFilter = TRUE;
-			} elseif ($this->depo_id->DropDownValue <> EWR_INIT_VALUE && !isset($_SESSION['sv_r01_pelayaran_depo_id'])) {
+			} elseif ($this->depo_nama->DropDownValue <> EWR_INIT_VALUE && !isset($_SESSION['sv_r01_depo_depo_nama'])) {
 				$bSetupFilter = TRUE;
 			}
 			if (!$this->ValidateForm()) {
@@ -1425,24 +1402,24 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 
 		// Restore session
 		if ($bRestoreSession) {
-			$this->GetSessionDropDownValue($this->depo_id); // Field depo_id
+			$this->GetSessionDropDownValue($this->depo_nama); // Field depo_nama
 		}
 
 		// Call page filter validated event
 		$this->Page_FilterValidated();
 
 		// Build SQL
-		$this->BuildDropDownFilter($this->depo_id, $sFilter, $this->depo_id->SearchOperator, FALSE, TRUE); // Field depo_id
+		$this->BuildDropDownFilter($this->depo_nama, $sFilter, $this->depo_nama->SearchOperator, FALSE, TRUE); // Field depo_nama
 
 		// Save parms to session
-		$this->SetSessionDropDownValue($this->depo_id->DropDownValue, $this->depo_id->SearchOperator, 'depo_id'); // Field depo_id
+		$this->SetSessionDropDownValue($this->depo_nama->DropDownValue, $this->depo_nama->SearchOperator, 'depo_nama'); // Field depo_nama
 
 		// Setup filter
 		if ($bSetupFilter) {
 		}
 
-		// Field depo_id
-		ewr_LoadDropDownList($this->depo_id->DropDownList, $this->depo_id->DropDownValue);
+		// Field depo_nama
+		ewr_LoadDropDownList($this->depo_nama->DropDownList, $this->depo_nama->DropDownValue);
 		return $sFilter;
 	}
 
@@ -1642,18 +1619,18 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 	// Get dropdown value from session
 	function GetSessionDropDownValue(&$fld) {
 		$parm = substr($fld->FldVar, 2);
-		$this->GetSessionValue($fld->DropDownValue, 'sv_r01_pelayaran_' . $parm);
-		$this->GetSessionValue($fld->SearchOperator, 'so_r01_pelayaran_' . $parm);
+		$this->GetSessionValue($fld->DropDownValue, 'sv_r01_depo_' . $parm);
+		$this->GetSessionValue($fld->SearchOperator, 'so_r01_depo_' . $parm);
 	}
 
 	// Get filter values from session
 	function GetSessionFilterValues(&$fld) {
 		$parm = substr($fld->FldVar, 2);
-		$this->GetSessionValue($fld->SearchValue, 'sv_r01_pelayaran_' . $parm);
-		$this->GetSessionValue($fld->SearchOperator, 'so_r01_pelayaran_' . $parm);
-		$this->GetSessionValue($fld->SearchCondition, 'sc_r01_pelayaran_' . $parm);
-		$this->GetSessionValue($fld->SearchValue2, 'sv2_r01_pelayaran_' . $parm);
-		$this->GetSessionValue($fld->SearchOperator2, 'so2_r01_pelayaran_' . $parm);
+		$this->GetSessionValue($fld->SearchValue, 'sv_r01_depo_' . $parm);
+		$this->GetSessionValue($fld->SearchOperator, 'so_r01_depo_' . $parm);
+		$this->GetSessionValue($fld->SearchCondition, 'sc_r01_depo_' . $parm);
+		$this->GetSessionValue($fld->SearchValue2, 'sv2_r01_depo_' . $parm);
+		$this->GetSessionValue($fld->SearchOperator2, 'so2_r01_depo_' . $parm);
 	}
 
 	// Get value from session
@@ -1664,17 +1641,17 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 
 	// Set dropdown value to session
 	function SetSessionDropDownValue($sv, $so, $parm) {
-		$_SESSION['sv_r01_pelayaran_' . $parm] = $sv;
-		$_SESSION['so_r01_pelayaran_' . $parm] = $so;
+		$_SESSION['sv_r01_depo_' . $parm] = $sv;
+		$_SESSION['so_r01_depo_' . $parm] = $so;
 	}
 
 	// Set filter values to session
 	function SetSessionFilterValues($sv1, $so1, $sc, $sv2, $so2, $parm) {
-		$_SESSION['sv_r01_pelayaran_' . $parm] = $sv1;
-		$_SESSION['so_r01_pelayaran_' . $parm] = $so1;
-		$_SESSION['sc_r01_pelayaran_' . $parm] = $sc;
-		$_SESSION['sv2_r01_pelayaran_' . $parm] = $sv2;
-		$_SESSION['so2_r01_pelayaran_' . $parm] = $so2;
+		$_SESSION['sv_r01_depo_' . $parm] = $sv1;
+		$_SESSION['so_r01_depo_' . $parm] = $so1;
+		$_SESSION['sc_r01_depo_' . $parm] = $sc;
+		$_SESSION['sv2_r01_depo_' . $parm] = $sv2;
+		$_SESSION['so2_r01_depo_' . $parm] = $so2;
 	}
 
 	// Check if has Session filter values
@@ -1724,17 +1701,17 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 
 	// Clear selection stored in session
 	function ClearSessionSelection($parm) {
-		$_SESSION["sel_r01_pelayaran_$parm"] = "";
-		$_SESSION["rf_r01_pelayaran_$parm"] = "";
-		$_SESSION["rt_r01_pelayaran_$parm"] = "";
+		$_SESSION["sel_r01_depo_$parm"] = "";
+		$_SESSION["rf_r01_depo_$parm"] = "";
+		$_SESSION["rt_r01_depo_$parm"] = "";
 	}
 
 	// Load selection from session
 	function LoadSelectionFromSession($parm) {
 		$fld = &$this->FieldByParm($parm);
-		$fld->SelectionList = @$_SESSION["sel_r01_pelayaran_$parm"];
-		$fld->RangeFrom = @$_SESSION["rf_r01_pelayaran_$parm"];
-		$fld->RangeTo = @$_SESSION["rt_r01_pelayaran_$parm"];
+		$fld->SelectionList = @$_SESSION["sel_r01_depo_$parm"];
+		$fld->RangeFrom = @$_SESSION["rf_r01_depo_$parm"];
+		$fld->RangeTo = @$_SESSION["rt_r01_depo_$parm"];
 	}
 
 	// Load default value for filters
@@ -1743,9 +1720,9 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 		* Set up default values for non Text filters
 		*/
 
-		// Field depo_id
-		$this->depo_id->DefaultDropDownValue = EWR_INIT_VALUE;
-		if (!$this->SearchCommand) $this->depo_id->DropDownValue = $this->depo_id->DefaultDropDownValue;
+		// Field depo_nama
+		$this->depo_nama->DefaultDropDownValue = EWR_INIT_VALUE;
+		if (!$this->SearchCommand) $this->depo_nama->DropDownValue = $this->depo_nama->DefaultDropDownValue;
 		/**
 		* Set up default values for extended filters
 		* function SetDefaultExtFilter(&$fld, $so1, $sv1, $sc, $so2, $sv2)
@@ -1765,8 +1742,8 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 	// Check if filter applied
 	function CheckFilter() {
 
-		// Check depo_id extended filter
-		if ($this->NonTextFilterApplied($this->depo_id))
+		// Check depo_nama extended filter
+		if ($this->NonTextFilterApplied($this->depo_nama))
 			return TRUE;
 		return FALSE;
 	}
@@ -1778,17 +1755,17 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 		// Initialize
 		$sFilterList = "";
 
-		// Field depo_id
+		// Field depo_nama
 		$sExtWrk = "";
 		$sWrk = "";
-		$this->BuildDropDownFilter($this->depo_id, $sExtWrk, $this->depo_id->SearchOperator);
+		$this->BuildDropDownFilter($this->depo_nama, $sExtWrk, $this->depo_nama->SearchOperator);
 		$sFilter = "";
 		if ($sExtWrk <> "")
 			$sFilter .= "<span class=\"ewFilterValue\">$sExtWrk</span>";
 		elseif ($sWrk <> "")
 			$sFilter .= "<span class=\"ewFilterValue\">$sWrk</span>";
 		if ($sFilter <> "")
-			$sFilterList .= "<div><span class=\"ewFilterCaption\">" . $this->depo_id->FldCaption() . "</span>" . $sFilter . "</div>";
+			$sFilterList .= "<div><span class=\"ewFilterCaption\">" . $this->depo_nama->FldCaption() . "</span>" . $sFilter . "</div>";
 		$divstyle = "";
 		$divdataclass = "";
 
@@ -1811,13 +1788,13 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 		// Initialize
 		$sFilterList = "";
 
-		// Field depo_id
+		// Field depo_nama
 		$sWrk = "";
-		$sWrk = ($this->depo_id->DropDownValue <> EWR_INIT_VALUE) ? $this->depo_id->DropDownValue : "";
+		$sWrk = ($this->depo_nama->DropDownValue <> EWR_INIT_VALUE) ? $this->depo_nama->DropDownValue : "";
 		if (is_array($sWrk))
 			$sWrk = implode("||", $sWrk);
 		if ($sWrk <> "")
-			$sWrk = "\"sv_depo_id\":\"" . ewr_JsEncode2($sWrk) . "\"";
+			$sWrk = "\"sv_depo_nama\":\"" . ewr_JsEncode2($sWrk) . "\"";
 		if ($sWrk <> "") {
 			if ($sFilterList <> "") $sFilterList .= ",";
 			$sFilterList .= $sWrk;
@@ -1845,17 +1822,17 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 		if (!is_array($filter))
 			return FALSE;
 
-		// Field depo_id
+		// Field depo_nama
 		$bRestoreFilter = FALSE;
-		if (array_key_exists("sv_depo_id", $filter)) {
-			$sWrk = $filter["sv_depo_id"];
+		if (array_key_exists("sv_depo_nama", $filter)) {
+			$sWrk = $filter["sv_depo_nama"];
 			if (strpos($sWrk, "||") !== FALSE)
 				$sWrk = explode("||", $sWrk);
-			$this->SetSessionDropDownValue($sWrk, @$filter["so_depo_id"], "depo_id");
+			$this->SetSessionDropDownValue($sWrk, @$filter["so_depo_nama"], "depo_nama");
 			$bRestoreFilter = TRUE;
 		}
 		if (!$bRestoreFilter) { // Clear filter
-			$this->SetSessionDropDownValue(EWR_INIT_VALUE, "", "depo_id");
+			$this->SetSessionDropDownValue(EWR_INIT_VALUE, "", "depo_nama");
 		}
 		return TRUE;
 	}
@@ -1886,9 +1863,7 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 		if ($bResetSort) {
 			$this->setOrderBy("");
 			$this->setStartGroup(1);
-			$this->depo_id->setSort("");
 			$this->depo_nama->setSort("");
-			$this->pelayaran_id->setSort("");
 			$this->pelayaran_nama->setSort("");
 			$this->on20->setSort("");
 			$this->on40->setSort("");
@@ -1902,9 +1877,7 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 		} elseif ($orderBy <> "") {
 			$this->CurrentOrder = $orderBy;
 			$this->CurrentOrderType = $orderType;
-			$this->UpdateSort($this->depo_id, $bCtrl); // depo_id
 			$this->UpdateSort($this->depo_nama, $bCtrl); // depo_nama
-			$this->UpdateSort($this->pelayaran_id, $bCtrl); // pelayaran_id
 			$this->UpdateSort($this->pelayaran_nama, $bCtrl); // pelayaran_nama
 			$this->UpdateSort($this->on20, $bCtrl); // on20
 			$this->UpdateSort($this->on40, $bCtrl); // on40
@@ -2146,6 +2119,7 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 		// Example:
 		//$header = "your header";
 
+		$this->depo_nama->Visible = false;
 	}
 
 	// Page Data Rendered event
@@ -2168,9 +2142,9 @@ class crr01_pelayaran_summary extends crr01_pelayaran {
 <?php
 
 // Create page object
-if (!isset($r01_pelayaran_summary)) $r01_pelayaran_summary = new crr01_pelayaran_summary();
+if (!isset($r01_depo_summary)) $r01_depo_summary = new crr01_depo_summary();
 if (isset($Page)) $OldPage = $Page;
-$Page = &$r01_pelayaran_summary;
+$Page = &$r01_depo_summary;
 
 // Page init
 $Page->Page_Init();
@@ -2190,21 +2164,21 @@ $Page->Page_Render();
 <script type="text/javascript">
 
 // Create page object
-var r01_pelayaran_summary = new ewr_Page("r01_pelayaran_summary");
+var r01_depo_summary = new ewr_Page("r01_depo_summary");
 
 // Page properties
-r01_pelayaran_summary.PageID = "summary"; // Page ID
-var EWR_PAGE_ID = r01_pelayaran_summary.PageID;
+r01_depo_summary.PageID = "summary"; // Page ID
+var EWR_PAGE_ID = r01_depo_summary.PageID;
 
 // Extend page with Chart_Rendering function
-r01_pelayaran_summary.Chart_Rendering = 
+r01_depo_summary.Chart_Rendering = 
  function(chart, chartid) { // DO NOT CHANGE THIS LINE!
 
  	//alert(chartid);
  }
 
 // Extend page with Chart_Rendered function
-r01_pelayaran_summary.Chart_Rendered = 
+r01_depo_summary.Chart_Rendered = 
  function(chart, chartid) { // DO NOT CHANGE THIS LINE!
 
  	//alert(chartid);
@@ -2215,10 +2189,10 @@ r01_pelayaran_summary.Chart_Rendered =
 <script type="text/javascript">
 
 // Form object
-var CurrentForm = fr01_pelayaransummary = new ewr_Form("fr01_pelayaransummary");
+var CurrentForm = fr01_deposummary = new ewr_Form("fr01_deposummary");
 
 // Validate method
-fr01_pelayaransummary.Validate = function() {
+fr01_deposummary.Validate = function() {
 	if (!this.ValidateRequired)
 		return true; // Ignore validation
 	var $ = jQuery, fobj = this.GetForm(), $fobj = $(fobj);
@@ -2230,20 +2204,20 @@ fr01_pelayaransummary.Validate = function() {
 }
 
 // Form_CustomValidate method
-fr01_pelayaransummary.Form_CustomValidate = 
+fr01_deposummary.Form_CustomValidate = 
  function(fobj) { // DO NOT CHANGE THIS LINE!
 
  	// Your custom validation code here, return false if invalid.
  	return true;
  }
 <?php if (EWR_CLIENT_VALIDATE) { ?>
-fr01_pelayaransummary.ValidateRequired = true; // Uses JavaScript validation
+fr01_deposummary.ValidateRequired = true; // Uses JavaScript validation
 <?php } else { ?>
-fr01_pelayaransummary.ValidateRequired = false; // No JavaScript validation
+fr01_deposummary.ValidateRequired = false; // No JavaScript validation
 <?php } ?>
 
 // Use Ajax
-fr01_pelayaransummary.Lists["sv_depo_id"] = {"LinkField":"sv_depo_id","Ajax":true,"DisplayFields":["sv_depo_id","","",""],"ParentFields":[],"FilterFields":[],"Options":[],"Template":""};
+fr01_deposummary.Lists["sv_depo_nama"] = {"LinkField":"sv_depo_nama","Ajax":true,"DisplayFields":["sv_depo_nama","","",""],"ParentFields":[],"FilterFields":[],"Options":[],"Template":""};
 </script>
 <?php } ?>
 <?php if ($Page->Export == "" && !$Page->DrillDown) { ?>
@@ -2302,27 +2276,27 @@ if (!$Page->DrillDownInPanel) {
 <?php } ?>
 <?php if ($Page->Export == "" && !$Page->DrillDown) { ?>
 <!-- Search form (begin) -->
-<form name="fr01_pelayaransummary" id="fr01_pelayaransummary" class="form-inline ewForm ewExtFilterForm" action="<?php echo ewr_CurrentPage() ?>">
+<form name="fr01_deposummary" id="fr01_deposummary" class="form-inline ewForm ewExtFilterForm" action="<?php echo ewr_CurrentPage() ?>">
 <?php $SearchPanelClass = ($Page->Filter <> "") ? " in" : " in"; ?>
-<div id="fr01_pelayaransummary_SearchPanel" class="ewSearchPanel collapse<?php echo $SearchPanelClass ?>">
+<div id="fr01_deposummary_SearchPanel" class="ewSearchPanel collapse<?php echo $SearchPanelClass ?>">
 <input type="hidden" name="cmd" value="search">
 <div id="r_1" class="ewRow">
-<div id="c_depo_id" class="ewCell form-group">
-	<label for="sv_depo_id" class="ewSearchCaption ewLabel"><?php echo $Page->depo_id->FldCaption() ?></label>
+<div id="c_depo_nama" class="ewCell form-group">
+	<label for="sv_depo_nama" class="ewSearchCaption ewLabel"><?php echo $Page->depo_nama->FldCaption() ?></label>
 	<span class="ewSearchField">
-<?php $Page->depo_id->EditAttrs["onchange"] = "ewrForms(this).Submit(); " . @$Page->depo_id->EditAttrs["onchange"]; ?>
-<?php ewr_PrependClass($Page->depo_id->EditAttrs["class"], "form-control"); ?>
-<select data-table="r01_pelayaran" data-field="x_depo_id" data-value-separator="<?php echo ewr_HtmlEncode(is_array($Page->depo_id->DisplayValueSeparator) ? json_encode($Page->depo_id->DisplayValueSeparator) : $Page->depo_id->DisplayValueSeparator) ?>" id="sv_depo_id" name="sv_depo_id"<?php echo $Page->depo_id->EditAttributes() ?>>
+<?php $Page->depo_nama->EditAttrs["onchange"] = "ewrForms(this).Submit(); " . @$Page->depo_nama->EditAttrs["onchange"]; ?>
+<?php ewr_PrependClass($Page->depo_nama->EditAttrs["class"], "form-control"); ?>
+<select data-table="r01_depo" data-field="x_depo_nama" data-value-separator="<?php echo ewr_HtmlEncode(is_array($Page->depo_nama->DisplayValueSeparator) ? json_encode($Page->depo_nama->DisplayValueSeparator) : $Page->depo_nama->DisplayValueSeparator) ?>" id="sv_depo_nama" name="sv_depo_nama"<?php echo $Page->depo_nama->EditAttributes() ?>>
 <option value=""><?php echo $ReportLanguage->Phrase("PleaseSelect") ?></option>
 <?php
-	$cntf = is_array($Page->depo_id->AdvancedFilters) ? count($Page->depo_id->AdvancedFilters) : 0;
-	$cntd = is_array($Page->depo_id->DropDownList) ? count($Page->depo_id->DropDownList) : 0;
+	$cntf = is_array($Page->depo_nama->AdvancedFilters) ? count($Page->depo_nama->AdvancedFilters) : 0;
+	$cntd = is_array($Page->depo_nama->DropDownList) ? count($Page->depo_nama->DropDownList) : 0;
 	$totcnt = $cntf + $cntd;
 	$wrkcnt = 0;
 	if ($cntf > 0) {
-		foreach ($Page->depo_id->AdvancedFilters as $filter) {
+		foreach ($Page->depo_nama->AdvancedFilters as $filter) {
 			if ($filter->Enabled) {
-				$selwrk = ewr_MatchedFilterValue($Page->depo_id->DropDownValue, $filter->ID) ? " selected" : "";
+				$selwrk = ewr_MatchedFilterValue($Page->depo_nama->DropDownValue, $filter->ID) ? " selected" : "";
 ?>
 <option value="<?php echo $filter->ID ?>"<?php echo $selwrk ?>><?php echo $filter->Name ?></option>
 <?php
@@ -2333,20 +2307,20 @@ if (!$Page->DrillDownInPanel) {
 	for ($i = 0; $i < $cntd; $i++) {
 		$selwrk = " selected";
 ?>
-<option value="<?php echo $Page->depo_id->DropDownList[$i] ?>"<?php echo $selwrk ?>><?php echo ewr_DropDownDisplayValue($Page->depo_id->DropDownList[$i], "", 0) ?></option>
+<option value="<?php echo $Page->depo_nama->DropDownList[$i] ?>"<?php echo $selwrk ?>><?php echo ewr_DropDownDisplayValue($Page->depo_nama->DropDownList[$i], "", 0) ?></option>
 <?php
 		$wrkcnt += 1;
 	}
 ?>
 </select>
-<input type="hidden" name="s_sv_depo_id" id="s_sv_depo_id" value="<?php echo $Page->depo_id->LookupFilterQuery() ?>"></span>
+<input type="hidden" name="s_sv_depo_nama" id="s_sv_depo_nama" value="<?php echo $Page->depo_nama->LookupFilterQuery() ?>"></span>
 </div>
 </div>
 </div>
 </form>
 <script type="text/javascript">
-fr01_pelayaransummary.Init();
-fr01_pelayaransummary.FilterList = <?php echo $Page->GetFilterList() ?>;
+fr01_deposummary.Init();
+fr01_deposummary.FilterList = <?php echo $Page->GetFilterList() ?>;
 </script>
 <!-- Search form (end) -->
 <?php } ?>
@@ -2390,7 +2364,7 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 <?php if ($Page->TotalGrps > 0) { ?>
 <?php if ($Page->Export == "" && !($Page->DrillDown && $Page->TotalGrps > 0)) { ?>
 <div class="panel-footer ewGridLowerPanel">
-<?php include "r01_pelayaransmrypager.php" ?>
+<?php include "r01_deposmrypager.php" ?>
 <div class="clearfix"></div>
 </div>
 <?php } ?>
@@ -2398,7 +2372,7 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 <?php if ($Page->Export <> "pdf") { ?>
 </div>
 <?php } ?>
-<span data-class="tpb<?php echo $Page->GrpCount-1 ?>_r01_pelayaran"><?php echo $Page->PageBreakContent ?></span>
+<span data-class="tpb<?php echo $Page->GrpCount-1 ?>_r01_depo"><?php echo $Page->PageBreakContent ?></span>
 <?php } ?>
 <?php if ($Page->Export <> "pdf") { ?>
 <?php if ($Page->Export == "word" || $Page->Export == "excel") { ?>
@@ -2409,7 +2383,7 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 <?php } ?>
 <?php if ($Page->Export == "" && !($Page->DrillDown && $Page->TotalGrps > 0)) { ?>
 <div class="panel-heading ewGridUpperPanel">
-<?php include "r01_pelayaransmrypager.php" ?>
+<?php include "r01_deposmrypager.php" ?>
 <div class="clearfix"></div>
 </div>
 <?php } ?>
@@ -2421,75 +2395,39 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 <thead>
 	<!-- Table header -->
 	<tr class="ewTableHeader">
-<?php if ($Page->depo_id->Visible) { ?>
-	<?php if ($Page->depo_id->ShowGroupHeaderAsRow) { ?>
-	<td data-field="depo_id">&nbsp;</td>
+<?php if ($Page->depo_nama->Visible) { ?>
+	<?php if ($Page->depo_nama->ShowGroupHeaderAsRow) { ?>
+	<td data-field="depo_nama">&nbsp;</td>
 	<?php } else { ?>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="depo_id"><div class="r01_pelayaran_depo_id"><span class="ewTableHeaderCaption"><?php echo $Page->depo_id->FldCaption() ?></span></div></td>
-<?php } else { ?>
-	<td data-field="depo_id">
-<?php if ($Page->SortUrl($Page->depo_id) == "") { ?>
-		<div class="ewTableHeaderBtn r01_pelayaran_depo_id">
-			<span class="ewTableHeaderCaption"><?php echo $Page->depo_id->FldCaption() ?></span>
-		</div>
-<?php } else { ?>
-		<div class="ewTableHeaderBtn ewPointer r01_pelayaran_depo_id" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->depo_id) ?>',2);">
-			<span class="ewTableHeaderCaption"><?php echo $Page->depo_id->FldCaption() ?></span>
-			<span class="ewTableHeaderSort"><?php if ($Page->depo_id->getSort() == "ASC") { ?><span class="caret ewSortUp"></span><?php } elseif ($Page->depo_id->getSort() == "DESC") { ?><span class="caret"></span><?php } ?></span>
-		</div>
-<?php } ?>
-	</td>
-<?php } ?>
-	<?php } ?>
-<?php } ?>
-<?php if ($Page->depo_nama->Visible) { ?>
-<?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="depo_nama"><div class="r01_pelayaran_depo_nama"><span class="ewTableHeaderCaption"><?php echo $Page->depo_nama->FldCaption() ?></span></div></td>
+	<td data-field="depo_nama"><div class="r01_depo_depo_nama"><span class="ewTableHeaderCaption"><?php echo $Page->depo_nama->FldCaption() ?></span></div></td>
 <?php } else { ?>
 	<td data-field="depo_nama">
 <?php if ($Page->SortUrl($Page->depo_nama) == "") { ?>
-		<div class="ewTableHeaderBtn r01_pelayaran_depo_nama">
+		<div class="ewTableHeaderBtn r01_depo_depo_nama">
 			<span class="ewTableHeaderCaption"><?php echo $Page->depo_nama->FldCaption() ?></span>
 		</div>
 <?php } else { ?>
-		<div class="ewTableHeaderBtn ewPointer r01_pelayaran_depo_nama" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->depo_nama) ?>',2);">
+		<div class="ewTableHeaderBtn ewPointer r01_depo_depo_nama" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->depo_nama) ?>',2);">
 			<span class="ewTableHeaderCaption"><?php echo $Page->depo_nama->FldCaption() ?></span>
 			<span class="ewTableHeaderSort"><?php if ($Page->depo_nama->getSort() == "ASC") { ?><span class="caret ewSortUp"></span><?php } elseif ($Page->depo_nama->getSort() == "DESC") { ?><span class="caret"></span><?php } ?></span>
 		</div>
 <?php } ?>
 	</td>
 <?php } ?>
-<?php } ?>
-<?php if ($Page->pelayaran_id->Visible) { ?>
-<?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="pelayaran_id"><div class="r01_pelayaran_pelayaran_id"><span class="ewTableHeaderCaption"><?php echo $Page->pelayaran_id->FldCaption() ?></span></div></td>
-<?php } else { ?>
-	<td data-field="pelayaran_id">
-<?php if ($Page->SortUrl($Page->pelayaran_id) == "") { ?>
-		<div class="ewTableHeaderBtn r01_pelayaran_pelayaran_id">
-			<span class="ewTableHeaderCaption"><?php echo $Page->pelayaran_id->FldCaption() ?></span>
-		</div>
-<?php } else { ?>
-		<div class="ewTableHeaderBtn ewPointer r01_pelayaran_pelayaran_id" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->pelayaran_id) ?>',2);">
-			<span class="ewTableHeaderCaption"><?php echo $Page->pelayaran_id->FldCaption() ?></span>
-			<span class="ewTableHeaderSort"><?php if ($Page->pelayaran_id->getSort() == "ASC") { ?><span class="caret ewSortUp"></span><?php } elseif ($Page->pelayaran_id->getSort() == "DESC") { ?><span class="caret"></span><?php } ?></span>
-		</div>
-<?php } ?>
-	</td>
-<?php } ?>
+	<?php } ?>
 <?php } ?>
 <?php if ($Page->pelayaran_nama->Visible) { ?>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="pelayaran_nama"><div class="r01_pelayaran_pelayaran_nama"><span class="ewTableHeaderCaption"><?php echo $Page->pelayaran_nama->FldCaption() ?></span></div></td>
+	<td data-field="pelayaran_nama"><div class="r01_depo_pelayaran_nama"><span class="ewTableHeaderCaption"><?php echo $Page->pelayaran_nama->FldCaption() ?></span></div></td>
 <?php } else { ?>
 	<td data-field="pelayaran_nama">
 <?php if ($Page->SortUrl($Page->pelayaran_nama) == "") { ?>
-		<div class="ewTableHeaderBtn r01_pelayaran_pelayaran_nama">
+		<div class="ewTableHeaderBtn r01_depo_pelayaran_nama">
 			<span class="ewTableHeaderCaption"><?php echo $Page->pelayaran_nama->FldCaption() ?></span>
 		</div>
 <?php } else { ?>
-		<div class="ewTableHeaderBtn ewPointer r01_pelayaran_pelayaran_nama" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->pelayaran_nama) ?>',2);">
+		<div class="ewTableHeaderBtn ewPointer r01_depo_pelayaran_nama" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->pelayaran_nama) ?>',2);">
 			<span class="ewTableHeaderCaption"><?php echo $Page->pelayaran_nama->FldCaption() ?></span>
 			<span class="ewTableHeaderSort"><?php if ($Page->pelayaran_nama->getSort() == "ASC") { ?><span class="caret ewSortUp"></span><?php } elseif ($Page->pelayaran_nama->getSort() == "DESC") { ?><span class="caret"></span><?php } ?></span>
 		</div>
@@ -2499,15 +2437,15 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 <?php } ?>
 <?php if ($Page->on20->Visible) { ?>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="on20"><div class="r01_pelayaran_on20"><span class="ewTableHeaderCaption"><?php echo $Page->on20->FldCaption() ?></span></div></td>
+	<td data-field="on20"><div class="r01_depo_on20" style="text-align: right;"><span class="ewTableHeaderCaption"><?php echo $Page->on20->FldCaption() ?></span></div></td>
 <?php } else { ?>
 	<td data-field="on20">
 <?php if ($Page->SortUrl($Page->on20) == "") { ?>
-		<div class="ewTableHeaderBtn r01_pelayaran_on20">
+		<div class="ewTableHeaderBtn r01_depo_on20" style="text-align: right;">
 			<span class="ewTableHeaderCaption"><?php echo $Page->on20->FldCaption() ?></span>
 		</div>
 <?php } else { ?>
-		<div class="ewTableHeaderBtn ewPointer r01_pelayaran_on20" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->on20) ?>',2);">
+		<div class="ewTableHeaderBtn ewPointer r01_depo_on20" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->on20) ?>',2);" style="text-align: right;">
 			<span class="ewTableHeaderCaption"><?php echo $Page->on20->FldCaption() ?></span>
 			<span class="ewTableHeaderSort"><?php if ($Page->on20->getSort() == "ASC") { ?><span class="caret ewSortUp"></span><?php } elseif ($Page->on20->getSort() == "DESC") { ?><span class="caret"></span><?php } ?></span>
 		</div>
@@ -2517,15 +2455,15 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 <?php } ?>
 <?php if ($Page->on40->Visible) { ?>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="on40"><div class="r01_pelayaran_on40"><span class="ewTableHeaderCaption"><?php echo $Page->on40->FldCaption() ?></span></div></td>
+	<td data-field="on40"><div class="r01_depo_on40" style="text-align: right;"><span class="ewTableHeaderCaption"><?php echo $Page->on40->FldCaption() ?></span></div></td>
 <?php } else { ?>
 	<td data-field="on40">
 <?php if ($Page->SortUrl($Page->on40) == "") { ?>
-		<div class="ewTableHeaderBtn r01_pelayaran_on40">
+		<div class="ewTableHeaderBtn r01_depo_on40" style="text-align: right;">
 			<span class="ewTableHeaderCaption"><?php echo $Page->on40->FldCaption() ?></span>
 		</div>
 <?php } else { ?>
-		<div class="ewTableHeaderBtn ewPointer r01_pelayaran_on40" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->on40) ?>',2);">
+		<div class="ewTableHeaderBtn ewPointer r01_depo_on40" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->on40) ?>',2);" style="text-align: right;">
 			<span class="ewTableHeaderCaption"><?php echo $Page->on40->FldCaption() ?></span>
 			<span class="ewTableHeaderSort"><?php if ($Page->on40->getSort() == "ASC") { ?><span class="caret ewSortUp"></span><?php } elseif ($Page->on40->getSort() == "DESC") { ?><span class="caret"></span><?php } ?></span>
 		</div>
@@ -2535,15 +2473,15 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 <?php } ?>
 <?php if ($Page->on45->Visible) { ?>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="on45"><div class="r01_pelayaran_on45"><span class="ewTableHeaderCaption"><?php echo $Page->on45->FldCaption() ?></span></div></td>
+	<td data-field="on45"><div class="r01_depo_on45" style="text-align: right;"><span class="ewTableHeaderCaption"><?php echo $Page->on45->FldCaption() ?></span></div></td>
 <?php } else { ?>
 	<td data-field="on45">
 <?php if ($Page->SortUrl($Page->on45) == "") { ?>
-		<div class="ewTableHeaderBtn r01_pelayaran_on45">
+		<div class="ewTableHeaderBtn r01_depo_on45" style="text-align: right;">
 			<span class="ewTableHeaderCaption"><?php echo $Page->on45->FldCaption() ?></span>
 		</div>
 <?php } else { ?>
-		<div class="ewTableHeaderBtn ewPointer r01_pelayaran_on45" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->on45) ?>',2);">
+		<div class="ewTableHeaderBtn ewPointer r01_depo_on45" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->on45) ?>',2);" style="text-align: right;">
 			<span class="ewTableHeaderCaption"><?php echo $Page->on45->FldCaption() ?></span>
 			<span class="ewTableHeaderSort"><?php if ($Page->on45->getSort() == "ASC") { ?><span class="caret ewSortUp"></span><?php } elseif ($Page->on45->getSort() == "DESC") { ?><span class="caret"></span><?php } ?></span>
 		</div>
@@ -2553,15 +2491,15 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 <?php } ?>
 <?php if ($Page->offket->Visible) { ?>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="offket"><div class="r01_pelayaran_offket"><span class="ewTableHeaderCaption"><?php echo $Page->offket->FldCaption() ?></span></div></td>
+	<td data-field="offket"><div class="r01_depo_offket"><span class="ewTableHeaderCaption"><?php echo $Page->offket->FldCaption() ?></span></div></td>
 <?php } else { ?>
 	<td data-field="offket">
 <?php if ($Page->SortUrl($Page->offket) == "") { ?>
-		<div class="ewTableHeaderBtn r01_pelayaran_offket">
+		<div class="ewTableHeaderBtn r01_depo_offket">
 			<span class="ewTableHeaderCaption"><?php echo $Page->offket->FldCaption() ?></span>
 		</div>
 <?php } else { ?>
-		<div class="ewTableHeaderBtn ewPointer r01_pelayaran_offket" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->offket) ?>',2);">
+		<div class="ewTableHeaderBtn ewPointer r01_depo_offket" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->offket) ?>',2);">
 			<span class="ewTableHeaderCaption"><?php echo $Page->offket->FldCaption() ?></span>
 			<span class="ewTableHeaderSort"><?php if ($Page->offket->getSort() == "ASC") { ?><span class="caret ewSortUp"></span><?php } elseif ($Page->offket->getSort() == "DESC") { ?><span class="caret"></span><?php } ?></span>
 		</div>
@@ -2571,15 +2509,15 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 <?php } ?>
 <?php if ($Page->off20->Visible) { ?>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="off20"><div class="r01_pelayaran_off20"><span class="ewTableHeaderCaption"><?php echo $Page->off20->FldCaption() ?></span></div></td>
+	<td data-field="off20"><div class="r01_depo_off20" style="text-align: right;"><span class="ewTableHeaderCaption"><?php echo $Page->off20->FldCaption() ?></span></div></td>
 <?php } else { ?>
 	<td data-field="off20">
 <?php if ($Page->SortUrl($Page->off20) == "") { ?>
-		<div class="ewTableHeaderBtn r01_pelayaran_off20">
+		<div class="ewTableHeaderBtn r01_depo_off20" style="text-align: right;">
 			<span class="ewTableHeaderCaption"><?php echo $Page->off20->FldCaption() ?></span>
 		</div>
 <?php } else { ?>
-		<div class="ewTableHeaderBtn ewPointer r01_pelayaran_off20" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->off20) ?>',2);">
+		<div class="ewTableHeaderBtn ewPointer r01_depo_off20" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->off20) ?>',2);" style="text-align: right;">
 			<span class="ewTableHeaderCaption"><?php echo $Page->off20->FldCaption() ?></span>
 			<span class="ewTableHeaderSort"><?php if ($Page->off20->getSort() == "ASC") { ?><span class="caret ewSortUp"></span><?php } elseif ($Page->off20->getSort() == "DESC") { ?><span class="caret"></span><?php } ?></span>
 		</div>
@@ -2589,15 +2527,15 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 <?php } ?>
 <?php if ($Page->off40->Visible) { ?>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="off40"><div class="r01_pelayaran_off40"><span class="ewTableHeaderCaption"><?php echo $Page->off40->FldCaption() ?></span></div></td>
+	<td data-field="off40"><div class="r01_depo_off40" style="text-align: right;"><span class="ewTableHeaderCaption"><?php echo $Page->off40->FldCaption() ?></span></div></td>
 <?php } else { ?>
 	<td data-field="off40">
 <?php if ($Page->SortUrl($Page->off40) == "") { ?>
-		<div class="ewTableHeaderBtn r01_pelayaran_off40">
+		<div class="ewTableHeaderBtn r01_depo_off40" style="text-align: right;">
 			<span class="ewTableHeaderCaption"><?php echo $Page->off40->FldCaption() ?></span>
 		</div>
 <?php } else { ?>
-		<div class="ewTableHeaderBtn ewPointer r01_pelayaran_off40" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->off40) ?>',2);">
+		<div class="ewTableHeaderBtn ewPointer r01_depo_off40" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->off40) ?>',2);" style="text-align: right;">
 			<span class="ewTableHeaderCaption"><?php echo $Page->off40->FldCaption() ?></span>
 			<span class="ewTableHeaderSort"><?php if ($Page->off40->getSort() == "ASC") { ?><span class="caret ewSortUp"></span><?php } elseif ($Page->off40->getSort() == "DESC") { ?><span class="caret"></span><?php } ?></span>
 		</div>
@@ -2607,15 +2545,15 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 <?php } ?>
 <?php if ($Page->off45->Visible) { ?>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-	<td data-field="off45"><div class="r01_pelayaran_off45"><span class="ewTableHeaderCaption"><?php echo $Page->off45->FldCaption() ?></span></div></td>
+	<td data-field="off45"><div class="r01_depo_off45" style="text-align: right;"><span class="ewTableHeaderCaption"><?php echo $Page->off45->FldCaption() ?></span></div></td>
 <?php } else { ?>
 	<td data-field="off45">
 <?php if ($Page->SortUrl($Page->off45) == "") { ?>
-		<div class="ewTableHeaderBtn r01_pelayaran_off45">
+		<div class="ewTableHeaderBtn r01_depo_off45" style="text-align: right;">
 			<span class="ewTableHeaderCaption"><?php echo $Page->off45->FldCaption() ?></span>
 		</div>
 <?php } else { ?>
-		<div class="ewTableHeaderBtn ewPointer r01_pelayaran_off45" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->off45) ?>',2);">
+		<div class="ewTableHeaderBtn ewPointer r01_depo_off45" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->off45) ?>',2);" style="text-align: right;">
 			<span class="ewTableHeaderCaption"><?php echo $Page->off45->FldCaption() ?></span>
 			<span class="ewTableHeaderSort"><?php if ($Page->off45->getSort() == "ASC") { ?><span class="caret ewSortUp"></span><?php } elseif ($Page->off45->getSort() == "DESC") { ?><span class="caret"></span><?php } ?></span>
 		</div>
@@ -2632,7 +2570,7 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 	}
 
 	// Build detail SQL
-	$sWhere = ewr_DetailFilterSQL($Page->depo_id, $Page->getSqlFirstGroupField(), $Page->depo_id->GroupValue(), $Page->DBID);
+	$sWhere = ewr_DetailFilterSQL($Page->depo_nama, $Page->getSqlFirstGroupField(), $Page->depo_nama->GroupValue(), $Page->DBID);
 	if ($Page->PageFirstGroupFilter <> "") $Page->PageFirstGroupFilter .= " OR ";
 	$Page->PageFirstGroupFilter .= $sWhere;
 	if ($Page->Filter != "")
@@ -2647,7 +2585,7 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 		$Page->RecCount++;
 		$Page->RecIndex++;
 ?>
-<?php if ($Page->depo_id->Visible && $Page->ChkLvlBreak(1) && $Page->depo_id->ShowGroupHeaderAsRow) { ?>
+<?php if ($Page->depo_nama->Visible && $Page->ChkLvlBreak(1) && $Page->depo_nama->ShowGroupHeaderAsRow) { ?>
 <?php
 
 		// Render header row
@@ -2656,31 +2594,31 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 		$Page->RowTotalType = EWR_ROWTOTAL_GROUP;
 		$Page->RowTotalSubType = EWR_ROWTOTAL_HEADER;
 		$Page->RowGroupLevel = 1;
-		$Page->depo_id->Count = $Page->GetSummaryCount(1);
+		$Page->depo_nama->Count = $Page->GetSummaryCount(1);
 		$Page->RenderRow();
 ?>
 	<tr<?php echo $Page->RowAttributes(); ?>>
-<?php if ($Page->depo_id->Visible) { ?>
-		<td data-field="depo_id"<?php echo $Page->depo_id->CellAttributes(); ?>><span class="ewGroupToggle icon-collapse"></span></td>
+<?php if ($Page->depo_nama->Visible) { ?>
+		<td data-field="depo_nama"<?php echo $Page->depo_nama->CellAttributes(); ?>><span class="ewGroupToggle icon-collapse"></span></td>
 <?php } ?>
-		<td data-field="depo_id" colspan="<?php echo ($Page->GrpColumnCount + $Page->DtlColumnCount - 1) ?>"<?php echo $Page->depo_id->CellAttributes() ?>>
+		<td data-field="depo_nama" colspan="<?php echo ($Page->GrpColumnCount + $Page->DtlColumnCount - 1) ?>"<?php echo $Page->depo_nama->CellAttributes() ?>>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
-		<span class="ewSummaryCaption r01_pelayaran_depo_id"><span class="ewTableHeaderCaption"><?php echo $Page->depo_id->FldCaption() ?></span></span>
+		<span class="ewSummaryCaption r01_depo_depo_nama"><span class="ewTableHeaderCaption"><?php echo $Page->depo_nama->FldCaption() ?></span></span>
 <?php } else { ?>
-	<?php if ($Page->SortUrl($Page->depo_id) == "") { ?>
-		<span class="ewSummaryCaption r01_pelayaran_depo_id">
-			<span class="ewTableHeaderCaption"><?php echo $Page->depo_id->FldCaption() ?></span>
+	<?php if ($Page->SortUrl($Page->depo_nama) == "") { ?>
+		<span class="ewSummaryCaption r01_depo_depo_nama">
+			<span class="ewTableHeaderCaption"><?php echo $Page->depo_nama->FldCaption() ?></span>
 		</span>
 	<?php } else { ?>
-		<span class="ewTableHeaderBtn ewPointer ewSummaryCaption r01_pelayaran_depo_id" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->depo_id) ?>',2);">
-			<span class="ewTableHeaderCaption"><?php echo $Page->depo_id->FldCaption() ?></span>
-			<span class="ewTableHeaderSort"><?php if ($Page->depo_id->getSort() == "ASC") { ?><span class="caret ewSortUp"></span><?php } elseif ($Page->depo_id->getSort() == "DESC") { ?><span class="caret"></span><?php } ?></span>
+		<span class="ewTableHeaderBtn ewPointer ewSummaryCaption r01_depo_depo_nama" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->depo_nama) ?>',2);">
+			<span class="ewTableHeaderCaption"><?php echo $Page->depo_nama->FldCaption() ?></span>
+			<span class="ewTableHeaderSort"><?php if ($Page->depo_nama->getSort() == "ASC") { ?><span class="caret ewSortUp"></span><?php } elseif ($Page->depo_nama->getSort() == "DESC") { ?><span class="caret"></span><?php } ?></span>
 		</span>
 	<?php } ?>
 <?php } ?>
 		<?php echo $ReportLanguage->Phrase("SummaryColon") ?>
-<span data-class="tpx<?php echo $Page->GrpCount ?>_r01_pelayaran_depo_id"<?php echo $Page->depo_id->ViewAttributes() ?>><?php echo $Page->depo_id->GroupViewValue ?></span>
-		<span class="ewSummaryCount">(<span class="ewAggregateCaption"><?php echo $ReportLanguage->Phrase("RptCnt") ?></span><?php echo $ReportLanguage->Phrase("AggregateEqual") ?><span class="ewAggregateValue"><?php echo ewr_FormatNumber($Page->depo_id->Count,0,-2,-2,-2) ?></span>)</span>
+<span data-class="tpx<?php echo $Page->GrpCount ?>_r01_depo_depo_nama"<?php echo $Page->depo_nama->ViewAttributes() ?>><?php echo $Page->depo_nama->GroupViewValue ?></span>
+		<span class="ewSummaryCount">(<span class="ewAggregateCaption"><?php echo $ReportLanguage->Phrase("RptCnt") ?></span><?php echo $ReportLanguage->Phrase("AggregateEqual") ?><span class="ewAggregateValue"><?php echo ewr_FormatNumber($Page->depo_nama->Count,0,-2,-2,-2) ?></span>)</span>
 		</td>
 	</tr>
 <?php } ?>
@@ -2692,53 +2630,45 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 		$Page->RenderRow();
 ?>
 	<tr<?php echo $Page->RowAttributes(); ?>>
-<?php if ($Page->depo_id->Visible) { ?>
-	<?php if ($Page->depo_id->ShowGroupHeaderAsRow) { ?>
-		<td data-field="depo_id"<?php echo $Page->depo_id->CellAttributes(); ?>>&nbsp;</td>
-	<?php } else { ?>
-		<td data-field="depo_id"<?php echo $Page->depo_id->CellAttributes(); ?>>
-<span data-class="tpx<?php echo $Page->GrpCount ?>_r01_pelayaran_depo_id"<?php echo $Page->depo_id->ViewAttributes() ?>><?php echo $Page->depo_id->GroupViewValue ?></span></td>
-	<?php } ?>
-<?php } ?>
 <?php if ($Page->depo_nama->Visible) { ?>
-		<td data-field="depo_nama"<?php echo $Page->depo_nama->CellAttributes() ?>>
-<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_pelayaran_depo_nama"<?php echo $Page->depo_nama->ViewAttributes() ?>><?php echo $Page->depo_nama->ListViewValue() ?></span></td>
-<?php } ?>
-<?php if ($Page->pelayaran_id->Visible) { ?>
-		<td data-field="pelayaran_id"<?php echo $Page->pelayaran_id->CellAttributes() ?>>
-<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_pelayaran_pelayaran_id"<?php echo $Page->pelayaran_id->ViewAttributes() ?>><?php echo $Page->pelayaran_id->ListViewValue() ?></span></td>
+	<?php if ($Page->depo_nama->ShowGroupHeaderAsRow) { ?>
+		<td data-field="depo_nama"<?php echo $Page->depo_nama->CellAttributes(); ?>>&nbsp;</td>
+	<?php } else { ?>
+		<td data-field="depo_nama"<?php echo $Page->depo_nama->CellAttributes(); ?>>
+<span data-class="tpx<?php echo $Page->GrpCount ?>_r01_depo_depo_nama"<?php echo $Page->depo_nama->ViewAttributes() ?>><?php echo $Page->depo_nama->GroupViewValue ?></span></td>
+	<?php } ?>
 <?php } ?>
 <?php if ($Page->pelayaran_nama->Visible) { ?>
 		<td data-field="pelayaran_nama"<?php echo $Page->pelayaran_nama->CellAttributes() ?>>
-<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_pelayaran_pelayaran_nama"<?php echo $Page->pelayaran_nama->ViewAttributes() ?>><?php echo $Page->pelayaran_nama->ListViewValue() ?></span></td>
+<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_depo_pelayaran_nama"<?php echo $Page->pelayaran_nama->ViewAttributes() ?>><?php echo $Page->pelayaran_nama->ListViewValue() ?></span></td>
 <?php } ?>
 <?php if ($Page->on20->Visible) { ?>
 		<td data-field="on20"<?php echo $Page->on20->CellAttributes() ?>>
-<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_pelayaran_on20"<?php echo $Page->on20->ViewAttributes() ?>><?php echo $Page->on20->ListViewValue() ?></span></td>
+<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_depo_on20"<?php echo $Page->on20->ViewAttributes() ?>><?php echo $Page->on20->ListViewValue() ?></span></td>
 <?php } ?>
 <?php if ($Page->on40->Visible) { ?>
 		<td data-field="on40"<?php echo $Page->on40->CellAttributes() ?>>
-<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_pelayaran_on40"<?php echo $Page->on40->ViewAttributes() ?>><?php echo $Page->on40->ListViewValue() ?></span></td>
+<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_depo_on40"<?php echo $Page->on40->ViewAttributes() ?>><?php echo $Page->on40->ListViewValue() ?></span></td>
 <?php } ?>
 <?php if ($Page->on45->Visible) { ?>
 		<td data-field="on45"<?php echo $Page->on45->CellAttributes() ?>>
-<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_pelayaran_on45"<?php echo $Page->on45->ViewAttributes() ?>><?php echo $Page->on45->ListViewValue() ?></span></td>
+<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_depo_on45"<?php echo $Page->on45->ViewAttributes() ?>><?php echo $Page->on45->ListViewValue() ?></span></td>
 <?php } ?>
 <?php if ($Page->offket->Visible) { ?>
 		<td data-field="offket"<?php echo $Page->offket->CellAttributes() ?>>
-<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_pelayaran_offket"<?php echo $Page->offket->ViewAttributes() ?>><?php echo $Page->offket->ListViewValue() ?></span></td>
+<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_depo_offket"<?php echo $Page->offket->ViewAttributes() ?>><?php echo $Page->offket->ListViewValue() ?></span></td>
 <?php } ?>
 <?php if ($Page->off20->Visible) { ?>
 		<td data-field="off20"<?php echo $Page->off20->CellAttributes() ?>>
-<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_pelayaran_off20"<?php echo $Page->off20->ViewAttributes() ?>><?php echo $Page->off20->ListViewValue() ?></span></td>
+<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_depo_off20"<?php echo $Page->off20->ViewAttributes() ?>><?php echo $Page->off20->ListViewValue() ?></span></td>
 <?php } ?>
 <?php if ($Page->off40->Visible) { ?>
 		<td data-field="off40"<?php echo $Page->off40->CellAttributes() ?>>
-<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_pelayaran_off40"<?php echo $Page->off40->ViewAttributes() ?>><?php echo $Page->off40->ListViewValue() ?></span></td>
+<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_depo_off40"<?php echo $Page->off40->ViewAttributes() ?>><?php echo $Page->off40->ListViewValue() ?></span></td>
 <?php } ?>
 <?php if ($Page->off45->Visible) { ?>
 		<td data-field="off45"<?php echo $Page->off45->CellAttributes() ?>>
-<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_pelayaran_off45"<?php echo $Page->off45->ViewAttributes() ?>><?php echo $Page->off45->ListViewValue() ?></span></td>
+<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_depo_off45"<?php echo $Page->off45->ViewAttributes() ?>><?php echo $Page->off45->ListViewValue() ?></span></td>
 <?php } ?>
 	</tr>
 <?php
@@ -2787,7 +2717,7 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 <?php } ?>
 <?php if ($Page->Export == "" && !($Page->DrillDown && $Page->TotalGrps > 0)) { ?>
 <div class="panel-heading ewGridUpperPanel">
-<?php include "r01_pelayaransmrypager.php" ?>
+<?php include "r01_deposmrypager.php" ?>
 <div class="clearfix"></div>
 </div>
 <?php } ?>
@@ -2805,7 +2735,7 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 <?php if ($Page->TotalGrps > 0) { ?>
 <?php if ($Page->Export == "" && !($Page->DrillDown && $Page->TotalGrps > 0)) { ?>
 <div class="panel-footer ewGridLowerPanel">
-<?php include "r01_pelayaransmrypager.php" ?>
+<?php include "r01_deposmrypager.php" ?>
 <div class="clearfix"></div>
 </div>
 <?php } ?>

@@ -1,19 +1,24 @@
 <?php
 
 // Global variable for table object
-$r01_pelayaran = NULL;
+$r01_depo = NULL;
 
 //
-// Table class for r01_pelayaran
+// Table class for r01_depo
 //
-class crr01_pelayaran extends crTableBase {
+class crr01_depo extends crTableBase {
 	var $ShowGroupHeaderAsRow = FALSE;
 	var $ShowCompactSummaryFooter = TRUE;
-	var $id;
 	var $depo_id;
 	var $depo_nama;
+	var $alamat;
+	var $kota;
+	var $propinsi;
+	var $no_telp;
+	var $no_fax;
 	var $pelayaran_id;
 	var $pelayaran_nama;
+	var $lift_id;
 	var $on20;
 	var $on40;
 	var $on45;
@@ -27,47 +32,78 @@ class crr01_pelayaran extends crTableBase {
 	//
 	function __construct() {
 		global $ReportLanguage, $gsLanguage;
-		$this->TableVar = 'r01_pelayaran';
-		$this->TableName = 'r01_pelayaran';
+		$this->TableVar = 'r01_depo';
+		$this->TableName = 'r01_depo';
 		$this->TableType = 'REPORT';
 		$this->DBID = 'DB';
 		$this->ExportAll = FALSE;
 		$this->ExportPageBreakCount = 0;
 
-		// id
-		$this->id = new crField('r01_pelayaran', 'r01_pelayaran', 'x_id', 'id', '`id`', 3, EWR_DATATYPE_NUMBER, -1);
-		$this->id->Sortable = TRUE; // Allow sort
-		$this->id->FldDefaultErrMsg = $ReportLanguage->Phrase("IncorrectInteger");
-		$this->fields['id'] = &$this->id;
-		$this->id->DateFilter = "";
-		$this->id->SqlSelect = "";
-		$this->id->SqlOrderBy = "";
-
 		// depo_id
-		$this->depo_id = new crField('r01_pelayaran', 'r01_pelayaran', 'x_depo_id', 'depo_id', '`depo_id`', 3, EWR_DATATYPE_NUMBER, -1);
+		$this->depo_id = new crField('r01_depo', 'r01_depo', 'x_depo_id', 'depo_id', '`depo_id`', 3, EWR_DATATYPE_NUMBER, -1);
 		$this->depo_id->Sortable = TRUE; // Allow sort
-		$this->depo_id->GroupingFieldId = 1;
-		$this->depo_id->ShowGroupHeaderAsRow = $this->ShowGroupHeaderAsRow;
-		$this->depo_id->ShowCompactSummaryFooter = $this->ShowCompactSummaryFooter;
 		$this->depo_id->FldDefaultErrMsg = $ReportLanguage->Phrase("IncorrectInteger");
 		$this->fields['depo_id'] = &$this->depo_id;
 		$this->depo_id->DateFilter = "";
 		$this->depo_id->SqlSelect = "";
 		$this->depo_id->SqlOrderBy = "";
-		$this->depo_id->FldGroupByType = "";
-		$this->depo_id->FldGroupInt = "0";
-		$this->depo_id->FldGroupSql = "";
 
 		// depo_nama
-		$this->depo_nama = new crField('r01_pelayaran', 'r01_pelayaran', 'x_depo_nama', 'depo_nama', '`depo_nama`', 200, EWR_DATATYPE_STRING, -1);
+		$this->depo_nama = new crField('r01_depo', 'r01_depo', 'x_depo_nama', 'depo_nama', '`depo_nama`', 200, EWR_DATATYPE_STRING, -1);
 		$this->depo_nama->Sortable = TRUE; // Allow sort
+		$this->depo_nama->GroupingFieldId = 1;
+		$this->depo_nama->ShowGroupHeaderAsRow = $this->ShowGroupHeaderAsRow;
+		$this->depo_nama->ShowCompactSummaryFooter = $this->ShowCompactSummaryFooter;
 		$this->fields['depo_nama'] = &$this->depo_nama;
 		$this->depo_nama->DateFilter = "";
 		$this->depo_nama->SqlSelect = "";
 		$this->depo_nama->SqlOrderBy = "";
+		$this->depo_nama->FldGroupByType = "";
+		$this->depo_nama->FldGroupInt = "0";
+		$this->depo_nama->FldGroupSql = "";
+
+		// alamat
+		$this->alamat = new crField('r01_depo', 'r01_depo', 'x_alamat', 'alamat', '`alamat`', 200, EWR_DATATYPE_STRING, -1);
+		$this->alamat->Sortable = TRUE; // Allow sort
+		$this->fields['alamat'] = &$this->alamat;
+		$this->alamat->DateFilter = "";
+		$this->alamat->SqlSelect = "";
+		$this->alamat->SqlOrderBy = "";
+
+		// kota
+		$this->kota = new crField('r01_depo', 'r01_depo', 'x_kota', 'kota', '`kota`', 200, EWR_DATATYPE_STRING, -1);
+		$this->kota->Sortable = TRUE; // Allow sort
+		$this->fields['kota'] = &$this->kota;
+		$this->kota->DateFilter = "";
+		$this->kota->SqlSelect = "";
+		$this->kota->SqlOrderBy = "";
+
+		// propinsi
+		$this->propinsi = new crField('r01_depo', 'r01_depo', 'x_propinsi', 'propinsi', '`propinsi`', 200, EWR_DATATYPE_STRING, -1);
+		$this->propinsi->Sortable = TRUE; // Allow sort
+		$this->fields['propinsi'] = &$this->propinsi;
+		$this->propinsi->DateFilter = "";
+		$this->propinsi->SqlSelect = "";
+		$this->propinsi->SqlOrderBy = "";
+
+		// no_telp
+		$this->no_telp = new crField('r01_depo', 'r01_depo', 'x_no_telp', 'no_telp', '`no_telp`', 200, EWR_DATATYPE_STRING, -1);
+		$this->no_telp->Sortable = TRUE; // Allow sort
+		$this->fields['no_telp'] = &$this->no_telp;
+		$this->no_telp->DateFilter = "";
+		$this->no_telp->SqlSelect = "";
+		$this->no_telp->SqlOrderBy = "";
+
+		// no_fax
+		$this->no_fax = new crField('r01_depo', 'r01_depo', 'x_no_fax', 'no_fax', '`no_fax`', 200, EWR_DATATYPE_STRING, -1);
+		$this->no_fax->Sortable = TRUE; // Allow sort
+		$this->fields['no_fax'] = &$this->no_fax;
+		$this->no_fax->DateFilter = "";
+		$this->no_fax->SqlSelect = "";
+		$this->no_fax->SqlOrderBy = "";
 
 		// pelayaran_id
-		$this->pelayaran_id = new crField('r01_pelayaran', 'r01_pelayaran', 'x_pelayaran_id', 'pelayaran_id', '`pelayaran_id`', 3, EWR_DATATYPE_NUMBER, -1);
+		$this->pelayaran_id = new crField('r01_depo', 'r01_depo', 'x_pelayaran_id', 'pelayaran_id', '`pelayaran_id`', 3, EWR_DATATYPE_NUMBER, -1);
 		$this->pelayaran_id->Sortable = TRUE; // Allow sort
 		$this->pelayaran_id->FldDefaultErrMsg = $ReportLanguage->Phrase("IncorrectInteger");
 		$this->fields['pelayaran_id'] = &$this->pelayaran_id;
@@ -76,15 +112,24 @@ class crr01_pelayaran extends crTableBase {
 		$this->pelayaran_id->SqlOrderBy = "";
 
 		// pelayaran_nama
-		$this->pelayaran_nama = new crField('r01_pelayaran', 'r01_pelayaran', 'x_pelayaran_nama', 'pelayaran_nama', '`pelayaran_nama`', 200, EWR_DATATYPE_STRING, -1);
+		$this->pelayaran_nama = new crField('r01_depo', 'r01_depo', 'x_pelayaran_nama', 'pelayaran_nama', '`pelayaran_nama`', 200, EWR_DATATYPE_STRING, -1);
 		$this->pelayaran_nama->Sortable = TRUE; // Allow sort
 		$this->fields['pelayaran_nama'] = &$this->pelayaran_nama;
 		$this->pelayaran_nama->DateFilter = "";
 		$this->pelayaran_nama->SqlSelect = "";
 		$this->pelayaran_nama->SqlOrderBy = "";
 
+		// lift_id
+		$this->lift_id = new crField('r01_depo', 'r01_depo', 'x_lift_id', 'lift_id', '`lift_id`', 3, EWR_DATATYPE_NUMBER, -1);
+		$this->lift_id->Sortable = TRUE; // Allow sort
+		$this->lift_id->FldDefaultErrMsg = $ReportLanguage->Phrase("IncorrectInteger");
+		$this->fields['lift_id'] = &$this->lift_id;
+		$this->lift_id->DateFilter = "";
+		$this->lift_id->SqlSelect = "";
+		$this->lift_id->SqlOrderBy = "";
+
 		// on20
-		$this->on20 = new crField('r01_pelayaran', 'r01_pelayaran', 'x_on20', 'on20', '`on20`', 4, EWR_DATATYPE_NUMBER, -1);
+		$this->on20 = new crField('r01_depo', 'r01_depo', 'x_on20', 'on20', '`on20`', 4, EWR_DATATYPE_NUMBER, -1);
 		$this->on20->Sortable = TRUE; // Allow sort
 		$this->on20->FldDefaultErrMsg = $ReportLanguage->Phrase("IncorrectFloat");
 		$this->fields['on20'] = &$this->on20;
@@ -93,7 +138,7 @@ class crr01_pelayaran extends crTableBase {
 		$this->on20->SqlOrderBy = "";
 
 		// on40
-		$this->on40 = new crField('r01_pelayaran', 'r01_pelayaran', 'x_on40', 'on40', '`on40`', 4, EWR_DATATYPE_NUMBER, -1);
+		$this->on40 = new crField('r01_depo', 'r01_depo', 'x_on40', 'on40', '`on40`', 4, EWR_DATATYPE_NUMBER, -1);
 		$this->on40->Sortable = TRUE; // Allow sort
 		$this->on40->FldDefaultErrMsg = $ReportLanguage->Phrase("IncorrectFloat");
 		$this->fields['on40'] = &$this->on40;
@@ -102,7 +147,7 @@ class crr01_pelayaran extends crTableBase {
 		$this->on40->SqlOrderBy = "";
 
 		// on45
-		$this->on45 = new crField('r01_pelayaran', 'r01_pelayaran', 'x_on45', 'on45', '`on45`', 4, EWR_DATATYPE_NUMBER, -1);
+		$this->on45 = new crField('r01_depo', 'r01_depo', 'x_on45', 'on45', '`on45`', 4, EWR_DATATYPE_NUMBER, -1);
 		$this->on45->Sortable = TRUE; // Allow sort
 		$this->on45->FldDefaultErrMsg = $ReportLanguage->Phrase("IncorrectFloat");
 		$this->fields['on45'] = &$this->on45;
@@ -111,7 +156,7 @@ class crr01_pelayaran extends crTableBase {
 		$this->on45->SqlOrderBy = "";
 
 		// offket
-		$this->offket = new crField('r01_pelayaran', 'r01_pelayaran', 'x_offket', 'offket', '`offket`', 200, EWR_DATATYPE_STRING, -1);
+		$this->offket = new crField('r01_depo', 'r01_depo', 'x_offket', 'offket', '`offket`', 200, EWR_DATATYPE_STRING, -1);
 		$this->offket->Sortable = TRUE; // Allow sort
 		$this->fields['offket'] = &$this->offket;
 		$this->offket->DateFilter = "";
@@ -119,7 +164,7 @@ class crr01_pelayaran extends crTableBase {
 		$this->offket->SqlOrderBy = "";
 
 		// off20
-		$this->off20 = new crField('r01_pelayaran', 'r01_pelayaran', 'x_off20', 'off20', '`off20`', 4, EWR_DATATYPE_NUMBER, -1);
+		$this->off20 = new crField('r01_depo', 'r01_depo', 'x_off20', 'off20', '`off20`', 4, EWR_DATATYPE_NUMBER, -1);
 		$this->off20->Sortable = TRUE; // Allow sort
 		$this->off20->FldDefaultErrMsg = $ReportLanguage->Phrase("IncorrectFloat");
 		$this->fields['off20'] = &$this->off20;
@@ -128,7 +173,7 @@ class crr01_pelayaran extends crTableBase {
 		$this->off20->SqlOrderBy = "";
 
 		// off40
-		$this->off40 = new crField('r01_pelayaran', 'r01_pelayaran', 'x_off40', 'off40', '`off40`', 4, EWR_DATATYPE_NUMBER, -1);
+		$this->off40 = new crField('r01_depo', 'r01_depo', 'x_off40', 'off40', '`off40`', 4, EWR_DATATYPE_NUMBER, -1);
 		$this->off40->Sortable = TRUE; // Allow sort
 		$this->off40->FldDefaultErrMsg = $ReportLanguage->Phrase("IncorrectFloat");
 		$this->fields['off40'] = &$this->off40;
@@ -137,7 +182,7 @@ class crr01_pelayaran extends crTableBase {
 		$this->off40->SqlOrderBy = "";
 
 		// off45
-		$this->off45 = new crField('r01_pelayaran', 'r01_pelayaran', 'x_off45', 'off45', '`off45`', 4, EWR_DATATYPE_NUMBER, -1);
+		$this->off45 = new crField('r01_depo', 'r01_depo', 'x_off45', 'off45', '`off45`', 4, EWR_DATATYPE_NUMBER, -1);
 		$this->off45->Sortable = TRUE; // Allow sort
 		$this->off45->FldDefaultErrMsg = $ReportLanguage->Phrase("IncorrectFloat");
 		$this->fields['off45'] = &$this->off45;
@@ -215,7 +260,7 @@ class crr01_pelayaran extends crTableBase {
 	var $_SqlFrom = "";
 
 	function getSqlFrom() {
-		return ($this->_SqlFrom <> "") ? $this->_SqlFrom : "`t03_lift`";
+		return ($this->_SqlFrom <> "") ? $this->_SqlFrom : "`v01_depo`";
 	}
 
 	function SqlFrom() { // For backward compatibility
@@ -230,7 +275,7 @@ class crr01_pelayaran extends crTableBase {
 	var $_SqlSelect = "";
 
 	function getSqlSelect() {
-		return ($this->_SqlSelect <> "") ? $this->_SqlSelect : "SELECT *, (select nama from t04_depo where depo_id = t04_depo.id) AS `depo_nama`, (select nama from t02_pelayaran where pelayaran_id = t02_pelayaran.id) AS `pelayaran_nama` FROM " . $this->getSqlFrom();
+		return ($this->_SqlSelect <> "") ? $this->_SqlSelect : "SELECT * FROM " . $this->getSqlFrom();
 	}
 
 	function SqlSelect() { // For backward compatibility
@@ -291,7 +336,7 @@ class crr01_pelayaran extends crTableBase {
 	var $_SqlOrderBy = "";
 
 	function getSqlOrderBy() {
-		return ($this->_SqlOrderBy <> "") ? $this->_SqlOrderBy : "`depo_id` ASC";
+		return ($this->_SqlOrderBy <> "") ? $this->_SqlOrderBy : "`depo_nama` ASC";
 	}
 
 	function SqlOrderBy() { // For backward compatibility
@@ -308,7 +353,7 @@ class crr01_pelayaran extends crTableBase {
 	var $_SqlFirstGroupField = "";
 
 	function getSqlFirstGroupField() {
-		return ($this->_SqlFirstGroupField <> "") ? $this->_SqlFirstGroupField : "`depo_id`";
+		return ($this->_SqlFirstGroupField <> "") ? $this->_SqlFirstGroupField : "`depo_nama`";
 	}
 
 	function SqlFirstGroupField() { // For backward compatibility
@@ -338,7 +383,7 @@ class crr01_pelayaran extends crTableBase {
 	var $_SqlOrderByGroup = "";
 
 	function getSqlOrderByGroup() {
-		return ($this->_SqlOrderByGroup <> "") ? $this->_SqlOrderByGroup : "`depo_id` ASC";
+		return ($this->_SqlOrderByGroup <> "") ? $this->_SqlOrderByGroup : "`depo_nama` ASC";
 	}
 
 	function SqlOrderByGroup() { // For backward compatibility
@@ -428,16 +473,16 @@ class crr01_pelayaran extends crTableBase {
 	function SetupLookupFilters($fld) {
 		global $gsLanguage;
 		switch ($fld->FldVar) {
-		case "x_depo_id":
+		case "x_depo_nama":
 			$sSqlWrk = "";
-		$sSqlWrk = "SELECT DISTINCT `depo_id`, `depo_id` AS `DispFld`, '' AS `DispFld2`, '' AS `DispFld3`, '' AS `DispFld4` FROM `t03_lift`";
+		$sSqlWrk = "SELECT DISTINCT `depo_nama`, `depo_nama` AS `DispFld`, '' AS `DispFld2`, '' AS `DispFld3`, '' AS `DispFld4` FROM `v01_depo`";
 		$sWhereWrk = "";
-		$this->depo_id->LookupFilters = array();
-			$fld->LookupFilters += array("s" => $sSqlWrk, "d" => "DB", "f0" => '`depo_id` = {filter_value}', "t0" => "3", "fn0" => "", "dlm" => ewr_Encrypt($fld->FldDelimiter));
+		$this->depo_nama->LookupFilters = array();
+			$fld->LookupFilters += array("s" => $sSqlWrk, "d" => "DB", "f0" => '`depo_nama` = {filter_value}', "t0" => "200", "fn0" => "", "dlm" => ewr_Encrypt($fld->FldDelimiter));
 			$sSqlWrk = "";
-		$this->Lookup_Selecting($this->depo_id, $sWhereWrk); // Call Lookup selecting
+		$this->Lookup_Selecting($this->depo_nama, $sWhereWrk); // Call Lookup selecting
 		if ($sWhereWrk <> "") $sSqlWrk .= " WHERE " . $sWhereWrk;
-		$sSqlWrk .= " ORDER BY `depo_id` ASC";
+		$sSqlWrk .= " ORDER BY `depo_nama` ASC";
 			if ($sSqlWrk <> "")
 				$fld->LookupFilters["s"] .= $sSqlWrk;
 			break;

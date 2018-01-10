@@ -350,6 +350,15 @@
   <project>
     <phrase id="bodytitle" value="SUPERZIGZAG" />
     <phrase id="footertext" value="&amp;copy;2018 SuperZigZag. All rights reserved." />
+    <menu id="10">
+      <phrase id="menutext" value="t 04 depo" />
+    </menu>
+    <menu id="8">
+      <phrase id="menutext" value="v 01 depo" />
+    </menu>
+    <menu id="9">
+      <phrase id="menutext" value="Depo" />
+    </menu>
     <menu id="1">
       <phrase id="menutext" value="t 01 ajudok" />
     </menu>
@@ -371,48 +380,6 @@
     <menu id="7">
       <phrase id="menutext" value="t 99 audittrail" />
     </menu>
-    <menu id="8">
-      <phrase id="menutext" value="Depo" />
-    </menu>
-    <table id="r01_pelayaran">
-      <phrase id="tblcaption" value="Depo" />
-      <field id="id">
-        <phrase id="fldcaption" value="id" />
-      </field>
-      <field id="depo_id">
-        <phrase id="fldcaption" value="depo id" />
-      </field>
-      <field id="depo_nama">
-        <phrase id="fldcaption" value="Depo" />
-      </field>
-      <field id="pelayaran_id">
-        <phrase id="fldcaption" value="pelayaran id" />
-      </field>
-      <field id="pelayaran_nama">
-        <phrase id="fldcaption" value="Pelayaran" />
-      </field>
-      <field id="on20">
-        <phrase id="fldcaption" value="On - 20 FT" />
-      </field>
-      <field id="on40">
-        <phrase id="fldcaption" value="On - 40 FT" />
-      </field>
-      <field id="on45">
-        <phrase id="fldcaption" value="On - 45 FT" />
-      </field>
-      <field id="offket">
-        <phrase id="fldcaption" value="Off - Keterangan" />
-      </field>
-      <field id="off20">
-        <phrase id="fldcaption" value="Off - 20 FT" />
-      </field>
-      <field id="off40">
-        <phrase id="fldcaption" value="Off - 40 FT" />
-      </field>
-      <field id="off45">
-        <phrase id="fldcaption" value="Off - 45 FT" />
-      </field>
-    </table>
     <table id="t01_ajudok">
       <phrase id="tblcaption" value="t 01 ajudok" />
       <field id="ajudok_id">
@@ -471,6 +438,30 @@
       </field>
       <field id="off45">
         <phrase id="fldcaption" value="off 45" />
+      </field>
+    </table>
+    <table id="t04_depo">
+      <phrase id="tblcaption" value="t 04 depo" />
+      <field id="id">
+        <phrase id="fldcaption" value="id" />
+      </field>
+      <field id="nama">
+        <phrase id="fldcaption" value="nama" />
+      </field>
+      <field id="alamat">
+        <phrase id="fldcaption" value="alamat" />
+      </field>
+      <field id="kota">
+        <phrase id="fldcaption" value="kota" />
+      </field>
+      <field id="propinsi">
+        <phrase id="fldcaption" value="propinsi" />
+      </field>
+      <field id="no_telp">
+        <phrase id="fldcaption" value="no telp" />
+      </field>
+      <field id="no_fax">
+        <phrase id="fldcaption" value="no fax" />
       </field>
     </table>
     <table id="t96_userlevelpermissions">
@@ -597,6 +588,114 @@
       </field>
       <field id="newvalue">
         <phrase id="fldcaption" value="newvalue" />
+      </field>
+    </table>
+    <table id="v01_depo">
+      <phrase id="tblcaption" value="v 01 depo" />
+      <field id="depo_id">
+        <phrase id="fldcaption" value="depo id" />
+      </field>
+      <field id="depo_nama">
+        <phrase id="fldcaption" value="depo nama" />
+      </field>
+      <field id="alamat">
+        <phrase id="fldcaption" value="alamat" />
+      </field>
+      <field id="kota">
+        <phrase id="fldcaption" value="kota" />
+      </field>
+      <field id="propinsi">
+        <phrase id="fldcaption" value="propinsi" />
+      </field>
+      <field id="no_telp">
+        <phrase id="fldcaption" value="no telp" />
+      </field>
+      <field id="no_fax">
+        <phrase id="fldcaption" value="no fax" />
+      </field>
+      <field id="pelayaran_id">
+        <phrase id="fldcaption" value="pelayaran id" />
+      </field>
+      <field id="pelayaran_nama">
+        <phrase id="fldcaption" value="pelayaran nama" />
+      </field>
+      <field id="lift_id">
+        <phrase id="fldcaption" value="lift id" />
+      </field>
+      <field id="on20">
+        <phrase id="fldcaption" value="on 20" />
+      </field>
+      <field id="on40">
+        <phrase id="fldcaption" value="on 40" />
+      </field>
+      <field id="on45">
+        <phrase id="fldcaption" value="on 45" />
+      </field>
+      <field id="offket">
+        <phrase id="fldcaption" value="offket" />
+      </field>
+      <field id="off20">
+        <phrase id="fldcaption" value="off 20" />
+      </field>
+      <field id="off40">
+        <phrase id="fldcaption" value="off 40" />
+      </field>
+      <field id="off45">
+        <phrase id="fldcaption" value="off 45" />
+      </field>
+    </table>
+    <table id="r01_depo">
+      <phrase id="tblcaption" value="Depo" />
+      <field id="depo_id">
+        <phrase id="fldcaption" value="depo id" />
+      </field>
+      <field id="depo_nama">
+        <phrase id="fldcaption" value="Depo" />
+      </field>
+      <field id="alamat">
+        <phrase id="fldcaption" value="alamat" />
+      </field>
+      <field id="kota">
+        <phrase id="fldcaption" value="kota" />
+      </field>
+      <field id="propinsi">
+        <phrase id="fldcaption" value="propinsi" />
+      </field>
+      <field id="no_telp">
+        <phrase id="fldcaption" value="no telp" />
+      </field>
+      <field id="no_fax">
+        <phrase id="fldcaption" value="no fax" />
+      </field>
+      <field id="pelayaran_id">
+        <phrase id="fldcaption" value="pelayaran id" />
+      </field>
+      <field id="pelayaran_nama">
+        <phrase id="fldcaption" value="Pelayaran" />
+      </field>
+      <field id="lift_id">
+        <phrase id="fldcaption" value="lift id" />
+      </field>
+      <field id="on20">
+        <phrase id="fldcaption" value="Lift On - 20 FT" />
+      </field>
+      <field id="on40">
+        <phrase id="fldcaption" value="Lift On - 40 FT" />
+      </field>
+      <field id="on45">
+        <phrase id="fldcaption" value="Lift On - 45 FT" />
+      </field>
+      <field id="offket">
+        <phrase id="fldcaption" value="Lift Off - Keterangan" />
+      </field>
+      <field id="off20">
+        <phrase id="fldcaption" value="Lift Off - 20 FT" />
+      </field>
+      <field id="off40">
+        <phrase id="fldcaption" value="Lift Off - 40 FT" />
+      </field>
+      <field id="off45">
+        <phrase id="fldcaption" value="Lift Off - 45 FT" />
       </field>
     </table>
   </project>

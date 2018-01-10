@@ -22,12 +22,7 @@ $RootMenu->AddMenuItem(63, "mmci_Re2dImport", $Language->MenuPhrase("63", "MenuT
 $RootMenu->AddMenuItem(32, "mmci_Karantina", $Language->MenuPhrase("32", "MenuText"), "cf99_underconstruction.php", 12, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(33, "mmci_BPOM", $Language->MenuPhrase("33", "MenuText"), "cf99_underconstruction.php", 12, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(34, "mmci_LS", $Language->MenuPhrase("34", "MenuText"), "cf99_underconstruction.php", 12, "", TRUE, FALSE, TRUE);
-$RootMenu->AddMenuItem(25, "mmci_Depo", $Language->MenuPhrase("25", "MenuText"), "", -1, "", TRUE, FALSE, TRUE);
-$RootMenu->AddMenuItem(26, "mmci_55", $Language->MenuPhrase("26", "MenuText"), "cf99_underconstruction.php", 25, "", TRUE, FALSE, TRUE);
-$RootMenu->AddMenuItem(27, "mmci_66", $Language->MenuPhrase("27", "MenuText"), "cf99_underconstruction.php", 25, "", TRUE, FALSE, TRUE);
-$RootMenu->AddMenuItem(10008, "mmri_r015fpelayaran", $Language->MenuPhrase("10008", "MenuText"), "r01_pelayaransmry.php", 25, "{77B51533-F1E4-4C23-925C-E363F9E1C0BE}", TRUE, FALSE, FALSE);
-$RootMenu->AddMenuItem(36, "mmci_80", $Language->MenuPhrase("36", "MenuText"), "cf99_underconstruction.php", 25, "", TRUE, FALSE, TRUE);
-$RootMenu->AddMenuItem(37, "mmci_MTCON", $Language->MenuPhrase("37", "MenuText"), "cf99_underconstruction.php", 25, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(10010, "mmri_r015fdepo", $Language->MenuPhrase("10010", "MenuText"), "r01_deposmry.php", -1, "{77B51533-F1E4-4C23-925C-E363F9E1C0BE}", TRUE, FALSE, FALSE);
 $RootMenu->AddMenuItem(14, "mmci_Status", $Language->MenuPhrase("14", "MenuText"), "", -1, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(38, "mmci_TPS", $Language->MenuPhrase("38", "MenuText"), "cf99_underconstruction.php", 14, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(39, "mmci_T2e_Lamong", $Language->MenuPhrase("39", "MenuText"), "cf99_underconstruction.php", 14, "", TRUE, FALSE, TRUE);
