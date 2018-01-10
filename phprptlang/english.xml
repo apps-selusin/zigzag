@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<ew-language date="2018/1/8" version="10.0.0" id="en" name="English" desc="English" author="e.World Technology Ltd.">
+<ew-language date="2018/1/10" version="10.0.0" id="en" name="English" desc="English" author="e.World Technology Ltd.">
   <!-- 
 	*** Important Notes:
 	1. Language ID should follow: https://developers.google.com/recaptcha/docs/language,
@@ -372,8 +372,47 @@
       <phrase id="menutext" value="t 99 audittrail" />
     </menu>
     <menu id="8">
-      <phrase id="menutext" value="Depo 57" />
+      <phrase id="menutext" value="Depo" />
     </menu>
+    <table id="r01_pelayaran">
+      <phrase id="tblcaption" value="Depo" />
+      <field id="id">
+        <phrase id="fldcaption" value="id" />
+      </field>
+      <field id="depo_id">
+        <phrase id="fldcaption" value="depo id" />
+      </field>
+      <field id="depo_nama">
+        <phrase id="fldcaption" value="Depo" />
+      </field>
+      <field id="pelayaran_id">
+        <phrase id="fldcaption" value="pelayaran id" />
+      </field>
+      <field id="pelayaran_nama">
+        <phrase id="fldcaption" value="Pelayaran" />
+      </field>
+      <field id="on20">
+        <phrase id="fldcaption" value="On - 20 FT" />
+      </field>
+      <field id="on40">
+        <phrase id="fldcaption" value="On - 40 FT" />
+      </field>
+      <field id="on45">
+        <phrase id="fldcaption" value="On - 45 FT" />
+      </field>
+      <field id="offket">
+        <phrase id="fldcaption" value="Off - Keterangan" />
+      </field>
+      <field id="off20">
+        <phrase id="fldcaption" value="Off - 20 FT" />
+      </field>
+      <field id="off40">
+        <phrase id="fldcaption" value="Off - 40 FT" />
+      </field>
+      <field id="off45">
+        <phrase id="fldcaption" value="Off - 45 FT" />
+      </field>
+    </table>
     <table id="t01_ajudok">
       <phrase id="tblcaption" value="t 01 ajudok" />
       <field id="ajudok_id">
@@ -391,7 +430,7 @@
       <field id="id">
         <phrase id="fldcaption" value="id" />
       </field>
-      <field id="pelayaran">
+      <field id="nama">
         <phrase id="fldcaption" value="pelayaran" />
       </field>
     </table>
@@ -399,6 +438,15 @@
       <phrase id="tblcaption" value="t 03 lift" />
       <field id="id">
         <phrase id="fldcaption" value="id" />
+      </field>
+      <field id="depo_id">
+        <phrase id="fldcaption" value="depo id" />
+      </field>
+      <field id="depo_nama">
+        <phrase id="fldcaption" value="Depo" />
+      </field>
+      <field id="pelayaran_nama">
+        <phrase id="fldcaption" value="Pelayaran" />
       </field>
       <field id="pelayaran_id">
         <phrase id="fldcaption" value="pelayaran id" />
@@ -423,9 +471,6 @@
       </field>
       <field id="off45">
         <phrase id="fldcaption" value="off 45" />
-      </field>
-      <field id="pelayaran_nama">
-        <phrase id="fldcaption" value="Pelayaran" />
       </field>
     </table>
     <table id="t96_userlevelpermissions">
@@ -552,39 +597,6 @@
       </field>
       <field id="newvalue">
         <phrase id="fldcaption" value="newvalue" />
-      </field>
-    </table>
-    <table id="r01_pelayaran">
-      <phrase id="tblcaption" value="Depo 57" />
-      <field id="id">
-        <phrase id="fldcaption" value="id" />
-      </field>
-      <field id="pelayaran_id">
-        <phrase id="fldcaption" value="pelayaran id" />
-      </field>
-      <field id="pelayaran_nama">
-        <phrase id="fldcaption" value="Pelayaran" />
-      </field>
-      <field id="on20">
-        <phrase id="fldcaption" value="On - 20 FT" />
-      </field>
-      <field id="on40">
-        <phrase id="fldcaption" value="On - 40 FT" />
-      </field>
-      <field id="on45">
-        <phrase id="fldcaption" value="On - 45 FT" />
-      </field>
-      <field id="offket">
-        <phrase id="fldcaption" value="Off - Keterangan" />
-      </field>
-      <field id="off20">
-        <phrase id="fldcaption" value="Off - 20 FT" />
-      </field>
-      <field id="off40">
-        <phrase id="fldcaption" value="Off - 40 FT" />
-      </field>
-      <field id="off45">
-        <phrase id="fldcaption" value="Off - 45 FT" />
       </field>
     </table>
   </project>

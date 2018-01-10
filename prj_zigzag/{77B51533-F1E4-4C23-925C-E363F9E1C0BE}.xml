@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<configuration date="2018/01/08" author="e.World Technology Ltd.">
-  <project id="{77B51533-F1E4-4C23-925C-E363F9E1C0BE}" file="D:\xampp3\htdocs\zigzag\prj_zigzag.prp" name="prj_zigzag" product="PHPReportMaker" version="10.0" datetime="2018/01/08 02:17:59" languagefolder="phprptlang" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0">
+<configuration date="2018/01/10" author="e.World Technology Ltd.">
+  <project id="{77B51533-F1E4-4C23-925C-E363F9E1C0BE}" file="D:\xampp3\htdocs\zigzag\prj_zigzag.prp" name="prj_zigzag" product="PHPReportMaker" version="10.0" datetime="2018/01/10 11:43:22" languagefolder="phprptlang" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0">
+    <table id="r01_pelayaran" name="r01_pelayaran" caption="Depo" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
     <table id="t01_ajudok" name="t01_ajudok" caption="t 01 ajudok" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
     <table id="t02_pelayaran" name="t02_pelayaran" caption="t 02 pelayaran" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
     <table id="t03_lift" name="t03_lift" caption="t 03 lift" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
@@ -8,6 +9,5 @@
     <table id="t97_userlevels" name="t97_userlevels" caption="t 97 userlevels" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
     <table id="t98_employees" name="t98_employees" caption="t 98 employees" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
     <table id="t99_audittrail" name="t99_audittrail" caption="t 99 audittrail" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
-    <table id="r01_pelayaran" name="r01_pelayaran" caption="Depo 57" userlevel="-2,&quot;Anonymous&quot;,0;0,&quot;Default&quot;,0" priv="1" />
   </project>
 </configuration>

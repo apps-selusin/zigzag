@@ -10,6 +10,8 @@ class crr01_pelayaran extends crTableBase {
 	var $ShowGroupHeaderAsRow = FALSE;
 	var $ShowCompactSummaryFooter = TRUE;
 	var $id;
+	var $depo_id;
+	var $depo_nama;
 	var $pelayaran_id;
 	var $pelayaran_nama;
 	var $on20;
@@ -40,6 +42,29 @@ class crr01_pelayaran extends crTableBase {
 		$this->id->DateFilter = "";
 		$this->id->SqlSelect = "";
 		$this->id->SqlOrderBy = "";
+
+		// depo_id
+		$this->depo_id = new crField('r01_pelayaran', 'r01_pelayaran', 'x_depo_id', 'depo_id', '`depo_id`', 3, EWR_DATATYPE_NUMBER, -1);
+		$this->depo_id->Sortable = TRUE; // Allow sort
+		$this->depo_id->GroupingFieldId = 1;
+		$this->depo_id->ShowGroupHeaderAsRow = $this->ShowGroupHeaderAsRow;
+		$this->depo_id->ShowCompactSummaryFooter = $this->ShowCompactSummaryFooter;
+		$this->depo_id->FldDefaultErrMsg = $ReportLanguage->Phrase("IncorrectInteger");
+		$this->fields['depo_id'] = &$this->depo_id;
+		$this->depo_id->DateFilter = "";
+		$this->depo_id->SqlSelect = "";
+		$this->depo_id->SqlOrderBy = "";
+		$this->depo_id->FldGroupByType = "";
+		$this->depo_id->FldGroupInt = "0";
+		$this->depo_id->FldGroupSql = "";
+
+		// depo_nama
+		$this->depo_nama = new crField('r01_pelayaran', 'r01_pelayaran', 'x_depo_nama', 'depo_nama', '`depo_nama`', 200, EWR_DATATYPE_STRING, -1);
+		$this->depo_nama->Sortable = TRUE; // Allow sort
+		$this->fields['depo_nama'] = &$this->depo_nama;
+		$this->depo_nama->DateFilter = "";
+		$this->depo_nama->SqlSelect = "";
+		$this->depo_nama->SqlOrderBy = "";
 
 		// pelayaran_id
 		$this->pelayaran_id = new crField('r01_pelayaran', 'r01_pelayaran', 'x_pelayaran_id', 'pelayaran_id', '`pelayaran_id`', 3, EWR_DATATYPE_NUMBER, -1);
@@ -205,7 +230,7 @@ class crr01_pelayaran extends crTableBase {
 	var $_SqlSelect = "";
 
 	function getSqlSelect() {
-		return ($this->_SqlSelect <> "") ? $this->_SqlSelect : "SELECT *, (select pelayaran from t02_pelayaran where pelayaran_id = t02_pelayaran.id) AS `pelayaran_nama` FROM " . $this->getSqlFrom();
+		return ($this->_SqlSelect <> "") ? $this->_SqlSelect : "SELECT *, (select nama from t04_depo where depo_id = t04_depo.id) AS `depo_nama`, (select nama from t02_pelayaran where pelayaran_id = t02_pelayaran.id) AS `pelayaran_nama` FROM " . $this->getSqlFrom();
 	}
 
 	function SqlSelect() { // For backward compatibility
@@ -266,7 +291,7 @@ class crr01_pelayaran extends crTableBase {
 	var $_SqlOrderBy = "";
 
 	function getSqlOrderBy() {
-		return ($this->_SqlOrderBy <> "") ? $this->_SqlOrderBy : "";
+		return ($this->_SqlOrderBy <> "") ? $this->_SqlOrderBy : "`depo_id` ASC";
 	}
 
 	function SqlOrderBy() { // For backward compatibility
@@ -283,7 +308,7 @@ class crr01_pelayaran extends crTableBase {
 	var $_SqlFirstGroupField = "";
 
 	function getSqlFirstGroupField() {
-		return ($this->_SqlFirstGroupField <> "") ? $this->_SqlFirstGroupField : "";
+		return ($this->_SqlFirstGroupField <> "") ? $this->_SqlFirstGroupField : "`depo_id`";
 	}
 
 	function SqlFirstGroupField() { // For backward compatibility
@@ -313,7 +338,7 @@ class crr01_pelayaran extends crTableBase {
 	var $_SqlOrderByGroup = "";
 
 	function getSqlOrderByGroup() {
-		return ($this->_SqlOrderByGroup <> "") ? $this->_SqlOrderByGroup : "";
+		return ($this->_SqlOrderByGroup <> "") ? $this->_SqlOrderByGroup : "`depo_id` ASC";
 	}
 
 	function SqlOrderByGroup() { // For backward compatibility
