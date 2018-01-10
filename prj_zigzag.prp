@@ -129,6 +129,44 @@
       <Properties><![CDATA[[]]]></Properties>
     </ExtProject>
   </Extension>
+  <Extension Name="DOMPDF" Template="dompdf.zip" XmlFile="dompdf.xml" Enabled="1">
+    <ExtProject>
+      <ExtDatabase>
+        <ExtTable TblName="t01_ajudok">
+          <Properties><![CDATA[[{"Id":"PageOrientation","Type":"String","Value":"portrait"},{"Id":"PageSize","Type":"String","Value":"a4"}]]]></Properties>
+        </ExtTable>
+        <ExtTable TblName="t02_pelayaran">
+          <Properties><![CDATA[[{"Id":"PageOrientation","Type":"String","Value":"portrait"},{"Id":"PageSize","Type":"String","Value":"a4"}]]]></Properties>
+        </ExtTable>
+        <ExtTable TblName="t03_lift">
+          <Properties><![CDATA[[{"Id":"PageOrientation","Type":"String","Value":"portrait"},{"Id":"PageSize","Type":"String","Value":"a4"}]]]></Properties>
+        </ExtTable>
+        <ExtTable TblName="t04_depo">
+          <Properties><![CDATA[[{"Id":"PageOrientation","Type":"String","Value":"portrait"},{"Id":"PageSize","Type":"String","Value":"a4"}]]]></Properties>
+        </ExtTable>
+        <ExtTable TblName="t96_userlevelpermissions">
+          <Properties><![CDATA[[{"Id":"PageOrientation","Type":"String","Value":"portrait"},{"Id":"PageSize","Type":"String","Value":"a4"}]]]></Properties>
+        </ExtTable>
+        <ExtTable TblName="t97_userlevels">
+          <Properties><![CDATA[[{"Id":"PageOrientation","Type":"String","Value":"portrait"},{"Id":"PageSize","Type":"String","Value":"a4"}]]]></Properties>
+        </ExtTable>
+        <ExtTable TblName="t98_employees">
+          <Properties><![CDATA[[{"Id":"PageOrientation","Type":"String","Value":"portrait"},{"Id":"PageSize","Type":"String","Value":"a4"}]]]></Properties>
+        </ExtTable>
+        <ExtTable TblName="t99_audittrail">
+          <Properties><![CDATA[[{"Id":"PageOrientation","Type":"String","Value":"portrait"},{"Id":"PageSize","Type":"String","Value":"a4"}]]]></Properties>
+        </ExtTable>
+        <ExtTable TblName="v01_depo">
+          <Properties><![CDATA[[{"Id":"PageOrientation","Type":"String","Value":"portrait"},{"Id":"PageSize","Type":"String","Value":"a4"}]]]></Properties>
+        </ExtTable>
+        <ExtTable TblName="r01_depo">
+          <Properties><![CDATA[[{"Id":"PageOrientation","Type":"String","Value":"portrait"},{"Id":"PageSize","Type":"String","Value":"a4"}]]]></Properties>
+        </ExtTable>
+        <Properties><![CDATA[[]]]></Properties>
+      </ExtDatabase>
+      <Properties><![CDATA[[{"Id":"PdfBackend","Type":"String","Value":"CPDF"},{"Id":"PdfFont","Type":"String","Value":"Helvetica"},{"Id":"MemoryLimit","Type":"String","Value":"128M"},{"Id":"TimeLimit","Type":"Integer","Value":120}]]]></Properties>
+    </ExtProject>
+  </Extension>
   <CustomScript ScriptType="Server" ScriptCodeType="Global" ScriptName="Global Code" ScriptCtrlID="" ScriptL1Key="" ScriptL2Key=""><![CDATA[function ewr_CurrentHost() {
 	return ewr_ServerVar("HTTP_HOST");
 }
