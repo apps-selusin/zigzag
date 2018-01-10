@@ -6855,6 +6855,17 @@ function Database_Connecting(&$info) {
 	// $info["db"] = "production_db";
 	// }
 
+	if (ewr_CurrentUserIP () == "127.0.0.1"  || ewr_CurrentUserIP () == "::1"  || ewr_CurrentHost () == "localhost" ) { // testing on local PC
+		$info["host"] = "localhost";
+		$info["user"] = "root"; // sesuaikan dengan username database di komputer localhost
+		$info["pass"] = "admin"; // sesuaikan dengan password database di komputer localhost
+		$info["db"] = "db_zigzag"; // sesuaikan dengan nama database di komputer localhost
+	} else { // setting koneksi database untuk komputer server
+		$info["host"] = "mysql.idhostinger.com";  // sesuaikan dengan ip address atau hostname komputer server
+		$info["user"] = "u302200259_zigza"; // sesuaikan dengan username database di komputer server
+		$info["pass"] = "PresarioCQ43"; // sesuaikan deengan password database di komputer server
+		$info["db"] = "u302200259_zigza"; // sesuaikan dengan nama database di komputer server
+	}
 }
 
 // Database Connected event
