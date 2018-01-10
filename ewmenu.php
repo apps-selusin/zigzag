@@ -5,6 +5,9 @@
 // Generate all menu items
 $RootMenu->IsRoot = TRUE;
 $RootMenu->AddMenuItem(6, "mi_cf01_home_php", $Language->MenuPhrase("6", "MenuText"), "cf01_home.php", -1, "", AllowListMenu('{DD5F1A59-0600-49F5-9773-CB635EB1CBA9}cf01_home.php'), FALSE, TRUE);
+$RootMenu->AddMenuItem(89, "mci_Master", $Language->MenuPhrase("89", "MenuText"), "", -1, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(10009, "mi_t04_depo", $Language->MenuPhrase("10009", "MenuText"), "t04_depolist.php", 89, "", AllowListMenu('{DD5F1A59-0600-49F5-9773-CB635EB1CBA9}t04_depo'), FALSE, FALSE);
+$RootMenu->AddMenuItem(64, "mi_t02_pelayaran", $Language->MenuPhrase("64", "MenuText"), "t02_pelayaranlist.php", 89, "", AllowListMenu('{DD5F1A59-0600-49F5-9773-CB635EB1CBA9}t02_pelayaran'), FALSE, FALSE);
 $RootMenu->AddMenuItem(12, "mci_Dokumen", $Language->MenuPhrase("12", "MenuText"), "", -1, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(28, "mci_Export", $Language->MenuPhrase("28", "MenuText"), "", 12, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(1, "mi_t01_ajudok", $Language->MenuPhrase("1", "MenuText"), "t01_ajudoklist.php", 28, "", AllowListMenu('{DD5F1A59-0600-49F5-9773-CB635EB1CBA9}t01_ajudok'), FALSE, FALSE);
@@ -23,7 +26,7 @@ $RootMenu->AddMenuItem(34, "mci_LS", $Language->MenuPhrase("34", "MenuText"), "c
 $RootMenu->AddMenuItem(25, "mci_Depo", $Language->MenuPhrase("25", "MenuText"), "", -1, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(26, "mci_55", $Language->MenuPhrase("26", "MenuText"), "cf99_underconstruction.php", 25, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(27, "mci_66", $Language->MenuPhrase("27", "MenuText"), "cf99_underconstruction.php", 25, "", TRUE, FALSE, TRUE);
-$RootMenu->AddMenuItem(35, "mci_57", $Language->MenuPhrase("35", "MenuText"), "cf99_underconstruction.php", 25, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(10008, "mri_r015fpelayaran", $Language->MenuPhrase("10008", "MenuText"), "r01_pelayaransmry.php", 25, "{77B51533-F1E4-4C23-925C-E363F9E1C0BE}", TRUE, FALSE, FALSE);
 $RootMenu->AddMenuItem(36, "mci_80", $Language->MenuPhrase("36", "MenuText"), "cf99_underconstruction.php", 25, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(37, "mci_MTCON", $Language->MenuPhrase("37", "MenuText"), "cf99_underconstruction.php", 25, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(14, "mci_Status", $Language->MenuPhrase("14", "MenuText"), "", -1, "", TRUE, FALSE, TRUE);

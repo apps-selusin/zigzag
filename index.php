@@ -268,8 +268,16 @@ class cdefault {
 		$Security->LoadUserLevel(); // Load User Level
 		if ($Security->AllowList(CurrentProjectID() . 'cf01_home.php'))
 		$this->Page_Terminate("cf01_home.php"); // Exit and go to default page
+		if ($Security->AllowList(CurrentProjectID() . 'cf99_underconstruction.php'))
+			$this->Page_Terminate("cf99_underconstruction.php");
 		if ($Security->AllowList(CurrentProjectID() . 't01_ajudok'))
 			$this->Page_Terminate("t01_ajudoklist.php");
+		if ($Security->AllowList(CurrentProjectID() . 't02_pelayaran'))
+			$this->Page_Terminate("t02_pelayaranlist.php");
+		if ($Security->AllowList(CurrentProjectID() . 't03_lift'))
+			$this->Page_Terminate("t03_liftlist.php");
+		if ($Security->AllowList(CurrentProjectID() . 't04_depo'))
+			$this->Page_Terminate("t04_depolist.php");
 		if ($Security->AllowList(CurrentProjectID() . 't96_userlevelpermissions'))
 			$this->Page_Terminate("t96_userlevelpermissionslist.php");
 		if ($Security->AllowList(CurrentProjectID() . 't97_userlevels'))
@@ -278,8 +286,6 @@ class cdefault {
 			$this->Page_Terminate("t98_employeeslist.php");
 		if ($Security->AllowList(CurrentProjectID() . 't99_audittrail'))
 			$this->Page_Terminate("t99_audittraillist.php");
-		if ($Security->AllowList(CurrentProjectID() . 'cf99_underconstruction.php'))
-			$this->Page_Terminate("cf99_underconstruction.php");
 		if ($Security->IsLoggedIn()) {
 			$this->setFailureMessage(ew_DeniedMsg() . "<br><br><a href=\"logout.php\">" . $Language->Phrase("BackToLogin") . "</a>");
 		} else {

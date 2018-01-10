@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<ew-language date="2018/1/2" version="13.0.0" id="en" name="English" desc="English" author="e.World Technology Ltd.">
+<ew-language date="2018/1/10" version="13.0.0" id="en" name="English" desc="English" author="e.World Technology Ltd.">
   <!-- 
 	*** Important Notes:
 	1. Language ID should follow: https://developers.google.com/recaptcha/docs/language,
@@ -583,11 +583,23 @@
   <project>
     <phrase id="bodytitle" value="SuperZigZag" />
     <phrase id="footertext" value="&amp;copy;2018 SuperZigZag. All rights reserved." />
-    <menu id="19">
-      <phrase id="menutext" value="Under Construction" />
-    </menu>
     <menu id="6">
       <phrase id="menutext" value="Beranda" />
+    </menu>
+    <menu id="89">
+      <phrase id="menutext" value="Master" />
+    </menu>
+    <menu id="10009">
+      <phrase id="menutext" value="Depo" />
+    </menu>
+    <menu id="64">
+      <phrase id="menutext" value="Pelayaran" />
+    </menu>
+    <menu id="90">
+      <phrase id="menutext" value="Lift On - Lift Off" />
+    </menu>
+    <menu id="19">
+      <phrase id="menutext" value="Under Construction" />
     </menu>
     <menu id="12">
       <phrase id="menutext" value="Dokumen" />
@@ -643,8 +655,8 @@
     <menu id="27">
       <phrase id="menutext" value="66" />
     </menu>
-    <menu id="35">
-      <phrase id="menutext" value="57" />
+    <menu id="10008">
+      <phrase id="menutext" value="Depo 57" />
     </menu>
     <menu id="36">
       <phrase id="menutext" value="80" />
@@ -697,6 +709,33 @@
     <menu id="5">
       <phrase id="menutext" value="t 97 userlevels" />
     </menu>
+    <menu id="10001">
+      <phrase id="menutext" value="t 01 ajudok" />
+    </menu>
+    <menu id="10002">
+      <phrase id="menutext" value="t 02 pelayaran" />
+    </menu>
+    <menu id="10003">
+      <phrase id="menutext" value="t 03 lift" />
+    </menu>
+    <menu id="10004">
+      <phrase id="menutext" value="t 96 userlevelpermissions" />
+    </menu>
+    <menu id="10005">
+      <phrase id="menutext" value="t 97 userlevels" />
+    </menu>
+    <menu id="10006">
+      <phrase id="menutext" value="t 98 employees" />
+    </menu>
+    <menu id="10007">
+      <phrase id="menutext" value="t 99 audittrail" />
+    </menu>
+    <table id="cf01_home_php">
+      <phrase id="tblcaption" value="Beranda" />
+    </table>
+    <table id="cf99_underconstruction_php">
+      <phrase id="tblcaption" value="Under Construction" />
+    </table>
     <table id="t01_ajudok">
       <phrase id="tblcaption" value="Pengajuan Dokumen" />
       <field id="ajudok_id">
@@ -707,6 +746,72 @@
       </field>
       <field id="deskripsi">
         <phrase id="fldcaption" value="deskripsi" />
+      </field>
+    </table>
+    <table id="t02_pelayaran">
+      <phrase id="tblcaption" value="Pelayaran" />
+      <field id="id">
+        <phrase id="fldcaption" value="id" />
+      </field>
+      <field id="nama">
+        <phrase id="fldcaption" value="Pelayaran" />
+      </field>
+    </table>
+    <table id="t03_lift">
+      <phrase id="tblcaption" value="Lift On - Lift Off" />
+      <field id="id">
+        <phrase id="fldcaption" value="id" />
+      </field>
+      <field id="depo_id">
+        <phrase id="fldcaption" value="Depo" />
+      </field>
+      <field id="pelayaran_id">
+        <phrase id="fldcaption" value="Pelayaran" />
+      </field>
+      <field id="on20">
+        <phrase id="fldcaption" value="On - 20 FT" />
+      </field>
+      <field id="on40">
+        <phrase id="fldcaption" value="On - 40 FT" />
+      </field>
+      <field id="on45">
+        <phrase id="fldcaption" value="On - 45 FT" />
+      </field>
+      <field id="offket">
+        <phrase id="fldcaption" value="Off - Keterangan" />
+      </field>
+      <field id="off20">
+        <phrase id="fldcaption" value="Off - 20 FT" />
+      </field>
+      <field id="off40">
+        <phrase id="fldcaption" value="Off - 40 FT" />
+      </field>
+      <field id="off45">
+        <phrase id="fldcaption" value="Off - 45 FT" />
+      </field>
+    </table>
+    <table id="t04_depo">
+      <phrase id="tblcaption" value="Depo" />
+      <field id="id">
+        <phrase id="fldcaption" value="id" />
+      </field>
+      <field id="nama">
+        <phrase id="fldcaption" value="Nama" />
+      </field>
+      <field id="alamat">
+        <phrase id="fldcaption" value="Alamat" />
+      </field>
+      <field id="kota">
+        <phrase id="fldcaption" value="Kota" />
+      </field>
+      <field id="propinsi">
+        <phrase id="fldcaption" value="Propinsi" />
+      </field>
+      <field id="no_telp">
+        <phrase id="fldcaption" value="No. Telepon" />
+      </field>
+      <field id="no_fax">
+        <phrase id="fldcaption" value="No. Fax." />
       </field>
     </table>
     <table id="t96_userlevelpermissions">
@@ -838,12 +943,6 @@
       <field id="newvalue">
         <phrase id="fldcaption" value="newvalue" />
       </field>
-    </table>
-    <table id="cf01_home_php">
-      <phrase id="tblcaption" value="Beranda" />
-    </table>
-    <table id="cf99_underconstruction_php">
-      <phrase id="tblcaption" value="Under Construction" />
     </table>
   </project>
 </ew-language>
