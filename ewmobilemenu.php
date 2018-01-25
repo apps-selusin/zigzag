@@ -24,7 +24,7 @@ $RootMenu->AddMenuItem(33, "mmci_BPOM", $Language->MenuPhrase("33", "MenuText"),
 $RootMenu->AddMenuItem(34, "mmci_LS", $Language->MenuPhrase("34", "MenuText"), "cf99_underconstruction.php", 12, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(10010, "mmri_r015fdepo", $Language->MenuPhrase("10010", "MenuText"), "r01_deposmry.php", -1, "{77B51533-F1E4-4C23-925C-E363F9E1C0BE}", TRUE, FALSE, FALSE);
 $RootMenu->AddMenuItem(14, "mmci_Pelabuhan", $Language->MenuPhrase("14", "MenuText"), "", -1, "", TRUE, FALSE, TRUE);
-$RootMenu->AddMenuItem(38, "mmci_TPS", $Language->MenuPhrase("38", "MenuText"), "www.tps.co.id:81/webaccess/", 14, "", TRUE, FALSE, TRUE);
+$RootMenu->AddMenuItem(38, "mmci_TPS", $Language->MenuPhrase("38", "MenuText"), "http://www.tps.co.id:81/webaccess/", 14, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(39, "mmci_Teluk_Lamong", $Language->MenuPhrase("39", "MenuText"), "cf99_underconstruction.php", 14, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(40, "mmci_Schedule", $Language->MenuPhrase("40", "MenuText"), "cf99_underconstruction.php", 14, "", TRUE, FALSE, TRUE);
 $RootMenu->AddMenuItem(41, "mmci_Bea_Container", $Language->MenuPhrase("41", "MenuText"), "cf99_underconstruction.php", 14, "", TRUE, FALSE, TRUE);
