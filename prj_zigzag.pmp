@@ -208,6 +208,7 @@ Browser anda tidak support frame
   <CustomScript ScriptType="Server" ScriptCodeType="Global" ScriptName="Menu_Rendering" ScriptCtrlID="" ScriptL1Key="" ScriptL2Key=""><![CDATA[function Menu_Rendering(&$Menu) {
 	// Change menu items here
 	$Menu->FindItem(38)->Target = "_blank";
+	$Menu->FindItem(39)->Target = "_blank";
 }
 ]]></CustomScript>
   <Menu MenuID="10011" MenuText="v 01 depo" MenuParentID="-1" MenuGroup="0" MenuSource="" MenuExtUrl="" MenuAnonymous="0" MenuSecurity="" MenuUrl="v01_depo" MenuCustomUrl="0" MenuLevel="0" MenuShow="0" MenuDisplayOrder="100" />

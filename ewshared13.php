@@ -891,6 +891,7 @@ function Menu_Rendering(&$Menu) {
 
 	// Change menu items here
 	$Menu->FindItem(38)->Target = "_blank";
+	$Menu->FindItem(39)->Target = "_blank";
 }
 
 // MenuItem Adding event
