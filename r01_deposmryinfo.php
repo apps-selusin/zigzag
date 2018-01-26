@@ -42,31 +42,19 @@ class crr01_depo extends crTableBase {
 		// depo_id
 		$this->depo_id = new crField('r01_depo', 'r01_depo', 'x_depo_id', 'depo_id', '`depo_id`', 3, EWR_DATATYPE_NUMBER, -1);
 		$this->depo_id->Sortable = TRUE; // Allow sort
-		$this->depo_id->GroupingFieldId = 1;
-		$this->depo_id->ShowGroupHeaderAsRow = $this->ShowGroupHeaderAsRow;
-		$this->depo_id->ShowCompactSummaryFooter = $this->ShowCompactSummaryFooter;
 		$this->depo_id->FldDefaultErrMsg = $ReportLanguage->Phrase("IncorrectInteger");
 		$this->fields['depo_id'] = &$this->depo_id;
 		$this->depo_id->DateFilter = "";
 		$this->depo_id->SqlSelect = "";
 		$this->depo_id->SqlOrderBy = "";
-		$this->depo_id->FldGroupByType = "";
-		$this->depo_id->FldGroupInt = "0";
-		$this->depo_id->FldGroupSql = "";
 
 		// depo_nama
 		$this->depo_nama = new crField('r01_depo', 'r01_depo', 'x_depo_nama', 'depo_nama', '`depo_nama`', 200, EWR_DATATYPE_STRING, -1);
 		$this->depo_nama->Sortable = TRUE; // Allow sort
-		$this->depo_nama->GroupingFieldId = 2;
-		$this->depo_nama->ShowGroupHeaderAsRow = $this->ShowGroupHeaderAsRow;
-		$this->depo_nama->ShowCompactSummaryFooter = $this->ShowCompactSummaryFooter;
 		$this->fields['depo_nama'] = &$this->depo_nama;
 		$this->depo_nama->DateFilter = "";
 		$this->depo_nama->SqlSelect = "";
 		$this->depo_nama->SqlOrderBy = "";
-		$this->depo_nama->FldGroupByType = "";
-		$this->depo_nama->FldGroupInt = "0";
-		$this->depo_nama->FldGroupSql = "";
 
 		// alamat
 		$this->alamat = new crField('r01_depo', 'r01_depo', 'x_alamat', 'alamat', '`alamat`', 200, EWR_DATATYPE_STRING, -1);
@@ -120,10 +108,16 @@ class crr01_depo extends crTableBase {
 		// pelayaran_nama
 		$this->pelayaran_nama = new crField('r01_depo', 'r01_depo', 'x_pelayaran_nama', 'pelayaran_nama', '`pelayaran_nama`', 200, EWR_DATATYPE_STRING, -1);
 		$this->pelayaran_nama->Sortable = TRUE; // Allow sort
+		$this->pelayaran_nama->GroupingFieldId = 1;
+		$this->pelayaran_nama->ShowGroupHeaderAsRow = $this->ShowGroupHeaderAsRow;
+		$this->pelayaran_nama->ShowCompactSummaryFooter = $this->ShowCompactSummaryFooter;
 		$this->fields['pelayaran_nama'] = &$this->pelayaran_nama;
 		$this->pelayaran_nama->DateFilter = "";
 		$this->pelayaran_nama->SqlSelect = "";
 		$this->pelayaran_nama->SqlOrderBy = "";
+		$this->pelayaran_nama->FldGroupByType = "";
+		$this->pelayaran_nama->FldGroupInt = "0";
+		$this->pelayaran_nama->FldGroupSql = "";
 
 		// lift_id
 		$this->lift_id = new crField('r01_depo', 'r01_depo', 'x_lift_id', 'lift_id', '`lift_id`', 3, EWR_DATATYPE_NUMBER, -1);
@@ -342,7 +336,7 @@ class crr01_depo extends crTableBase {
 	var $_SqlOrderBy = "";
 
 	function getSqlOrderBy() {
-		return ($this->_SqlOrderBy <> "") ? $this->_SqlOrderBy : "`depo_id` ASC, `depo_nama` ASC";
+		return ($this->_SqlOrderBy <> "") ? $this->_SqlOrderBy : "`pelayaran_nama` ASC";
 	}
 
 	function SqlOrderBy() { // For backward compatibility
@@ -359,7 +353,7 @@ class crr01_depo extends crTableBase {
 	var $_SqlFirstGroupField = "";
 
 	function getSqlFirstGroupField() {
-		return ($this->_SqlFirstGroupField <> "") ? $this->_SqlFirstGroupField : "`depo_id`";
+		return ($this->_SqlFirstGroupField <> "") ? $this->_SqlFirstGroupField : "`pelayaran_nama`";
 	}
 
 	function SqlFirstGroupField() { // For backward compatibility
@@ -389,7 +383,7 @@ class crr01_depo extends crTableBase {
 	var $_SqlOrderByGroup = "";
 
 	function getSqlOrderByGroup() {
-		return ($this->_SqlOrderByGroup <> "") ? $this->_SqlOrderByGroup : "`depo_id` ASC";
+		return ($this->_SqlOrderByGroup <> "") ? $this->_SqlOrderByGroup : "`pelayaran_nama` ASC";
 	}
 
 	function SqlOrderByGroup() { // For backward compatibility
