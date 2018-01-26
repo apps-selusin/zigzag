@@ -79,7 +79,7 @@ define("EWR_SESSION_TIMEOUT_COUNTDOWN", 60, TRUE); // Session timeout count down
 // General
 $EWR_ROOT_RELATIVE_PATH = "."; // Relative path of app root
 define("EWR_UNFORMAT_YEAR", 50, TRUE); // Unformat year
-define("EWR_RANDOM_KEY", 'Q8Vab8PcmOFS4o8V', TRUE); // Random key for encryption
+define("EWR_RANDOM_KEY", 'pW0ZFJ4DOSBuT9Zj', TRUE); // Random key for encryption
 define("EWR_PROJECT_STYLESHEET_FILENAME", "phprptcss/prj_zigzag.css", TRUE); // Project stylesheet file name
 define("EWR_CHART_WIDTH", 550, TRUE);
 define("EWR_CHART_HEIGHT", 440, TRUE);

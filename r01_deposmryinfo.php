@@ -42,16 +42,22 @@ class crr01_depo extends crTableBase {
 		// depo_id
 		$this->depo_id = new crField('r01_depo', 'r01_depo', 'x_depo_id', 'depo_id', '`depo_id`', 3, EWR_DATATYPE_NUMBER, -1);
 		$this->depo_id->Sortable = TRUE; // Allow sort
+		$this->depo_id->GroupingFieldId = 1;
+		$this->depo_id->ShowGroupHeaderAsRow = $this->ShowGroupHeaderAsRow;
+		$this->depo_id->ShowCompactSummaryFooter = $this->ShowCompactSummaryFooter;
 		$this->depo_id->FldDefaultErrMsg = $ReportLanguage->Phrase("IncorrectInteger");
 		$this->fields['depo_id'] = &$this->depo_id;
 		$this->depo_id->DateFilter = "";
 		$this->depo_id->SqlSelect = "";
 		$this->depo_id->SqlOrderBy = "";
+		$this->depo_id->FldGroupByType = "";
+		$this->depo_id->FldGroupInt = "0";
+		$this->depo_id->FldGroupSql = "";
 
 		// depo_nama
 		$this->depo_nama = new crField('r01_depo', 'r01_depo', 'x_depo_nama', 'depo_nama', '`depo_nama`', 200, EWR_DATATYPE_STRING, -1);
 		$this->depo_nama->Sortable = TRUE; // Allow sort
-		$this->depo_nama->GroupingFieldId = 1;
+		$this->depo_nama->GroupingFieldId = 2;
 		$this->depo_nama->ShowGroupHeaderAsRow = $this->ShowGroupHeaderAsRow;
 		$this->depo_nama->ShowCompactSummaryFooter = $this->ShowCompactSummaryFooter;
 		$this->fields['depo_nama'] = &$this->depo_nama;
@@ -336,7 +342,7 @@ class crr01_depo extends crTableBase {
 	var $_SqlOrderBy = "";
 
 	function getSqlOrderBy() {
-		return ($this->_SqlOrderBy <> "") ? $this->_SqlOrderBy : "`depo_nama` ASC";
+		return ($this->_SqlOrderBy <> "") ? $this->_SqlOrderBy : "`depo_id` ASC, `depo_nama` ASC";
 	}
 
 	function SqlOrderBy() { // For backward compatibility
@@ -353,7 +359,7 @@ class crr01_depo extends crTableBase {
 	var $_SqlFirstGroupField = "";
 
 	function getSqlFirstGroupField() {
-		return ($this->_SqlFirstGroupField <> "") ? $this->_SqlFirstGroupField : "`depo_nama`";
+		return ($this->_SqlFirstGroupField <> "") ? $this->_SqlFirstGroupField : "`depo_id`";
 	}
 
 	function SqlFirstGroupField() { // For backward compatibility
@@ -383,7 +389,7 @@ class crr01_depo extends crTableBase {
 	var $_SqlOrderByGroup = "";
 
 	function getSqlOrderByGroup() {
-		return ($this->_SqlOrderByGroup <> "") ? $this->_SqlOrderByGroup : "`depo_nama` ASC";
+		return ($this->_SqlOrderByGroup <> "") ? $this->_SqlOrderByGroup : "`depo_id` ASC";
 	}
 
 	function SqlOrderByGroup() { // For backward compatibility

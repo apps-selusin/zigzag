@@ -551,7 +551,7 @@ class crr01_depo_summary extends crr01_depo {
 		// 2nd dimension = no of fields
 
 		$nDtls = 9;
-		$nGrps = 2;
+		$nGrps = 3;
 		$this->Val = &ewr_InitArray($nDtls, 0);
 		$this->Cnt = &ewr_Init2DArray($nGrps, $nDtls, 0);
 		$this->Smry = &ewr_Init2DArray($nGrps, $nDtls, 0);
@@ -675,8 +675,16 @@ class crr01_depo_summary extends crr01_depo {
 	function GetSummaryCount($lvl, $curValue = TRUE) {
 		$cnt = 0;
 		foreach ($this->DetailRows as $row) {
+			$wrkdepo_id = $row["depo_id"];
 			$wrkdepo_nama = $row["depo_nama"];
 			if ($lvl >= 1) {
+				$val = $curValue ? $this->depo_id->CurrentValue : $this->depo_id->OldValue;
+				$grpval = $curValue ? $this->depo_id->GroupValue() : $this->depo_id->GroupOldValue();
+				if (is_null($val) && !is_null($wrkdepo_id) || !is_null($val) && is_null($wrkdepo_id) ||
+					$grpval <> $this->depo_id->getGroupValueBase($wrkdepo_id))
+				continue;
+			}
+			if ($lvl >= 2) {
 				$val = $curValue ? $this->depo_nama->CurrentValue : $this->depo_nama->OldValue;
 				$grpval = $curValue ? $this->depo_nama->GroupValue() : $this->depo_nama->GroupOldValue();
 				if (is_null($val) && !is_null($wrkdepo_nama) || !is_null($val) && is_null($wrkdepo_nama) ||
@@ -692,9 +700,13 @@ class crr01_depo_summary extends crr01_depo {
 	function ChkLvlBreak($lvl) {
 		switch ($lvl) {
 			case 1:
+				return (is_null($this->depo_id->CurrentValue) && !is_null($this->depo_id->OldValue)) ||
+					(!is_null($this->depo_id->CurrentValue) && is_null($this->depo_id->OldValue)) ||
+					($this->depo_id->GroupValue() <> $this->depo_id->GroupOldValue());
+			case 2:
 				return (is_null($this->depo_nama->CurrentValue) && !is_null($this->depo_nama->OldValue)) ||
 					(!is_null($this->depo_nama->CurrentValue) && is_null($this->depo_nama->OldValue)) ||
-					($this->depo_nama->GroupValue() <> $this->depo_nama->GroupOldValue());
+					($this->depo_nama->GroupValue() <> $this->depo_nama->GroupOldValue()) || $this->ChkLvlBreak(1); // Recurse upper level
 		}
 	}
 
@@ -812,14 +824,14 @@ class crr01_depo_summary extends crr01_depo {
 		if ($opt == 1) { // Get first group
 
 			//$rsgrp->MoveFirst(); // NOTE: no need to move position
-			$this->depo_nama->setDbValue(""); // Init first value
+			$this->depo_id->setDbValue(""); // Init first value
 		} else { // Get next group
 			$rsgrp->MoveNext();
 		}
 		if (!$rsgrp->EOF)
-			$this->depo_nama->setDbValue($rsgrp->fields[0]);
+			$this->depo_id->setDbValue($rsgrp->fields[0]);
 		if ($rsgrp->EOF) {
-			$this->depo_nama->setDbValue("");
+			$this->depo_id->setDbValue("");
 		}
 	}
 
@@ -871,13 +883,13 @@ class crr01_depo_summary extends crr01_depo {
 			$rs->MoveNext();
 		}
 		if (!$rs->EOF) {
-			$this->depo_id->setDbValue($rs->fields('depo_id'));
 			if ($opt <> 1) {
-				if (is_array($this->depo_nama->GroupDbValues))
-					$this->depo_nama->setDbValue(@$this->depo_nama->GroupDbValues[$rs->fields('depo_nama')]);
+				if (is_array($this->depo_id->GroupDbValues))
+					$this->depo_id->setDbValue(@$this->depo_id->GroupDbValues[$rs->fields('depo_id')]);
 				else
-					$this->depo_nama->setDbValue(ewr_GroupValue($this->depo_nama, $rs->fields('depo_nama')));
+					$this->depo_id->setDbValue(ewr_GroupValue($this->depo_id, $rs->fields('depo_id')));
 			}
+			$this->depo_nama->setDbValue($rs->fields('depo_nama'));
 			$this->alamat->setDbValue($rs->fields('alamat'));
 			$this->kota->setDbValue($rs->fields('kota'));
 			$this->propinsi->setDbValue($rs->fields('propinsi'));
@@ -1112,15 +1124,27 @@ class crr01_depo_summary extends crr01_depo {
 
 		if ($this->RowType == EWR_ROWTYPE_TOTAL && !($this->RowTotalType == EWR_ROWTOTAL_GROUP && $this->RowTotalSubType == EWR_ROWTOTAL_HEADER)) { // Summary row
 			ewr_PrependClass($this->RowAttrs["class"], ($this->RowTotalType == EWR_ROWTOTAL_PAGE || $this->RowTotalType == EWR_ROWTOTAL_GRAND) ? "ewRptGrpAggregate" : "ewRptGrpSummary" . $this->RowGroupLevel); // Set up row class
-			if ($this->RowTotalType == EWR_ROWTOTAL_GROUP) $this->RowAttrs["data-group"] = $this->depo_nama->GroupOldValue(); // Set up group attribute
+			if ($this->RowTotalType == EWR_ROWTOTAL_GROUP) $this->RowAttrs["data-group"] = $this->depo_id->GroupOldValue(); // Set up group attribute
+			if ($this->RowTotalType == EWR_ROWTOTAL_GROUP && $this->RowGroupLevel >= 2) $this->RowAttrs["data-group-2"] = $this->depo_nama->GroupOldValue(); // Set up group attribute 2
+
+			// depo_id
+			$this->depo_id->GroupViewValue = $this->depo_id->GroupOldValue();
+			$this->depo_id->CellAttrs["class"] = ($this->RowGroupLevel == 1) ? "ewRptGrpSummary1" : "ewRptGrpField1";
+			$this->depo_id->GroupViewValue = ewr_DisplayGroupValue($this->depo_id, $this->depo_id->GroupViewValue);
+			$this->depo_id->GroupSummaryOldValue = $this->depo_id->GroupSummaryValue;
+			$this->depo_id->GroupSummaryValue = $this->depo_id->GroupViewValue;
+			$this->depo_id->GroupSummaryViewValue = ($this->depo_id->GroupSummaryOldValue <> $this->depo_id->GroupSummaryValue) ? $this->depo_id->GroupSummaryValue : "&nbsp;";
 
 			// depo_nama
 			$this->depo_nama->GroupViewValue = $this->depo_nama->GroupOldValue();
-			$this->depo_nama->CellAttrs["class"] = ($this->RowGroupLevel == 1) ? "ewRptGrpSummary1" : "ewRptGrpField1";
+			$this->depo_nama->CellAttrs["class"] = ($this->RowGroupLevel == 2) ? "ewRptGrpSummary2" : "ewRptGrpField2";
 			$this->depo_nama->GroupViewValue = ewr_DisplayGroupValue($this->depo_nama, $this->depo_nama->GroupViewValue);
 			$this->depo_nama->GroupSummaryOldValue = $this->depo_nama->GroupSummaryValue;
 			$this->depo_nama->GroupSummaryValue = $this->depo_nama->GroupViewValue;
 			$this->depo_nama->GroupSummaryViewValue = ($this->depo_nama->GroupSummaryOldValue <> $this->depo_nama->GroupSummaryValue) ? $this->depo_nama->GroupSummaryValue : "&nbsp;";
+
+			// depo_id
+			$this->depo_id->HrefValue = "";
 
 			// depo_nama
 			$this->depo_nama->HrefValue = "";
@@ -1150,16 +1174,25 @@ class crr01_depo_summary extends crr01_depo {
 			$this->off45->HrefValue = "";
 		} else {
 			if ($this->RowTotalType == EWR_ROWTOTAL_GROUP && $this->RowTotalSubType == EWR_ROWTOTAL_HEADER) {
-			$this->RowAttrs["data-group"] = $this->depo_nama->GroupValue(); // Set up group attribute
+			$this->RowAttrs["data-group"] = $this->depo_id->GroupValue(); // Set up group attribute
+			if ($this->RowGroupLevel >= 2) $this->RowAttrs["data-group-2"] = $this->depo_nama->GroupValue(); // Set up group attribute 2
 			} else {
-			$this->RowAttrs["data-group"] = $this->depo_nama->GroupValue(); // Set up group attribute
+			$this->RowAttrs["data-group"] = $this->depo_id->GroupValue(); // Set up group attribute
+			$this->RowAttrs["data-group-2"] = $this->depo_nama->GroupValue(); // Set up group attribute 2
 			}
+
+			// depo_id
+			$this->depo_id->GroupViewValue = $this->depo_id->GroupValue();
+			$this->depo_id->CellAttrs["class"] = "ewRptGrpField1";
+			$this->depo_id->GroupViewValue = ewr_DisplayGroupValue($this->depo_id, $this->depo_id->GroupViewValue);
+			if ($this->depo_id->GroupValue() == $this->depo_id->GroupOldValue() && !$this->ChkLvlBreak(1))
+				$this->depo_id->GroupViewValue = "&nbsp;";
 
 			// depo_nama
 			$this->depo_nama->GroupViewValue = $this->depo_nama->GroupValue();
-			$this->depo_nama->CellAttrs["class"] = "ewRptGrpField1";
+			$this->depo_nama->CellAttrs["class"] = "ewRptGrpField2";
 			$this->depo_nama->GroupViewValue = ewr_DisplayGroupValue($this->depo_nama, $this->depo_nama->GroupViewValue);
-			if ($this->depo_nama->GroupValue() == $this->depo_nama->GroupOldValue() && !$this->ChkLvlBreak(1))
+			if ($this->depo_nama->GroupValue() == $this->depo_nama->GroupOldValue() && !$this->ChkLvlBreak(2))
 				$this->depo_nama->GroupViewValue = "&nbsp;";
 
 			// pelayaran_nama
@@ -1206,6 +1239,9 @@ class crr01_depo_summary extends crr01_depo {
 			$this->off45->CellAttrs["class"] = ($this->RecCount % 2 <> 1) ? "ewTableAltRow" : "ewTableRow";
 			$this->off45->CellAttrs["style"] = "text-align:right;";
 
+			// depo_id
+			$this->depo_id->HrefValue = "";
+
 			// depo_nama
 			$this->depo_nama->HrefValue = "";
 
@@ -1237,6 +1273,15 @@ class crr01_depo_summary extends crr01_depo {
 		// Call Cell_Rendered event
 		if ($this->RowType == EWR_ROWTYPE_TOTAL) { // Summary row
 
+			// depo_id
+			$CurrentValue = $this->depo_id->GroupViewValue;
+			$ViewValue = &$this->depo_id->GroupViewValue;
+			$ViewAttrs = &$this->depo_id->ViewAttrs;
+			$CellAttrs = &$this->depo_id->CellAttrs;
+			$HrefValue = &$this->depo_id->HrefValue;
+			$LinkAttrs = &$this->depo_id->LinkAttrs;
+			$this->Cell_Rendered($this->depo_id, $CurrentValue, $ViewValue, $ViewAttrs, $CellAttrs, $HrefValue, $LinkAttrs);
+
 			// depo_nama
 			$CurrentValue = $this->depo_nama->GroupViewValue;
 			$ViewValue = &$this->depo_nama->GroupViewValue;
@@ -1246,6 +1291,15 @@ class crr01_depo_summary extends crr01_depo {
 			$LinkAttrs = &$this->depo_nama->LinkAttrs;
 			$this->Cell_Rendered($this->depo_nama, $CurrentValue, $ViewValue, $ViewAttrs, $CellAttrs, $HrefValue, $LinkAttrs);
 		} else {
+
+			// depo_id
+			$CurrentValue = $this->depo_id->GroupValue();
+			$ViewValue = &$this->depo_id->GroupViewValue;
+			$ViewAttrs = &$this->depo_id->ViewAttrs;
+			$CellAttrs = &$this->depo_id->CellAttrs;
+			$HrefValue = &$this->depo_id->HrefValue;
+			$LinkAttrs = &$this->depo_id->LinkAttrs;
+			$this->Cell_Rendered($this->depo_id, $CurrentValue, $ViewValue, $ViewAttrs, $CellAttrs, $HrefValue, $LinkAttrs);
 
 			// depo_nama
 			$CurrentValue = $this->depo_nama->GroupValue();
@@ -1339,7 +1393,8 @@ class crr01_depo_summary extends crr01_depo {
 		$this->GrpColumnCount = 0;
 		$this->SubGrpColumnCount = 0;
 		$this->DtlColumnCount = 0;
-		if ($this->depo_nama->Visible) $this->GrpColumnCount += 1;
+		if ($this->depo_id->Visible) $this->GrpColumnCount += 1;
+		if ($this->depo_nama->Visible) { $this->GrpColumnCount += 1; $this->SubGrpColumnCount += 1; }
 		if ($this->pelayaran_nama->Visible) $this->DtlColumnCount += 1;
 		if ($this->on20->Visible) $this->DtlColumnCount += 1;
 		if ($this->on40->Visible) $this->DtlColumnCount += 1;
@@ -1870,6 +1925,7 @@ class crr01_depo_summary extends crr01_depo {
 		if ($bResetSort) {
 			$this->setOrderBy("");
 			$this->setStartGroup(1);
+			$this->depo_id->setSort("");
 			$this->depo_nama->setSort("");
 			$this->pelayaran_nama->setSort("");
 			$this->on20->setSort("");
@@ -1884,6 +1940,7 @@ class crr01_depo_summary extends crr01_depo {
 		} elseif ($orderBy <> "") {
 			$this->CurrentOrder = $orderBy;
 			$this->CurrentOrderType = $orderType;
+			$this->UpdateSort($this->depo_id, $bCtrl); // depo_id
 			$this->UpdateSort($this->depo_nama, $bCtrl); // depo_nama
 			$this->UpdateSort($this->pelayaran_nama, $bCtrl); // pelayaran_nama
 			$this->UpdateSort($this->on20, $bCtrl); // on20
@@ -2371,6 +2428,7 @@ $Page->RecIndex = 0;
 // Get first row
 if ($Page->TotalGrps > 0) {
 	$Page->GetGrpRow(1);
+	$Page->GrpCounter[0] = 1;
 	$Page->GrpCount = 1;
 }
 $Page->GrpIdx = ewr_InitArray($Page->StopGrp - $Page->StartGrp + 1, -1);
@@ -2421,6 +2479,28 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 <thead>
 	<!-- Table header -->
 	<tr class="ewTableHeader">
+<?php if ($Page->depo_id->Visible) { ?>
+	<?php if ($Page->depo_id->ShowGroupHeaderAsRow) { ?>
+	<td data-field="depo_id">&nbsp;</td>
+	<?php } else { ?>
+<?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
+	<td data-field="depo_id"><div class="r01_depo_depo_id"><span class="ewTableHeaderCaption"><?php echo $Page->depo_id->FldCaption() ?></span></div></td>
+<?php } else { ?>
+	<td data-field="depo_id">
+<?php if ($Page->SortUrl($Page->depo_id) == "") { ?>
+		<div class="ewTableHeaderBtn r01_depo_depo_id">
+			<span class="ewTableHeaderCaption"><?php echo $Page->depo_id->FldCaption() ?></span>
+		</div>
+<?php } else { ?>
+		<div class="ewTableHeaderBtn ewPointer r01_depo_depo_id" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->depo_id) ?>',2);">
+			<span class="ewTableHeaderCaption"><?php echo $Page->depo_id->FldCaption() ?></span>
+			<span class="ewTableHeaderSort"><?php if ($Page->depo_id->getSort() == "ASC") { ?><span class="caret ewSortUp"></span><?php } elseif ($Page->depo_id->getSort() == "DESC") { ?><span class="caret"></span><?php } ?></span>
+		</div>
+<?php } ?>
+	</td>
+<?php } ?>
+	<?php } ?>
+<?php } ?>
 <?php if ($Page->depo_nama->Visible) { ?>
 	<?php if ($Page->depo_nama->ShowGroupHeaderAsRow) { ?>
 	<td data-field="depo_nama">&nbsp;</td>
@@ -2596,7 +2676,7 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 	}
 
 	// Build detail SQL
-	$sWhere = ewr_DetailFilterSQL($Page->depo_nama, $Page->getSqlFirstGroupField(), $Page->depo_nama->GroupValue(), $Page->DBID);
+	$sWhere = ewr_DetailFilterSQL($Page->depo_id, $Page->getSqlFirstGroupField(), $Page->depo_id->GroupValue(), $Page->DBID);
 	if ($Page->PageFirstGroupFilter <> "") $Page->PageFirstGroupFilter .= " OR ";
 	$Page->PageFirstGroupFilter .= $sWhere;
 	if ($Page->Filter != "")
@@ -2606,12 +2686,12 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 	$rsdtlcnt = ($rs) ? $rs->RecordCount() : 0;
 	if ($rsdtlcnt > 0)
 		$Page->GetRow(1);
-	$Page->GrpIdx[$Page->GrpCount] = $rsdtlcnt;
+	$Page->GrpIdx[$Page->GrpCount] = array(-1);
 	while ($rs && !$rs->EOF) { // Loop detail records
 		$Page->RecCount++;
 		$Page->RecIndex++;
 ?>
-<?php if ($Page->depo_nama->Visible && $Page->ChkLvlBreak(1) && $Page->depo_nama->ShowGroupHeaderAsRow) { ?>
+<?php if ($Page->depo_id->Visible && $Page->ChkLvlBreak(1) && $Page->depo_id->ShowGroupHeaderAsRow) { ?>
 <?php
 
 		// Render header row
@@ -2620,14 +2700,54 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 		$Page->RowTotalType = EWR_ROWTOTAL_GROUP;
 		$Page->RowTotalSubType = EWR_ROWTOTAL_HEADER;
 		$Page->RowGroupLevel = 1;
-		$Page->depo_nama->Count = $Page->GetSummaryCount(1);
+		$Page->depo_id->Count = $Page->GetSummaryCount(1);
 		$Page->RenderRow();
 ?>
 	<tr<?php echo $Page->RowAttributes(); ?>>
+<?php if ($Page->depo_id->Visible) { ?>
+		<td data-field="depo_id"<?php echo $Page->depo_id->CellAttributes(); ?>><span class="ewGroupToggle icon-collapse"></span></td>
+<?php } ?>
+		<td data-field="depo_id" colspan="<?php echo ($Page->GrpColumnCount + $Page->DtlColumnCount - 1) ?>"<?php echo $Page->depo_id->CellAttributes() ?>>
+<?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
+		<span class="ewSummaryCaption r01_depo_depo_id"><span class="ewTableHeaderCaption"><?php echo $Page->depo_id->FldCaption() ?></span></span>
+<?php } else { ?>
+	<?php if ($Page->SortUrl($Page->depo_id) == "") { ?>
+		<span class="ewSummaryCaption r01_depo_depo_id">
+			<span class="ewTableHeaderCaption"><?php echo $Page->depo_id->FldCaption() ?></span>
+		</span>
+	<?php } else { ?>
+		<span class="ewTableHeaderBtn ewPointer ewSummaryCaption r01_depo_depo_id" onclick="ewr_Sort(event,'<?php echo $Page->SortUrl($Page->depo_id) ?>',2);">
+			<span class="ewTableHeaderCaption"><?php echo $Page->depo_id->FldCaption() ?></span>
+			<span class="ewTableHeaderSort"><?php if ($Page->depo_id->getSort() == "ASC") { ?><span class="caret ewSortUp"></span><?php } elseif ($Page->depo_id->getSort() == "DESC") { ?><span class="caret"></span><?php } ?></span>
+		</span>
+	<?php } ?>
+<?php } ?>
+		<?php echo $ReportLanguage->Phrase("SummaryColon") ?>
+<span data-class="tpx<?php echo $Page->GrpCount ?>_r01_depo_depo_id"<?php echo $Page->depo_id->ViewAttributes() ?>><?php echo $Page->depo_id->GroupViewValue ?></span>
+		<span class="ewSummaryCount">(<span class="ewAggregateCaption"><?php echo $ReportLanguage->Phrase("RptCnt") ?></span><?php echo $ReportLanguage->Phrase("AggregateEqual") ?><span class="ewAggregateValue"><?php echo ewr_FormatNumber($Page->depo_id->Count,0,-2,-2,-2) ?></span>)</span>
+		</td>
+	</tr>
+<?php } ?>
+<?php if ($Page->depo_nama->Visible && $Page->ChkLvlBreak(2) && $Page->depo_nama->ShowGroupHeaderAsRow) { ?>
+<?php
+
+		// Render header row
+		$Page->ResetAttrs();
+		$Page->RowType = EWR_ROWTYPE_TOTAL;
+		$Page->RowTotalType = EWR_ROWTOTAL_GROUP;
+		$Page->RowTotalSubType = EWR_ROWTOTAL_HEADER;
+		$Page->RowGroupLevel = 2;
+		$Page->depo_nama->Count = $Page->GetSummaryCount(2);
+		$Page->RenderRow();
+?>
+	<tr<?php echo $Page->RowAttributes(); ?>>
+<?php if ($Page->depo_id->Visible) { ?>
+		<td data-field="depo_id"<?php echo $Page->depo_id->CellAttributes(); ?>></td>
+<?php } ?>
 <?php if ($Page->depo_nama->Visible) { ?>
 		<td data-field="depo_nama"<?php echo $Page->depo_nama->CellAttributes(); ?>><span class="ewGroupToggle icon-collapse"></span></td>
 <?php } ?>
-		<td data-field="depo_nama" colspan="<?php echo ($Page->GrpColumnCount + $Page->DtlColumnCount - 1) ?>"<?php echo $Page->depo_nama->CellAttributes() ?>>
+		<td data-field="depo_nama" colspan="<?php echo ($Page->GrpColumnCount + $Page->DtlColumnCount - 2) ?>"<?php echo $Page->depo_nama->CellAttributes() ?>>
 <?php if ($Page->Export <> "" || $Page->DrillDown) { ?>
 		<span class="ewSummaryCaption r01_depo_depo_nama"><span class="ewTableHeaderCaption"><?php echo $Page->depo_nama->FldCaption() ?></span></span>
 <?php } else { ?>
@@ -2643,7 +2763,7 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 	<?php } ?>
 <?php } ?>
 		<?php echo $ReportLanguage->Phrase("SummaryColon") ?>
-<span data-class="tpx<?php echo $Page->GrpCount ?>_r01_depo_depo_nama"<?php echo $Page->depo_nama->ViewAttributes() ?>><?php echo $Page->depo_nama->GroupViewValue ?></span>
+<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->GrpCounter[0] ?>_r01_depo_depo_nama"<?php echo $Page->depo_nama->ViewAttributes() ?>><?php echo $Page->depo_nama->GroupViewValue ?></span>
 		<span class="ewSummaryCount">(<span class="ewAggregateCaption"><?php echo $ReportLanguage->Phrase("RptCnt") ?></span><?php echo $ReportLanguage->Phrase("AggregateEqual") ?><span class="ewAggregateValue"><?php echo ewr_FormatNumber($Page->depo_nama->Count,0,-2,-2,-2) ?></span>)</span>
 		</td>
 	</tr>
@@ -2656,45 +2776,53 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 		$Page->RenderRow();
 ?>
 	<tr<?php echo $Page->RowAttributes(); ?>>
+<?php if ($Page->depo_id->Visible) { ?>
+	<?php if ($Page->depo_id->ShowGroupHeaderAsRow) { ?>
+		<td data-field="depo_id"<?php echo $Page->depo_id->CellAttributes(); ?>>&nbsp;</td>
+	<?php } else { ?>
+		<td data-field="depo_id"<?php echo $Page->depo_id->CellAttributes(); ?>>
+<span data-class="tpx<?php echo $Page->GrpCount ?>_r01_depo_depo_id"<?php echo $Page->depo_id->ViewAttributes() ?>><?php echo $Page->depo_id->GroupViewValue ?></span></td>
+	<?php } ?>
+<?php } ?>
 <?php if ($Page->depo_nama->Visible) { ?>
 	<?php if ($Page->depo_nama->ShowGroupHeaderAsRow) { ?>
 		<td data-field="depo_nama"<?php echo $Page->depo_nama->CellAttributes(); ?>>&nbsp;</td>
 	<?php } else { ?>
 		<td data-field="depo_nama"<?php echo $Page->depo_nama->CellAttributes(); ?>>
-<span data-class="tpx<?php echo $Page->GrpCount ?>_r01_depo_depo_nama"<?php echo $Page->depo_nama->ViewAttributes() ?>><?php echo $Page->depo_nama->GroupViewValue ?></span></td>
+<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->GrpCounter[0] ?>_r01_depo_depo_nama"<?php echo $Page->depo_nama->ViewAttributes() ?>><?php echo $Page->depo_nama->GroupViewValue ?></span></td>
 	<?php } ?>
 <?php } ?>
 <?php if ($Page->pelayaran_nama->Visible) { ?>
 		<td data-field="pelayaran_nama"<?php echo $Page->pelayaran_nama->CellAttributes() ?>>
-<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_depo_pelayaran_nama"<?php echo $Page->pelayaran_nama->ViewAttributes() ?>><?php echo $Page->pelayaran_nama->ListViewValue() ?></span></td>
+<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->GrpCounter[0] ?>_<?php echo $Page->RecCount ?>_r01_depo_pelayaran_nama"<?php echo $Page->pelayaran_nama->ViewAttributes() ?>><?php echo $Page->pelayaran_nama->ListViewValue() ?></span></td>
 <?php } ?>
 <?php if ($Page->on20->Visible) { ?>
 		<td data-field="on20"<?php echo $Page->on20->CellAttributes() ?>>
-<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_depo_on20"<?php echo $Page->on20->ViewAttributes() ?>><?php echo $Page->on20->ListViewValue() ?></span></td>
+<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->GrpCounter[0] ?>_<?php echo $Page->RecCount ?>_r01_depo_on20"<?php echo $Page->on20->ViewAttributes() ?>><?php echo $Page->on20->ListViewValue() ?></span></td>
 <?php } ?>
 <?php if ($Page->on40->Visible) { ?>
 		<td data-field="on40"<?php echo $Page->on40->CellAttributes() ?>>
-<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_depo_on40"<?php echo $Page->on40->ViewAttributes() ?>><?php echo $Page->on40->ListViewValue() ?></span></td>
+<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->GrpCounter[0] ?>_<?php echo $Page->RecCount ?>_r01_depo_on40"<?php echo $Page->on40->ViewAttributes() ?>><?php echo $Page->on40->ListViewValue() ?></span></td>
 <?php } ?>
 <?php if ($Page->on45->Visible) { ?>
 		<td data-field="on45"<?php echo $Page->on45->CellAttributes() ?>>
-<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_depo_on45"<?php echo $Page->on45->ViewAttributes() ?>><?php echo $Page->on45->ListViewValue() ?></span></td>
+<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->GrpCounter[0] ?>_<?php echo $Page->RecCount ?>_r01_depo_on45"<?php echo $Page->on45->ViewAttributes() ?>><?php echo $Page->on45->ListViewValue() ?></span></td>
 <?php } ?>
 <?php if ($Page->offket->Visible) { ?>
 		<td data-field="offket"<?php echo $Page->offket->CellAttributes() ?>>
-<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_depo_offket"<?php echo $Page->offket->ViewAttributes() ?>><?php echo $Page->offket->ListViewValue() ?></span></td>
+<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->GrpCounter[0] ?>_<?php echo $Page->RecCount ?>_r01_depo_offket"<?php echo $Page->offket->ViewAttributes() ?>><?php echo $Page->offket->ListViewValue() ?></span></td>
 <?php } ?>
 <?php if ($Page->off20->Visible) { ?>
 		<td data-field="off20"<?php echo $Page->off20->CellAttributes() ?>>
-<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_depo_off20"<?php echo $Page->off20->ViewAttributes() ?>><?php echo $Page->off20->ListViewValue() ?></span></td>
+<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->GrpCounter[0] ?>_<?php echo $Page->RecCount ?>_r01_depo_off20"<?php echo $Page->off20->ViewAttributes() ?>><?php echo $Page->off20->ListViewValue() ?></span></td>
 <?php } ?>
 <?php if ($Page->off40->Visible) { ?>
 		<td data-field="off40"<?php echo $Page->off40->CellAttributes() ?>>
-<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_depo_off40"<?php echo $Page->off40->ViewAttributes() ?>><?php echo $Page->off40->ListViewValue() ?></span></td>
+<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->GrpCounter[0] ?>_<?php echo $Page->RecCount ?>_r01_depo_off40"<?php echo $Page->off40->ViewAttributes() ?>><?php echo $Page->off40->ListViewValue() ?></span></td>
 <?php } ?>
 <?php if ($Page->off45->Visible) { ?>
 		<td data-field="off45"<?php echo $Page->off45->CellAttributes() ?>>
-<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->RecCount ?>_r01_depo_off45"<?php echo $Page->off45->ViewAttributes() ?>><?php echo $Page->off45->ListViewValue() ?></span></td>
+<span data-class="tpx<?php echo $Page->GrpCount ?>_<?php echo $Page->GrpCounter[0] ?>_<?php echo $Page->RecCount ?>_r01_depo_off45"<?php echo $Page->off45->ViewAttributes() ?>><?php echo $Page->off45->ListViewValue() ?></span></td>
 <?php } ?>
 	</tr>
 <?php
@@ -2723,6 +2851,7 @@ while ($rsgrp && !$rsgrp->EOF && $Page->GrpCount <= $Page->DisplayGrps || $Page-
 	if ($Page->ShowHeader)
 		$Page->Page_Breaking($Page->ShowHeader, $Page->PageBreakContent);
 	$Page->GrpCount++;
+	$Page->GrpCounter[0] = 1;
 
 	// Handle EOF
 	if (!$rsgrp || $rsgrp->EOF)
