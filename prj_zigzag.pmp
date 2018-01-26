@@ -205,6 +205,11 @@ function Database_Connecting(&$info) {
 Browser anda tidak support frame
 </iframe>
 ]]></CustomScript>
+  <CustomScript ScriptType="Server" ScriptCodeType="Global" ScriptName="Menu_Rendering" ScriptCtrlID="" ScriptL1Key="" ScriptL2Key=""><![CDATA[function Menu_Rendering(&$Menu) {
+	// Change menu items here
+	$Menu->FindItem(38)->Target = "_blank";
+}
+]]></CustomScript>
   <Menu MenuID="10011" MenuText="v 01 depo" MenuParentID="-1" MenuGroup="0" MenuSource="" MenuExtUrl="" MenuAnonymous="0" MenuSecurity="" MenuUrl="v01_depo" MenuCustomUrl="0" MenuLevel="0" MenuShow="0" MenuDisplayOrder="100" />
   <Menu MenuID="6" MenuText="Beranda" MenuParentID="-1" MenuGroup="0" MenuSource="" MenuExtUrl="" MenuAnonymous="0" MenuSecurity="" MenuUrl="cf01_home.php" MenuCustomUrl="0" MenuLevel="0" MenuShow="1" MenuDisplayOrder="200" />
   <Menu MenuID="89" MenuText="Master" MenuParentID="-1" MenuGroup="0" MenuSource="" MenuExtUrl="" MenuAnonymous="8" MenuSecurity="" MenuUrl="" MenuCustomUrl="1" MenuLevel="0" MenuShow="1" MenuDisplayOrder="300" />

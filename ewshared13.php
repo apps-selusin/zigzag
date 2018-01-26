@@ -890,6 +890,7 @@ class cMenuItem {
 function Menu_Rendering(&$Menu) {
 
 	// Change menu items here
+	$Menu->FindItem(38)->Target = "_blank";
 }
 
 // MenuItem Adding event
